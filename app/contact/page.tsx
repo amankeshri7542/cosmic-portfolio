@@ -51,10 +51,20 @@ export default function Contact() {
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-4xl md:text-6xl font-bold mb-8 text-white"
+          className="text-4xl md:text-6xl font-bold mb-8 text-white text-glow-white"
         >
           Get In Touch
         </motion.h1>
+
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+          className="text-lg text-gray-300 mb-12 text-center max-w-2xl mx-auto"
+        >
+          I&apos;m currently available for freelance projects and open to full-time opportunities. 
+          Let&apos;s discuss how I can bring value to your team.
+        </motion.p>
 
         <div className="grid md:grid-cols-2 gap-8">
           {/* Contact Info */}
@@ -69,50 +79,52 @@ export default function Contact() {
               <div className="space-y-4">
                 <a 
                   href="mailto:amankeshri7479@gmail.com" 
-                  className="flex items-center gap-3 text-gray-300 hover:text-purple-400 transition-colors"
+                  className="flex items-center gap-3 text-gray-300 hover:text-purple-400 transition-colors group"
                 >
-                  <Mail className="w-5 h-5" />
-                  amankeshri7479@gmail.com
+                  <div className="w-10 h-10 flex items-center justify-center rounded-full bg-purple-500/20 group-hover:bg-purple-500/30 transition-colors">
+                    <Mail className="w-5 h-5" />
+                  </div>
+                  <span>amankeshri7479@gmail.com</span>
                 </a>
                 <a 
-                  href="tel:+919297513707" 
-                  className="flex items-center gap-3 text-gray-300 hover:text-purple-400 transition-colors"
-                >
-                  <span className="w-5 h-5 flex items-center justify-center">📞</span>
-                  +91-9297513707
-                </a>
-                <a 
-                  href="https://github.com/yourusername" 
+                  href="https://github.com/amankeshri7542" 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="flex items-center gap-3 text-gray-300 hover:text-purple-400 transition-colors"
+                  className="flex items-center gap-3 text-gray-300 hover:text-purple-400 transition-colors group"
                 >
-                  <Github className="w-5 h-5" />
-                  GitHub
+                  <div className="w-10 h-10 flex items-center justify-center rounded-full bg-purple-500/20 group-hover:bg-purple-500/30 transition-colors">
+                    <Github className="w-5 h-5" />
+                  </div>
+                  <span>GitHub Profile</span>
                 </a>
                 <a 
-                  href="https://linkedin.com/in/yourusername" 
+                  href="https://www.linkedin.com/in/aman-kumar-keshri" 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="flex items-center gap-3 text-gray-300 hover:text-purple-400 transition-colors"
+                  className="flex items-center gap-3 text-gray-300 hover:text-purple-400 transition-colors group"
                 >
-                  <Linkedin className="w-5 h-5" />
-                  LinkedIn
+                  <div className="w-10 h-10 flex items-center justify-center rounded-full bg-purple-500/20 group-hover:bg-purple-500/30 transition-colors">
+                    <Linkedin className="w-5 h-5" />
+                  </div>
+                  <span>LinkedIn Profile</span>
                 </a>
               </div>
             </div>
 
             <div className="glass-cosmic p-6 rounded-xl">
-              <h3 className="text-lg font-semibold text-white mb-2">Available For</h3>
-              <ul className="space-y-2 text-gray-300">
-                <li className="flex items-center gap-2">
-                  <span className="text-purple-400">▹</span> Freelance Projects
+              <h3 className="text-lg font-semibold text-white mb-4">Available For</h3>
+              <ul className="space-y-3 text-gray-300">
+                <li className="flex items-center gap-3">
+                  <span className="w-2 h-2 bg-purple-400 rounded-full"></span>
+                  Freelance Projects
                 </li>
-                <li className="flex items-center gap-2">
-                  <span className="text-purple-400">▹</span> Full-time Opportunities
+                <li className="flex items-center gap-3">
+                  <span className="w-2 h-2 bg-purple-400 rounded-full"></span>
+                  Full-time Opportunities
                 </li>
-                <li className="flex items-center gap-2">
-                  <span className="text-purple-400">▹</span> Technical Consultations
+                <li className="flex items-center gap-3">
+                  <span className="w-2 h-2 bg-purple-400 rounded-full"></span>
+                  Technical Consultations
                 </li>
               </ul>
             </div>
@@ -137,7 +149,7 @@ export default function Contact() {
                   type="text"
                   id="name"
                   placeholder="Your name"
-                  className="w-full px-4 py-2 bg-black/30 border border-purple-500/30 rounded-lg text-white placeholder:text-gray-500 focus:border-purple-500 focus:outline-none transition-colors"
+                  className="w-full px-4 py-3 bg-black/30 border border-purple-500/30 rounded-lg text-white placeholder:text-gray-500 focus:border-purple-500 focus:outline-none transition-colors"
                 />
                 {errors.name && (
                   <p className="text-red-400 text-sm mt-1">{errors.name.message}</p>
@@ -159,7 +171,7 @@ export default function Contact() {
                   type="email"
                   id="email"
                   placeholder="your.email@example.com"
-                  className="w-full px-4 py-2 bg-black/30 border border-purple-500/30 rounded-lg text-white placeholder:text-gray-500 focus:border-purple-500 focus:outline-none transition-colors"
+                  className="w-full px-4 py-3 bg-black/30 border border-purple-500/30 rounded-lg text-white placeholder:text-gray-500 focus:border-purple-500 focus:outline-none transition-colors"
                 />
                 {errors.email && (
                   <p className="text-red-400 text-sm mt-1">{errors.email.message}</p>
@@ -178,7 +190,7 @@ export default function Contact() {
                   id="message"
                   rows={5}
                   placeholder="Your message..."
-                  className="w-full px-4 py-2 bg-black/30 border border-purple-500/30 rounded-lg text-white placeholder:text-gray-500 focus:border-purple-500 focus:outline-none resize-none transition-colors"
+                  className="w-full px-4 py-3 bg-black/30 border border-purple-500/30 rounded-lg text-white placeholder:text-gray-500 focus:border-purple-500 focus:outline-none resize-none transition-colors"
                 />
                 {errors.message && (
                   <p className="text-red-400 text-sm mt-1">{errors.message.message}</p>
@@ -188,16 +200,16 @@ export default function Contact() {
               <button
                 type="submit"
                 disabled={status === 'loading'}
-                className="w-full px-6 py-3 bg-purple-600 hover:bg-purple-700 disabled:bg-purple-600/50 disabled:cursor-not-allowed text-white rounded-lg transition-colors inline-flex items-center justify-center gap-2"
+                className="w-full px-6 py-4 bg-purple-600 hover:bg-purple-700 disabled:bg-purple-600/50 disabled:cursor-not-allowed text-white font-semibold rounded-lg transition-colors inline-flex items-center justify-center gap-2"
               >
                 {status === 'loading' ? (
                   <>
-                    <Loader2 size={18} className="animate-spin" />
+                    <Loader2 size={20} className="animate-spin" />
                     Sending...
                   </>
                 ) : (
                   <>
-                    Send Message <Send size={18} />
+                    Send Message <Send size={20} />
                   </>
                 )}
               </button>
@@ -208,10 +220,10 @@ export default function Contact() {
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0 }}
-                    className="flex items-center gap-2 text-green-400 bg-green-400/10 p-3 rounded-lg"
+                    className="flex items-center gap-2 text-green-400 bg-green-400/10 p-4 rounded-lg border border-green-400/30"
                   >
                     <CheckCircle size={20} />
-                    <span>Message sent successfully!</span>
+                    <span>Message sent successfully! I&apos;ll get back to you soon.</span>
                   </motion.div>
                 )}
                 {status === 'error' && (
@@ -219,7 +231,7 @@ export default function Contact() {
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0 }}
-                    className="flex items-center gap-2 text-red-400 bg-red-400/10 p-3 rounded-lg"
+                    className="flex items-center gap-2 text-red-400 bg-red-400/10 p-4 rounded-lg border border-red-400/30"
                   >
                     <XCircle size={20} />
                     <span>{errorMessage || 'Failed to send message'}</span>

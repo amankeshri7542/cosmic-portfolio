@@ -201,3 +201,71 @@ body::-webkit-scrollbar-thumb:hover {
   background: rgba(139, 92, 246, 0.3);
   color: #ffffff;
 }
+/* Enhanced text glow */
+.text-glow-purple {
+  text-shadow:
+    0 0 20px rgba(139, 92, 246, 1),
+    0 0 40px rgba(139, 92, 246, 0.8),
+    0 0 60px rgba(139, 92, 246, 0.6),
+    0 0 80px rgba(139, 92, 246, 0.4);
+}
+
+.text-glow-white {
+  text-shadow:
+    0 0 20px rgba(255, 255, 255, 0.9),
+    0 0 40px rgba(255, 255, 255, 0.7),
+    0 0 60px rgba(255, 255, 255, 0.5);
+}
+
+/* Smooth scroll snap */
+html {
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+}
+
+section {
+  scroll-snap-align: start;
+}
+/* Enhanced text visibility */
+.text-glow-white {
+  color: #ffffff;
+  text-shadow:
+    0 0 20px rgba(255, 255, 255, 1),
+    0 0 40px rgba(255, 255, 255, 0.8),
+    0 0 60px rgba(255, 255, 255, 0.6),
+    0 0 80px rgba(255, 255, 255, 0.4);
+}
+
+.text-glow-purple {
+  color: #e9d5ff;
+  text-shadow:
+    0 0 20px rgba(168, 85, 247, 1),
+    0 0 40px rgba(168, 85, 247, 0.8),
+    0 0 60px rgba(168, 85, 247, 0.6);
+}
+
+/* Improved text colors */
+body {
+  color: #f1f5f9;
+}
+
+/* Scroll container */
+html {
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+}
+
+section {
+  scroll-snap-align: start;
+}
+
+/* Hide scrollbar */
+main::-webkit-scrollbar {
+  width: 0;
+  display: none;
+}
+
+main {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}

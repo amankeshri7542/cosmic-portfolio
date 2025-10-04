@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 const navItems = [
   { name: 'Home', href: '/' },
@@ -33,12 +34,20 @@ export default function Navigation() {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <Link href="/" className="text-2xl font-bold text-white hover:text-purple-400 transition-colors">
-            AK
+          <Link href="/" className="flex items-center gap-2 group">
+            <div className="relative w-10 h-10 rounded-full overflow-hidden ring-2 ring-purple-500/50 group-hover:ring-purple-400 transition-all">
+              <Image 
+                src="/aman1.png" 
+                alt="Aman Kumar" 
+                fill
+                className="object-cover"
+              />
+            </div>
+            <span className="text-xl font-bold text-white group-hover:text-purple-400 transition-colors">
+              Aman Kumar
+            </span>
           </Link>
 
-          {/* Desktop Menu */}
           <div className="hidden md:flex space-x-8">
             {navItems.map((item) => (
               <Link
@@ -52,7 +61,6 @@ export default function Navigation() {
             ))}
           </div>
 
-          {/* Mobile Menu Button */}
           <button
             onClick={() => setIsOpen(!isOpen)}
             className="md:hidden text-white"
@@ -62,7 +70,6 @@ export default function Navigation() {
         </div>
       </div>
 
-      {/* Mobile Menu */}
       {isOpen && (
         <motion.div
           initial={{ opacity: 0, height: 0 }}

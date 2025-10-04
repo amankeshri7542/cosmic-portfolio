@@ -1,7 +1,7 @@
 'use client';
 
-import { useRef, useMemo } from 'react';
-import { useFrame } from '@react-three/fiber';
+import { useRef, useMemo, useState, useEffect } from 'react';
+import { useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 
 interface StarfieldProps {
@@ -16,34 +16,25 @@ export default function Starfield({
   speed = 0.0001 
 }: StarfieldProps) {
   const mesh = useRef<THREE.InstancedMesh>(null);
+  const { mouse } = useThree();
+  const [shootingStars, setShootingStars] = useState<number[]>([]);
   
-  // Generate random positions for stars
-  // We're using useMemo here to ensure these positions are only calculated once
-  // Otherwise, they'd regenerate on every render, causing stars to jump around
   const particles = useMemo(() => {
     const temp = [];
     for (let i = 0; i < count; i++) {
-      // Spread stars in a 3D box around the camera
       const x = (Math.random() - 0.5) * depth;
       const y = (Math.random() - 0.5) * depth;
       const z = (Math.random() - 0.5) * depth;
-      
-      // Random size variation for stars (some appear brighter/larger)
       const scale = Math.random() * 0.5 + 0.5;
-      
-      temp.push({ x, y, z, scale });
+      temp.push({ x, y, z, scale, originalX: x, originalY: y });
     }
     return temp;
   }, [count, depth]);
 
-  // Create the dummy object that we'll use to set each instance's transform
   const dummy = useMemo(() => new THREE.Object3D(), []);
 
-  // Initialize star positions when component mounts
-  // This runs once to set up all star positions
   useMemo(() => {
     if (!mesh.current) return;
-    
     particles.forEach((particle, i) => {
       dummy.position.set(particle.x, particle.y, particle.z);
       dummy.scale.setScalar(particle.scale);
@@ -53,33 +44,48 @@ export default function Starfield({
     mesh.current.instanceMatrix.needsUpdate = true;
   }, [particles, dummy]);
 
-  // Animate stars - this runs every frame (60 times per second)
-  // We're rotating the entire starfield slowly to create gentle motion
+  // Shooting stars
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const randomStar = Math.floor(Math.random() * count);
+      setShootingStars(prev => [...prev, randomStar]);
+      setTimeout(() => {
+        setShootingStars(prev => prev.filter(s => s !== randomStar));
+      }, 1000);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, [count]);
+
   useFrame((state) => {
     if (!mesh.current) return;
     
-    // Gentle rotation on Y axis for subtle movement
+    // Interactive parallax
     mesh.current.rotation.y += speed;
+    mesh.current.rotation.x = mouse.y * 0.05;
+    mesh.current.rotation.y += mouse.x * 0.05;
+
+    // Shooting stars animation
+    shootingStars.forEach(starIndex => {
+      const particle = particles[starIndex];
+      dummy.position.set(
+        particle.x + state.clock.elapsedTime * 10,
+        particle.y - state.clock.elapsedTime * 5,
+        particle.z
+      );
+      dummy.scale.setScalar(particle.scale * 2);
+      dummy.updateMatrix();
+      mesh.current!.setMatrixAt(starIndex, dummy.matrix);
+    });
     
-    // Optional: Add parallax based on mouse position
-    // This creates an interactive feel where stars shift as you move your mouse
-    const { mouse } = state;
-    mesh.current.rotation.x = mouse.y * 0.02;
-    mesh.current.rotation.y += mouse.x * 0.02;
+    if (shootingStars.length > 0) {
+      mesh.current.instanceMatrix.needsUpdate = true;
+    }
   });
 
   return (
     <instancedMesh ref={mesh} args={[undefined, undefined, count]}>
-      {/* SphereGeometry creates the basic star shape - a tiny sphere */}
       <sphereGeometry args={[0.02, 8, 8]} />
-      
-      {/* MeshBasicMaterial doesn't require lighting, perfect for stars */}
-      {/* We use white color with some transparency for a twinkling effect */}
-      <meshBasicMaterial 
-        color="#ffffff" 
-        transparent 
-        opacity={0.8}
-      />
+      <meshBasicMaterial color="#ffffff" transparent opacity={0.9} />
     </instancedMesh>
   );
 }
