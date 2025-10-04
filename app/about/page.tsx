@@ -17,7 +17,7 @@ export default function About() {
 
           <div className="glass-cosmic p-8 rounded-xl space-y-6 text-gray-300">
             <p className="text-lg leading-relaxed">
-              I'm a MERN Full Stack Developer specializing in building secure, scalable applications. 
+              I&apos;m a MERN Full Stack Developer specializing in building secure, scalable applications. 
               Currently pursuing B.E. in Computer Science at JSS Academy of Technical Education, Bangalore.
             </p>
 
@@ -25,7 +25,7 @@ export default function About() {
               <h2 className="text-2xl font-semibold text-white mb-4">Technical Focus</h2>
               <p className="leading-relaxed">
                 My expertise spans modern web development with React and Node.js, cloud infrastructure 
-                deployment with AWS, and implementing security best practices. I'm passionate about clean 
+                deployment with AWS, and implementing security best practices. I&apos;m passionate about clean 
                 architecture, performance optimization, and applying DevOps principles to create robust 
                 applications.
               </p>
