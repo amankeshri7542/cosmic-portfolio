@@ -1,0 +1,203 @@
+@import "tailwindcss";
+
+/* Tailwind v4 CSS-First Theme Configuration */
+@theme {
+  /* Cosmic Color Palette - inspired by NASA deep space imagery */
+  --color-cosmic-void: #0a0a0f;
+
+  --color-cosmic-nebula-purple: #8b5cf6;
+  --color-cosmic-nebula-blue: #3b82f6;
+  --color-cosmic-nebula-teal: #06b6d4;
+  --color-cosmic-nebula-orange: #f97316;
+  --color-cosmic-nebula-pink: #ec4899;
+
+  --color-cosmic-star-white: #ffffff;
+  --color-cosmic-star-blue: #93c5fd;
+  --color-cosmic-star-yellow: #fbbf24;
+  --color-cosmic-star-red: #f87171;
+
+  --color-cosmic-glow-purple: #a78bfa;
+  --color-cosmic-glow-blue: #60a5fa;
+  --color-cosmic-glow-cyan: #22d3ee;
+
+  /* Animation timing functions for smooth cosmic motion */
+  --animate-twinkle: twinkle 3s ease-in-out infinite;
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-drift: drift 20s linear infinite;
+  --animate-pulse-glow: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Define keyframe animations for cosmic effects */
+@keyframes twinkle {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.3;
+  }
+}
+
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes drift {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes pulse-glow {
+
+  0%,
+  100% {
+    box-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
+  }
+
+  50% {
+    box-shadow: 0 0 40px rgba(139, 92, 246, 0.8);
+  }
+}
+
+/* Root CSS variables for consistent theming */
+:root {
+  --background: #0a0a0f;
+  --foreground: #f8fafc;
+}
+
+/* Base body styling with cosmic background */
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* Custom utility layer for cosmic-specific effects */
+@layer utilities {
+
+  /* Glow effects that create that ethereal cosmic appearance */
+  .glow-purple {
+    box-shadow:
+      0 0 20px rgba(139, 92, 246, 0.5),
+      0 0 40px rgba(139, 92, 246, 0.3),
+      0 0 60px rgba(139, 92, 246, 0.1);
+  }
+
+  .glow-blue {
+    box-shadow:
+      0 0 20px rgba(59, 130, 246, 0.5),
+      0 0 40px rgba(59, 130, 246, 0.3),
+      0 0 60px rgba(59, 130, 246, 0.1);
+  }
+
+  .glow-cyan {
+    box-shadow:
+      0 0 20px rgba(34, 211, 238, 0.5),
+      0 0 40px rgba(34, 211, 238, 0.3),
+      0 0 60px rgba(34, 211, 238, 0.1);
+  }
+
+  /* Text glow effects for headings and important text */
+  .text-glow-white {
+    text-shadow:
+      0 0 10px rgba(255, 255, 255, 0.8),
+      0 0 20px rgba(255, 255, 255, 0.6),
+      0 0 30px rgba(255, 255, 255, 0.4);
+  }
+
+  .text-glow-purple {
+    text-shadow:
+      0 0 10px rgba(139, 92, 246, 0.8),
+      0 0 20px rgba(139, 92, 246, 0.6),
+      0 0 30px rgba(139, 92, 246, 0.4);
+  }
+
+  .text-glow-blue {
+    text-shadow:
+      0 0 10px rgba(59, 130, 246, 0.8),
+      0 0 20px rgba(59, 130, 246, 0.6),
+      0 0 30px rgba(59, 130, 246, 0.4);
+  }
+
+  /* Glassmorphism effect - creates frosted glass appearance */
+  /* This allows the cosmic background to subtly show through UI elements */
+  .glass-cosmic {
+    background: rgba(15, 15, 25, 0.6);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(139, 92, 246, 0.2);
+  }
+
+  /* Stronger glass effect for emphasized elements */
+  .glass-cosmic-strong {
+    background: rgba(15, 15, 25, 0.8);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(139, 92, 246, 0.3);
+  }
+
+  /* Gradient backgrounds for cards and sections */
+  .bg-cosmic-gradient {
+    background: linear-gradient(135deg,
+        rgba(139, 92, 246, 0.1) 0%,
+        rgba(59, 130, 246, 0.1) 50%,
+        rgba(6, 182, 212, 0.1) 100%);
+  }
+}
+
+/* Smooth scrolling for entire document */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar styling to match cosmic theme */
+body::-webkit-scrollbar {
+  width: 8px;
+}
+
+body::-webkit-scrollbar-track {
+  background: #0a0a0f;
+}
+
+body::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #8b5cf6, #3b82f6);
+  border-radius: 4px;
+}
+
+body::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #a78bfa, #60a5fa);
+}
+
+/* Firefox scrollbar styling */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #8b5cf6 #0a0a0f;
+}
+
+/* Selection styling - when user highlights text */
+::selection {
+  background: rgba(139, 92, 246, 0.3);
+  color: #ffffff;
+}
+
+::-moz-selection {
+  background: rgba(139, 92, 246, 0.3);
+  color: #ffffff;
+}
