@@ -10,15 +10,15 @@ interface StarfieldProps {
   speed?: number;
 }
 
-export default function Starfield({ 
-  count = 5000, 
+export default function Starfield({
+  count = 5000,
   depth = 50,
-  speed = 0.0001 
+  speed = 0.00005
 }: StarfieldProps) {
   const mesh = useRef<THREE.InstancedMesh>(null);
   const { mouse } = useThree();
   const [shootingStars, setShootingStars] = useState<number[]>([]);
-  
+
   const particles = useMemo(() => {
     const temp = [];
     for (let i = 0; i < count; i++) {
@@ -58,7 +58,7 @@ export default function Starfield({
 
   useFrame((state) => {
     if (!mesh.current) return;
-    
+
     // Interactive parallax
     mesh.current.rotation.y += speed;
     mesh.current.rotation.x = mouse.y * 0.05;
@@ -76,7 +76,7 @@ export default function Starfield({
       dummy.updateMatrix();
       mesh.current!.setMatrixAt(starIndex, dummy.matrix);
     });
-    
+
     if (shootingStars.length > 0) {
       mesh.current.instanceMatrix.needsUpdate = true;
     }

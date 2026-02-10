@@ -19,7 +19,7 @@ export default function Contact() {
   const onSubmit = async (data: FormData) => {
     setStatus('loading');
     setErrorMessage('');
-    
+
     try {
       const response = await fetch('/api/contact', {
         method: 'POST',
@@ -60,9 +60,9 @@ export default function Contact() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="text-lg text-gray-300 mb-12 text-center max-w-2xl mx-auto"
+          className="text-lg text-white/90 font-medium mb-12 text-center max-w-2xl mx-auto"
         >
-          I&apos;m currently available for freelance projects and open to full-time opportunities. 
+          I&apos;m currently available for freelance projects and open to full-time opportunities.
           Let&apos;s discuss how I can bring value to your team.
         </motion.p>
 
@@ -77,31 +77,31 @@ export default function Contact() {
             <div className="glass-cosmic p-6 rounded-xl">
               <h2 className="text-2xl font-semibold text-white mb-4">Contact Information</h2>
               <div className="space-y-4">
-                <a 
-                  href="mailto:amankeshri7479@gmail.com" 
-                  className="flex items-center gap-3 text-gray-300 hover:text-purple-400 transition-colors group"
+                <a
+                  href="mailto:amankeshri7479@gmail.com"
+                  className="flex items-center gap-3 text-white/90 font-medium hover:text-cyan-300 transition-colors group"
                 >
                   <div className="w-10 h-10 flex items-center justify-center rounded-full bg-purple-500/20 group-hover:bg-purple-500/30 transition-colors">
                     <Mail className="w-5 h-5" />
                   </div>
                   <span>amankeshri7479@gmail.com</span>
                 </a>
-                <a 
-                  href="https://github.com/amankeshri7542" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="flex items-center gap-3 text-gray-300 hover:text-purple-400 transition-colors group"
+                <a
+                  href="https://github.com/amankeshri7542"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 text-white/90 font-medium hover:text-cyan-300 transition-colors group"
                 >
                   <div className="w-10 h-10 flex items-center justify-center rounded-full bg-purple-500/20 group-hover:bg-purple-500/30 transition-colors">
                     <Github className="w-5 h-5" />
                   </div>
                   <span>GitHub Profile</span>
                 </a>
-                <a 
-                  href="https://www.linkedin.com/in/aman-kumar-keshri" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="flex items-center gap-3 text-gray-300 hover:text-purple-400 transition-colors group"
+                <a
+                  href="https://www.linkedin.com/in/aman-kumar-keshri"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 text-white/90 font-medium hover:text-cyan-300 transition-colors group"
                 >
                   <div className="w-10 h-10 flex items-center justify-center rounded-full bg-purple-500/20 group-hover:bg-purple-500/30 transition-colors">
                     <Linkedin className="w-5 h-5" />
@@ -113,7 +113,7 @@ export default function Contact() {
 
             <div className="glass-cosmic p-6 rounded-xl">
               <h3 className="text-lg font-semibold text-white mb-4">Available For</h3>
-              <ul className="space-y-3 text-gray-300">
+              <ul className="space-y-3 text-white/90 font-medium">
                 <li className="flex items-center gap-3">
                   <span className="w-2 h-2 bg-purple-400 rounded-full"></span>
                   Freelance Projects
@@ -142,7 +142,7 @@ export default function Contact() {
                   Name *
                 </label>
                 <input
-                  {...register('name', { 
+                  {...register('name', {
                     required: 'Name is required',
                     minLength: { value: 2, message: 'Name must be at least 2 characters' }
                   })}
@@ -161,11 +161,11 @@ export default function Contact() {
                   Email *
                 </label>
                 <input
-                  {...register('email', { 
+                  {...register('email', {
                     required: 'Email is required',
-                    pattern: { 
-                      value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, 
-                      message: 'Invalid email address' 
+                    pattern: {
+                      value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                      message: 'Invalid email address'
                     }
                   })}
                   type="email"
@@ -183,7 +183,7 @@ export default function Contact() {
                   Message *
                 </label>
                 <textarea
-                  {...register('message', { 
+                  {...register('message', {
                     required: 'Message is required',
                     minLength: { value: 10, message: 'Message must be at least 10 characters' }
                   })}

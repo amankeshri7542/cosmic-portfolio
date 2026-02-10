@@ -9,72 +9,72 @@ interface CosmicDustProps {
   speed?: number;
 }
 
-export default function CosmicDust({ 
+export default function CosmicDust({
   count = 500,
-  speed = 0.001
+  speed = 0.0005
 }: CosmicDustProps) {
   const pointsRef = useRef<THREE.Points>(null);
   const { mouse } = useThree();
-  
+
   const particles = useMemo(() => {
     const positions = new Float32Array(count * 3);
     const velocities = new Float32Array(count * 3);
     const sizes = new Float32Array(count);
-    
+
     for (let i = 0; i < count; i++) {
       positions[i * 3] = (Math.random() - 0.5) * 20;
       positions[i * 3 + 1] = (Math.random() - 0.5) * 20;
       positions[i * 3 + 2] = (Math.random() - 0.5) * 10 + 5;
-      
+
       velocities[i * 3] = (Math.random() - 0.5) * 0.02;
       velocities[i * 3 + 1] = (Math.random() - 0.5) * 0.02;
       velocities[i * 3 + 2] = 0;
-      
+
       sizes[i] = Math.random() * 0.1 + 0.05;
     }
-    
+
     return { positions, velocities, sizes };
   }, [count]);
 
   useFrame(() => {
     if (!pointsRef.current) return;
-    
+
     const positions = pointsRef.current.geometry.attributes.position.array as Float32Array;
-    
+
     // Enhanced parallax - stronger movement
     pointsRef.current.rotation.x = mouse.y * 0.1;
     pointsRef.current.rotation.y = mouse.x * 0.1;
-    
+
     for (let i = 0; i < count; i++) {
       positions[i * 3] += particles.velocities[i * 3] * speed;
       positions[i * 3 + 1] += particles.velocities[i * 3 + 1] * speed;
-      
+
       if (positions[i * 3] > 10) positions[i * 3] = -10;
       if (positions[i * 3] < -10) positions[i * 3] = 10;
       if (positions[i * 3 + 1] > 10) positions[i * 3 + 1] = -10;
       if (positions[i * 3 + 1] < -10) positions[i * 3 + 1] = 10;
     }
-    
+
     pointsRef.current.geometry.attributes.position.needsUpdate = true;
   });
 
   return (
     <points ref={pointsRef}>
       <bufferGeometry>
-  <bufferAttribute
-    attach="attributes-position"
-    args={[particles.positions, 3]}
-  />
-  <bufferAttribute
-    attach="attributes-size"
-    args={[particles.sizes, 1]}
-  />
-</bufferGeometry>
+        <bufferAttribute
+          attach="attributes-position"
+          args={[particles.positions, 3]}
+        />
+        <bufferAttribute
+          attach="attributes-size"
+          args={[particles.sizes, 1]}
+        />
+      </bufferGeometry>
       <pointsMaterial
         color="#60a5fa"
         size={0.1}
         transparent
-        opacity={0.5}
+        opacity={0.3}
         sizeAttenuation={true}
         blending={THREE.AdditiveBlending}
       />

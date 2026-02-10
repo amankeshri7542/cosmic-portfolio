@@ -2,172 +2,97 @@
 
 /* Tailwind v4 CSS-First Theme Configuration */
 @theme {
-  /* Cosmic Color Palette - inspired by NASA deep space imagery */
-  --color-cosmic-void: #0a0a0f;
-
+  --color-cosmic-void: #050505;
   --color-cosmic-nebula-purple: #8b5cf6;
   --color-cosmic-nebula-blue: #3b82f6;
-  --color-cosmic-nebula-teal: #06b6d4;
-  --color-cosmic-nebula-orange: #f97316;
-  --color-cosmic-nebula-pink: #ec4899;
+  --color-cosmic-starlight-gold: #fbbf24;
+  --color-cosmic-soft-cyan: #22d3ee;
+  --color-starlight-gold: #fbbf24;
 
-  --color-cosmic-star-white: #ffffff;
-  --color-cosmic-star-blue: #93c5fd;
-  --color-cosmic-star-yellow: #fbbf24;
-  --color-cosmic-star-red: #f87171;
+  --font-cinzel: 'Cinzel', serif;
+  --font-sans: 'Inter', sans-serif;
 
-  --color-cosmic-glow-purple: #a78bfa;
-  --color-cosmic-glow-blue: #60a5fa;
-  --color-cosmic-glow-cyan: #22d3ee;
-
-  /* Animation timing functions for smooth cosmic motion */
-  --animate-twinkle: twinkle 3s ease-in-out infinite;
-  --animate-float: float 6s ease-in-out infinite;
-  --animate-drift: drift 20s linear infinite;
-  --animate-pulse-glow: pulse-glow 2s ease-in-out infinite;
+  --animate-twinkle: twinkle 4s ease-in-out infinite;
+  --animate-float: float 8s ease-in-out infinite;
 }
 
-/* Define keyframe animations for cosmic effects */
-@keyframes twinkle {
-
-  0%,
-  100% {
-    opacity: 1;
-  }
-
-  50% {
-    opacity: 0.3;
-  }
-}
-
-@keyframes float {
-
-  0%,
-  100% {
-    transform: translateY(0px);
-  }
-
-  50% {
-    transform: translateY(-20px);
-  }
-}
-
-@keyframes drift {
-  0% {
-    transform: translateX(0);
-  }
-
-  100% {
-    transform: translateX(-100%);
-  }
-}
-
-@keyframes pulse-glow {
-
-  0%,
-  100% {
-    box-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
-  }
-
-  50% {
-    box-shadow: 0 0 40px rgba(139, 92, 246, 0.8);
-  }
-}
-
-/* Root CSS variables for consistent theming */
+/* ── Base ────────────────────────────────────────── */
 :root {
-  --background: #0a0a0f;
-  --foreground: #f8fafc;
+  --background: #050505;
+  --foreground: rgba(255, 255, 255, 0.9);
 }
 
-/* Base body styling with cosmic background */
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  font-family: var(--font-sans), system-ui, sans-serif;
+  font-weight: 400;
   margin: 0;
   padding: 0;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Custom utility layer for cosmic-specific effects */
+h1,
+h2,
+h3,
+h4,
+.font-heading {
+  font-family: var(--font-cinzel), serif;
+  letter-spacing: 0.05em;
+}
+
+/* ── Utilities ───────────────────────────────────── */
 @layer utilities {
-
-  /* Glow effects that create that ethereal cosmic appearance */
-  .glow-purple {
-    box-shadow:
-      0 0 20px rgba(139, 92, 246, 0.5),
-      0 0 40px rgba(139, 92, 246, 0.3),
-      0 0 60px rgba(139, 92, 246, 0.1);
-  }
-
-  .glow-blue {
-    box-shadow:
-      0 0 20px rgba(59, 130, 246, 0.5),
-      0 0 40px rgba(59, 130, 246, 0.3),
-      0 0 60px rgba(59, 130, 246, 0.1);
-  }
-
-  .glow-cyan {
-    box-shadow:
-      0 0 20px rgba(34, 211, 238, 0.5),
-      0 0 40px rgba(34, 211, 238, 0.3),
-      0 0 60px rgba(34, 211, 238, 0.1);
-  }
-
-  /* Text glow effects for headings and important text */
-  .text-glow-white {
-    text-shadow:
-      0 0 10px rgba(255, 255, 255, 0.8),
-      0 0 20px rgba(255, 255, 255, 0.6),
-      0 0 30px rgba(255, 255, 255, 0.4);
-  }
-
-  .text-glow-purple {
-    text-shadow:
-      0 0 10px rgba(139, 92, 246, 0.8),
-      0 0 20px rgba(139, 92, 246, 0.6),
-      0 0 30px rgba(139, 92, 246, 0.4);
-  }
-
-  .text-glow-blue {
-    text-shadow:
-      0 0 10px rgba(59, 130, 246, 0.8),
-      0 0 20px rgba(59, 130, 246, 0.6),
-      0 0 30px rgba(59, 130, 246, 0.4);
-  }
-
-  /* Glassmorphism effect - creates frosted glass appearance */
-  /* This allows the cosmic background to subtly show through UI elements */
   .glass-cosmic {
-    background: rgba(15, 15, 25, 0.6);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(139, 92, 246, 0.2);
+    background: rgba(10, 10, 20, 0.6);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(139, 92, 246, 0.15);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
   }
 
-  /* Stronger glass effect for emphasized elements */
   .glass-cosmic-strong {
-    background: rgba(15, 15, 25, 0.8);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(139, 92, 246, 0.3);
+    background: rgba(5, 5, 15, 0.9);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border-bottom: 1px solid rgba(139, 92, 246, 0.25);
   }
 
-  /* Gradient backgrounds for cards and sections */
   .bg-cosmic-gradient {
     background: linear-gradient(135deg,
         rgba(139, 92, 246, 0.1) 0%,
         rgba(59, 130, 246, 0.1) 50%,
         rgba(6, 182, 212, 0.1) 100%);
   }
+
+  .text-glow-white {
+    color: #ffffff;
+    text-shadow:
+      0 0 10px rgba(255, 255, 255, 0.8),
+      0 0 30px rgba(255, 255, 255, 0.5),
+      0 0 50px rgba(255, 255, 255, 0.3);
+  }
+
+  .text-glow-purple {
+    color: #e9d5ff;
+    text-shadow:
+      0 0 10px rgba(168, 85, 247, 0.8),
+      0 0 30px rgba(168, 85, 247, 0.5),
+      0 0 50px rgba(168, 85, 247, 0.3);
+  }
+
+  .glow-purple {
+    box-shadow: 0 0 30px rgba(139, 92, 246, 0.4);
+  }
 }
 
-/* Smooth scrolling for entire document */
-html {
-  scroll-behavior: smooth;
-}
-
-/* Custom scrollbar styling to match cosmic theme */
+/* ── Scrollbar ───────────────────────────────────── */
 body::-webkit-scrollbar {
   width: 8px;
 }
@@ -185,87 +110,13 @@ body::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(180deg, #a78bfa, #60a5fa);
 }
 
-/* Firefox scrollbar styling */
 * {
   scrollbar-width: thin;
   scrollbar-color: #8b5cf6 #0a0a0f;
 }
 
-/* Selection styling - when user highlights text */
+/* ── Selection ───────────────────────────────────── */
 ::selection {
   background: rgba(139, 92, 246, 0.3);
   color: #ffffff;
-}
-
-::-moz-selection {
-  background: rgba(139, 92, 246, 0.3);
-  color: #ffffff;
-}
-/* Enhanced text glow */
-.text-glow-purple {
-  text-shadow:
-    0 0 20px rgba(139, 92, 246, 1),
-    0 0 40px rgba(139, 92, 246, 0.8),
-    0 0 60px rgba(139, 92, 246, 0.6),
-    0 0 80px rgba(139, 92, 246, 0.4);
-}
-
-.text-glow-white {
-  text-shadow:
-    0 0 20px rgba(255, 255, 255, 0.9),
-    0 0 40px rgba(255, 255, 255, 0.7),
-    0 0 60px rgba(255, 255, 255, 0.5);
-}
-
-/* Smooth scroll snap */
-html {
-  scroll-snap-type: y mandatory;
-  scroll-behavior: smooth;
-}
-
-section {
-  scroll-snap-align: start;
-}
-/* Enhanced text visibility */
-.text-glow-white {
-  color: #ffffff;
-  text-shadow:
-    0 0 20px rgba(255, 255, 255, 1),
-    0 0 40px rgba(255, 255, 255, 0.8),
-    0 0 60px rgba(255, 255, 255, 0.6),
-    0 0 80px rgba(255, 255, 255, 0.4);
-}
-
-.text-glow-purple {
-  color: #e9d5ff;
-  text-shadow:
-    0 0 20px rgba(168, 85, 247, 1),
-    0 0 40px rgba(168, 85, 247, 0.8),
-    0 0 60px rgba(168, 85, 247, 0.6);
-}
-
-/* Improved text colors */
-body {
-  color: #f1f5f9;
-}
-
-/* Scroll container */
-html {
-  scroll-snap-type: y mandatory;
-  scroll-behavior: smooth;
-}
-
-section {
-  scroll-snap-align: start;
-}
-
-/* Hide scrollbar */
-main::-webkit-scrollbar {
-  width: 0;
-  display: none;
-}
-
-main {
-  scrollbar-width: none;
-  -ms-overflow-style: none;
 }

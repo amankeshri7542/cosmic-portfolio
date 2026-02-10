@@ -25,39 +25,41 @@ export default function CosmicBackground() {
       >
         <Suspense fallback={null}>
           <Starfield count={5000} depth={50} speed={0.0001} />
-          
+
           {/* Main Milky Way Galaxy - Center */}
-          <NebulaCloud 
+          <NebulaCloud
             count={3000}
             color="#a78bfa"
             position={[0, 0, -20]}
             speed={0.0002}
             shape="milkyway"
           />
-          
+
           {/* Mini Spiral Galaxy - Top Right */}
-          <NebulaCloud 
+          <NebulaCloud
             count={1500}
             color="#3b82f6"
             position={[10, 8, -25]}
             speed={0.00025}
             shape="milkyway"
           />
-          
+
           {/* Small Nebula Cloud - Bottom Left */}
-          <NebulaCloud 
+          <NebulaCloud
             count={800}
             color="#06b6d4"
             position={[-8, -6, -22]}
             speed={0.0003}
             shape="sphere"
           />
-          
+
           <CosmicDust count={400} speed={0.8} />
         </Suspense>
-        
+
         <ambientLight intensity={0.5} />
       </Canvas>
+      {/* Dark overlay for text contrast */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-black/60 pointer-events-none" />
     </div>
   );
 }
