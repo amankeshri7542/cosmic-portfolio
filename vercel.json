@@ -1,25 +1,39 @@
 {
-  "buildCommand": "npm run build",
-  "devCommand": "npm run dev",
-  "installCommand": "npm install",
-  "framework": "nextjs",
-  "regions": ["bom1"],
-  "rewrites": [
-    {
-      "source": "/url-shortner",
-      "destination": "https://url-shortner-woad-tau.vercel.app/url-shortner"
-    },
-    {
-      "source": "/url-shortner/:path*",
-      "destination": "https://url-shortner-woad-tau.vercel.app/url-shortner/:path*"
-    },
-    {
-      "source": "/api/shorten",
-      "destination": "https://url-shortner-woad-tau.vercel.app/api/shorten"
-    },
-    {
-      "source": "/:shortCode(\\w{6})",
-      "destination": "https://url-shortner-woad-tau.vercel.app/:shortCode"
-    }
-  ]
+    "buildCommand": "npm run build",
+    "devCommand": "npm run dev",
+    "installCommand": "npm install",
+    "framework": "nextjs",
+    "regions": [
+        "bom1"
+    ],
+    "rewrites": [
+        {
+            "source": "/url-shortner/_next/static/:path*",
+            "destination": "https://url-shortner-woad-tau.vercel.app/url-shortner/_next/static/:path*"
+        },
+        {
+            "source": "/url-shortner/_next/image/:path*",
+            "destination": "https://url-shortner-woad-tau.vercel.app/url-shortner/_next/image/:path*"
+        },
+        {
+            "source": "/url-shortner/_next/:path*",
+            "destination": "https://url-shortner-woad-tau.vercel.app/url-shortner/_next/:path*"
+        },
+        {
+            "source": "/url-shortner",
+            "destination": "https://url-shortner-woad-tau.vercel.app/url-shortner"
+        },
+        {
+            "source": "/url-shortner/:path*",
+            "destination": "https://url-shortner-woad-tau.vercel.app/url-shortner/:path*"
+        },
+        {
+            "source": "/api/shorten",
+            "destination": "https://url-shortner-woad-tau.vercel.app/api/shorten"
+        },
+        {
+            "source": "/:shortCode(\\w{6})",
+            "destination": "https://url-shortner-woad-tau.vercel.app/:shortCode"
+        }
+    ]
 }
