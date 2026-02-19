@@ -3,6 +3,7 @@ import { Inter, Cinzel } from "next/font/google";
 import "./globals.css";
 import Navigation from "@/components/Navigation";
 import CosmicBackground from "@/components/cosmic/CosmicBackground";
+import WelcomePopup from "@/components/WelcomePopup";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 const cinzel = Cinzel({ subsets: ["latin"], variable: "--font-cinzel" });
@@ -22,6 +23,7 @@ export default function RootLayout({
       <body className={`${inter.variable} ${cinzel.variable} antialiased font-sans bg-cosmic-void text-gray-200`}>
         <CosmicBackground />
         <Navigation />
+        <WelcomePopup />
         {children}
       </body>
     </html>

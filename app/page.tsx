@@ -45,16 +45,8 @@ export default function Home() {
               <span className="text-glow-white">Aman Kumar</span>
             </h1>
 
-            <div className="text-xl md:text-3xl text-cyan-300 min-h-[45px] flex justify-center font-medium">
-              <Typewriter
-                options={{
-                  strings: ['Cloud & GenAI Engineer', 'Full Stack Developer', 'DevOps Specialist'],
-                  autoStart: true,
-                  loop: true,
-                  deleteSpeed: 50,
-                  delay: 80,
-                }}
-              />
+            <div className="text-xl md:text-3xl text-cyan-300 min-h-[45px] flex justify-center items-center font-medium">
+              A developer who lives inside cloud ☁️
             </div>
 
             <p className="text-lg md:text-xl text-white/90 font-medium leading-relaxed max-w-2xl mx-auto">
