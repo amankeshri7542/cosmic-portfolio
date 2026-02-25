@@ -75,13 +75,13 @@ export default function SatelliteModel() {
         }
     });
 
-    // Calculate scale based on viewport
-    const scale = viewport.width < 8 ? 0.5 : 0.7;
+    // Calculate scale based on viewport — kept small so it doesn't cover content
+    const scale = viewport.width < 8 ? 0.25 : 0.35;
 
     return (
         <group
             ref={groupRef}
-            position={[viewport.width < 8 ? 3.5 : 5, 0.5, -5]}
+            position={[viewport.width < 8 ? 4 : 6, 0.5, -8]}
             scale={scale}
         >
             <primitive
