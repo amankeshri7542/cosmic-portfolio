@@ -49,10 +49,9 @@ export default function Home() {
               <Typewriter
                 options={{
                   strings: [
-                    'A developer who lives inside cloud ☁️',
-                    'A Ram bhakt 🙏🏼',
-                    'Closer to god',
-                    'I live inside cloud 😎',
+                    'A JS developer 💻',
+                    'A Ram bhakt 🙏',
+                    'Closer to god as I live inside Cloud ☁️',
                   ],
                   autoStart: true,
                   loop: true,
