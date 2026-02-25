@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowRight, Code2, Cloud, Shield, Cpu, Database } from 'lucide-react';
+import { ArrowRight, Code2, Cloud, Shield, Cpu, Database, Download } from 'lucide-react';
 import Typewriter from 'typewriter-effect';
 
 export default function Home() {
@@ -46,7 +46,20 @@ export default function Home() {
             </h1>
 
             <div className="text-xl md:text-3xl text-cyan-300 min-h-[45px] flex justify-center items-center font-medium">
-              A developer who lives inside cloud ☁️
+              <Typewriter
+                options={{
+                  strings: [
+                    'A developer who lives inside cloud ☁️',
+                    'A Ram bhakt 🙏🏼',
+                    'Closer to god',
+                    'I live inside cloud 😎',
+                  ],
+                  autoStart: true,
+                  loop: true,
+                  deleteSpeed: 30,
+                  delay: 50,
+                }}
+              />
             </div>
 
             <p className="text-lg md:text-xl text-white/90 font-medium leading-relaxed max-w-2xl mx-auto">
@@ -81,6 +94,14 @@ export default function Home() {
                 View My Work
                 <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
               </Link>
+              <a
+                href="/cloud.pdf"
+                download
+                className="glass-cosmic px-8 py-4 hover:bg-green-600/30 text-white font-semibold rounded-full transition-all inline-flex items-center gap-2 border border-green-500/30 hover:border-green-400"
+              >
+                <Download size={20} />
+                Resume
+              </a>
               <Link
                 href="/contact"
                 className="glass-cosmic px-8 py-4 hover:bg-cyan-600/30 text-white font-semibold rounded-full transition-all border border-cyan-500/30 hover:border-cyan-400"

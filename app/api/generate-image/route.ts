@@ -21,24 +21,25 @@ const SPECIAL_CASES: Record<string, { message: string; image: string }> = {
   },
 };
 
-const NAME_ARTIST_SYSTEM_PROMPT = `You are a Master Environment Artist. Given a first name, research its spiritual meaning and design a breathtaking, surreal landscape that embodies that meaning.
+const NAME_ARTIST_SYSTEM_PROMPT = `You are a Master Environment Artist specializing in "Name Art" — creating breathtaking landscapes where natural elements visually form a person's name.
 
 INSTRUCTIONS:
-1. Research the name's meaning.
-2. Design a photorealistic, natural landscape (e.g., mountains, forests, oceans) that matches this meaning.
-3. ANTIGRAVITY ELEMENTS: Integrate localized zero-gravity phenomena into the environment. Include suspended geological formations, levitating water droplets, or floating bioluminescent flora. Maintain realistic physical lighting on these floating elements.
-4. CRITICAL AVOIDANCE: The image must be a pure, pristine landscape. DO NOT include any typography, letters, signatures, words, or human figures. Leave the center compositionally balanced but open, acting as a canvas.
+1. Research the given name's spiritual meaning.
+2. Design a photorealistic landscape where natural elements (rivers, mountain ridges, cloud formations, tree lines, aurora trails, canyons, or light rays) are arranged so they subtly spell out or visually resemble the letters of the given name. The name should be organically woven into the environment, not as text overlay but as shapes formed by nature itself.
+3. ANTIGRAVITY ELEMENTS: Integrate localized zero-gravity phenomena — suspended geological formations, levitating water droplets, or floating bioluminescent flora that also contribute to forming the name's silhouette.
+4. The overall scene mood and color palette should reflect the name's meaning.
+5. CRITICAL: The name must appear as natural formations (e.g., a river bending into the letter "A", mountain peaks forming "M", aurora lights tracing letters). It should NOT look like digital typography — it should look like nature coincidentally formed those shapes.
 
 OUTPUT FORMAT (JSON ONLY):
 {
   "short_meaning": "A 1-2 sentence poetic explanation of the name's meaning.",
-  "image_prompt": "A sprawling, photorealistic landscape of [SCENE MATCHING MEANING]. Surreal antigravity elements: [DESCRIBE FLOATING ROCKS/WATER/ETC]. Cinematic lighting, volumetric fog, Unreal Engine 5 render, 8k resolution, masterpiece. --no text, watermark, letters, typography"
+  "image_prompt": "A breathtaking photorealistic landscape where natural elements visually form the name [NAME]. [DESCRIBE HOW SPECIFIC LETTERS ARE FORMED BY RIVERS/MOUNTAINS/CLOUDS/LIGHT]. The scene reflects the meaning: [MEANING-BASED MOOD]. Surreal antigravity elements: [FLOATING ELEMENTS CONTRIBUTING TO NAME SHAPE]. Cinematic golden hour lighting, volumetric fog, aerial perspective, Unreal Engine 5 render, 8k resolution, masterpiece. --no digital text, watermark, typography"
 }`;
 
 // Helper: poll Leonardo until generation completes or times out
-async function pollLeonardo(generationId: string, maxAttempts = 30): Promise<string | null> {
+async function pollLeonardo(generationId: string, maxAttempts = 10): Promise<string | null> {
   for (let i = 0; i < maxAttempts; i++) {
-    await new Promise((r) => setTimeout(r, 3000)); // wait 3 seconds between polls
+    await new Promise((r) => setTimeout(r, 3000)); // wait 3s between polls (~30s total)
 
     const res = await fetch(`${LEONARDO_BASE}/generations/${generationId}`, {
       headers: {
@@ -158,7 +159,7 @@ export async function POST(request: Request) {
       throw new Error('No generationId returned from Leonardo');
     }
 
-    // Poll until the image is ready (up to ~90 seconds)
+    // Poll until the image is ready (up to ~30 seconds)
     const imageUrl = await pollLeonardo(generationId);
     if (!imageUrl) {
       throw new Error('Failed to get image URL from Leonardo');
