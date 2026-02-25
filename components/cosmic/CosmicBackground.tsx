@@ -25,14 +25,14 @@ export default function CosmicBackground() {
         dpr={[1, 2]}
       >
         <Suspense fallback={null}>
-          <Starfield count={5000} depth={50} speed={0.0001} />
+          <Starfield count={5000} depth={50} speed={0.00011} />
 
           {/* Main Milky Way Galaxy - Center */}
           <NebulaCloud
             count={3000}
             color="#a78bfa"
             position={[0, 0, -20]}
-            speed={0.0002}
+            speed={0.00022}
             shape="milkyway"
           />
 
@@ -41,7 +41,7 @@ export default function CosmicBackground() {
             count={1500}
             color="#3b82f6"
             position={[10, 8, -25]}
-            speed={0.00025}
+            speed={0.000275}
             shape="milkyway"
           />
 
@@ -50,11 +50,11 @@ export default function CosmicBackground() {
             count={800}
             color="#06b6d4"
             position={[-8, -6, -22]}
-            speed={0.0003}
+            speed={0.00033}
             shape="sphere"
           />
 
-          <CosmicDust count={400} speed={0.8} />
+          <CosmicDust count={400} speed={0.88} />
 
           {/* 3D Satellite - scroll-reactive */}
           <SatelliteModel />
