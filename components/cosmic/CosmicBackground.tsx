@@ -5,6 +5,7 @@ import { Suspense } from 'react';
 import Starfield from './Starfield';
 import NebulaCloud from './NebulaCloud';
 import CosmicDust from './CosmicDust';
+import SatelliteModel from './SatelliteModel';
 
 export default function CosmicBackground() {
   return (
@@ -54,9 +55,14 @@ export default function CosmicBackground() {
           />
 
           <CosmicDust count={400} speed={0.8} />
+
+          {/* 3D Satellite - scroll-reactive */}
+          <SatelliteModel />
         </Suspense>
 
-        <ambientLight intensity={0.5} />
+        <ambientLight intensity={0.6} />
+        <pointLight position={[5, 5, 5]} intensity={1.2} color="#a78bfa" />
+        <pointLight position={[-3, -2, 3]} intensity={0.6} color="#06b6d4" />
       </Canvas>
       {/* Dark overlay for text contrast */}
       <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-black/60 pointer-events-none" />

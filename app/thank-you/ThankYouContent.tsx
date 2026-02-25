@@ -34,7 +34,8 @@ export default function ThankYouContent() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.35 }}
-                    className="text-lg text-white/80 font-medium leading-relaxed mb-4"
+                    className="text-lg text-white font-semibold leading-relaxed mb-4"
+                    style={{ textShadow: '0 2px 8px rgba(0,0,0,0.6)' }}
                 >
                     Your message has been sent successfully! ✨
                 </motion.p>
@@ -43,7 +44,8 @@ export default function ThankYouContent() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.45 }}
-                    className="text-base text-white/60 leading-relaxed mb-10"
+                    className="text-base text-white/85 font-medium leading-relaxed mb-10"
+                    style={{ textShadow: '0 2px 8px rgba(0,0,0,0.6)' }}
                 >
                     I&apos;ll get back to you soon. In the meantime, feel free to explore my
                     projects and see what I&apos;ve been building!
