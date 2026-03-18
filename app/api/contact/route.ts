@@ -1,6 +1,15 @@
 import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 
+function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
 // Simple in-memory rate limiting (resets on server restart)
 const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
 
@@ -40,6 +49,11 @@ export async function POST(request: Request) {
 
     const { name, email, message } = await request.json();
 
+    // Sanitize inputs against HTML injection
+    const safeName = escapeHtml(name);
+    const safeEmail = escapeHtml(email);
+    const safeMessage = escapeHtml(message);
+
     // Validation
     if (!name || !email || !message) {
       return NextResponse.json(
@@ -70,7 +84,7 @@ export async function POST(request: Request) {
     await transporter.sendMail({
       from: process.env.EMAIL_USER,
       to: process.env.EMAIL_USER,
-      subject: `Portfolio Contact: ${name}`,
+      subject: `Portfolio Contact: ${safeName}`,
       html: `
         <!DOCTYPE html>
         <html>
@@ -92,14 +106,14 @@ export async function POST(request: Request) {
             </div>
             <div class="content">
               <div class="field">
-                <span class="label">From:</span> ${name}
+                <span class="label">From:</span> ${safeName}
               </div>
               <div class="field">
-                <span class="label">Email:</span> ${email}
+                <span class="label">Email:</span> ${safeEmail}
               </div>
               <div class="field">
                 <span class="label">Message:</span>
-                <div class="message-box">${message}</div>
+                <div class="message-box">${safeMessage}</div>
               </div>
             </div>
           </div>

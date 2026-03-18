@@ -77,7 +77,21 @@ export async function POST(request: Request) {
     }
 
     const cleanName = name.trim().slice(0, 80);
-    const normalizedName = cleanName.toLowerCase().replace(/\s+/g, ' ');
+
+    // Sanitize: only allow safe name characters (includes Devanagari for Hindi names)
+    const sanitizedName = cleanName.replace(/[^a-zA-Z\u0900-\u097F\s\-']/g, '').replace(/\s+/g, ' ').trim();
+
+    if (sanitizedName.length < 2) {
+      return NextResponse.json({ error: 'Please enter a valid name.' }, { status: 400 });
+    }
+
+    // Prompt injection red flags
+    const injectionPatterns = /\b(ignore|forget|system|prompt|instruction|jailbreak|bypass|override|disregard)\b/i;
+    if (injectionPatterns.test(sanitizedName)) {
+      return NextResponse.json({ error: 'Invalid name provided.' }, { status: 400 });
+    }
+
+    const normalizedName = sanitizedName.toLowerCase().replace(/\s+/g, ' ');
 
     // Check special cases first — no rate limiting, no API calls
     const special = SPECIAL_CASES[normalizedName];
@@ -98,7 +112,7 @@ export async function POST(request: Request) {
     }
 
     // Extract first name only for image generation
-    const firstName = cleanName.split(/\s+/)[0];
+    const firstName = sanitizedName.split(/\s+/)[0];
 
     // Step 1: GPT-4o-mini to interpret the first name & create image prompt
     const gptResponse = await openai.chat.completions.create({

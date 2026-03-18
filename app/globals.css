@@ -20,6 +20,8 @@
 :root {
   --background: #050505;
   --foreground: rgba(255, 255, 255, 0.9);
+  --color-saffron: #E8A045;
+  --color-saffron-dim: rgba(232, 160, 69, 0.2);
 }
 
 html {
@@ -90,6 +92,22 @@ h4,
   .glow-purple {
     box-shadow: 0 0 30px rgba(139, 92, 246, 0.4);
   }
+
+  .text-saffron {
+    color: var(--color-saffron);
+  }
+
+  .text-saffron-dim {
+    color: var(--color-saffron-dim);
+  }
+
+  .border-saffron {
+    border-color: rgba(232, 160, 69, 0.4);
+  }
+
+  .glow-saffron {
+    box-shadow: 0 0 20px rgba(232, 160, 69, 0.3);
+  }
 }
 
 /* ── Scrollbar ───────────────────────────────────── */
@@ -119,4 +137,55 @@ body::-webkit-scrollbar-thumb:hover {
 ::selection {
   background: rgba(139, 92, 246, 0.3);
   color: #ffffff;
+}
+
+/* ── Dawn Mode ──────────────────────────────────── */
+html.dawn {
+  --background: #1a1510;
+  --foreground: rgba(255, 245, 230, 0.9);
+}
+
+html.dawn body {
+  background: #1a1510;
+  color: rgba(255, 245, 230, 0.9);
+}
+
+html.dawn .glass-cosmic {
+  background: rgba(30, 22, 12, 0.7);
+  border-color: rgba(232, 160, 69, 0.15);
+}
+
+html.dawn .glass-cosmic-strong {
+  background: rgba(20, 15, 8, 0.9);
+  border-bottom-color: rgba(232, 160, 69, 0.25);
+}
+
+html.dawn .text-glow-white {
+  text-shadow:
+    0 0 10px rgba(232, 160, 69, 0.5),
+    0 0 30px rgba(232, 160, 69, 0.3),
+    0 0 50px rgba(232, 160, 69, 0.15);
+}
+
+html.dawn .text-glow-purple {
+  color: #f5deb3;
+  text-shadow:
+    0 0 10px rgba(232, 160, 69, 0.6),
+    0 0 30px rgba(232, 160, 69, 0.3);
+}
+
+html.dawn .glow-purple {
+  box-shadow: 0 0 30px rgba(232, 160, 69, 0.3);
+}
+
+html.dawn body::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #E8A045, #d4783a);
+}
+
+html.dawn * {
+  scrollbar-color: #E8A045 #1a1510;
+}
+
+html.dawn ::selection {
+  background: rgba(232, 160, 69, 0.3);
 }

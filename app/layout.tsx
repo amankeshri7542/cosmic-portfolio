@@ -6,6 +6,10 @@ import CosmicBackground from "@/components/cosmic/CosmicBackground";
 import WelcomePopup from "@/components/WelcomePopup";
 import Footer from "@/components/Footer";
 import ScrollProgress from "@/components/ScrollProgress";
+import CosmicCursor from "@/components/CosmicCursor";
+import CosmicLoader from "@/components/CosmicLoader";
+import PageTransition from "@/components/PageTransition";
+import ThemeToggle from "@/components/ThemeToggle";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 const cinzel = Cinzel({ subsets: ["latin"], variable: "--font-cinzel" });
@@ -64,11 +68,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.variable} ${cinzel.variable} antialiased font-sans bg-cosmic-void text-gray-200`}>
+        <CosmicLoader />
         <CosmicBackground />
         <ScrollProgress />
+        <CosmicCursor />
         <Navigation />
+        <ThemeToggle />
         <WelcomePopup />
-        {children}
+        <PageTransition>{children}</PageTransition>
         <Footer />
       </body>
     </html>

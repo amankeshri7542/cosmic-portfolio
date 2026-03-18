@@ -6,16 +6,32 @@ import Image from 'next/image';
 import { useTilt } from '@/hooks/useTilt';
 import React from 'react';
 
-const experience = {
-    title: 'Intern — Cybersecurity, Cloud Computing & Web Development',
-    company: 'Technosys IT Management Private Limited',
-    period: 'Feb 2025 – Aug 2025',
-    points: [
-        'Deployed AWS cloud apps (EC2, S3, IAM, Lambda), boosting uptime by 15%',
-        'Identified and remediated 20+ security flaws using Nmap, Burp Suite, and Wireshark',
-        'Built MERN modules with secure coding, cutting load times by 25%',
-    ],
-};
+const experiences = [
+    {
+        title: 'Contract Developer — Full-Stack Business Platform',
+        company: 'Shiv Cement Store (Bihar)',
+        period: 'Aug 2025 – Mar 2026',
+        logo: '/shivtraders.png',
+        points: [
+            'Built a full-stack business platform for a retail cement store — Next.js 14 customer website, Expo React Native admin/staff mobile app, and Express 5 REST API deployed on Render + Vercel',
+            'Implemented RAG-powered AI chatbot using OpenAI GPT-4o, Pinecone vector search, and Upstash Redis caching — supports Hindi, English, and Hinglish with live product pricing via OpenAI function calling',
+            'Engineered a tamper-proof GPS + rotating QR code attendance system with Haversine geofence validation, bcrypt-secured 4-digit PIN auth, and soft-delete staff management',
+            'Architected multi-role JWT authentication (admin 7-day / staff 1-day), AWS S3 presigned uploads, rate limiting, NoSQL injection protection, and optimistic UI updates across mobile and web',
+        ],
+        liveUrl: 'https://shiv-cement-app.vercel.app/',
+    },
+    {
+        title: 'Intern — Cybersecurity, Cloud Computing & Web Development',
+        company: 'Technosys IT Management Private Limited',
+        period: 'Feb 2025 – Aug 2025',
+        logo: '/internship.png',
+        points: [
+            'Deployed AWS cloud apps (EC2, S3, IAM, Lambda), boosting uptime by 15%',
+            'Identified and remediated 20+ security flaws using Nmap, Burp Suite, and Wireshark',
+            'Built MERN modules with secure coding, cutting load times by 25%',
+        ],
+    },
+];
 
 const projects = [
     {
@@ -46,13 +62,22 @@ const projects = [
         image: '/foxpop.png',
     },
     {
-        title: 'Shiv Cement Store (Business ERP)',
+        title: 'MedScan AI',
         description:
-            'A custom inventory and business management system designed for high-volume retail, featuring Role-Based Access Control (RBAC).',
-        tech: ['Next.js', 'MongoDB', 'Tailwind CSS'],
-        liveUrl: 'https://shivcementstore.com',
+            'An intelligent healthcare companion that instantly identifies medications from images or text. Powered by Gemini Vision AI and AWS, it provides easy-to-read summaries of uses, dosages, and critical drug interactions. Also available as an APK.',
+        tech: ['Gemini Vision AI', 'AWS', 'Next.js', 'React Native'],
+        liveUrl: 'https://med-scan-ai-web.vercel.app/',
         githubUrl: '',
-        image: '/cementstore.png',
+        image: '/image.png',
+    },
+    {
+        title: 'URL Shortener',
+        description:
+            'A fast, minimal URL shortener built with Next.js. Paste any long URL and get a clean, shareable short link instantly.',
+        tech: ['Next.js', 'Vercel', 'TypeScript'],
+        liveUrl: 'https://url-shortner-woad-tau.vercel.app',
+        githubUrl: '',
+        image: '/prompt.png',
     },
     {
         title: 'Prompt Enhancer',
@@ -177,35 +202,57 @@ export default function WorkContent() {
                     className="mb-16"
                 >
                     <h2 className="text-3xl font-bold mb-8 text-cyan-300">Experience</h2>
-                    <div className="glass-cosmic p-8 rounded-xl">
-                        <div className="flex items-start gap-4 mb-6">
-                            <div className="relative w-16 h-16 flex-shrink-0">
-                                <Image
-                                    src="/internship.png"
-                                    alt="Technosys"
-                                    fill
-                                    className="object-cover rounded-lg"
-                                />
-                            </div>
-                            <div className="flex-1">
-                                <h3 className="text-2xl font-semibold text-white mb-2">
-                                    {experience.title}
-                                </h3>
-                                <p className="text-cyan-300 font-semibold">{experience.company}</p>
-                                <p className="text-[#C0C0C0] text-sm font-medium">{experience.period}</p>
-                            </div>
-                        </div>
-                        <ul className="space-y-3">
-                            {experience.points.map((point, idx) => (
-                                <li
-                                    key={idx}
-                                    className="text-white/90 font-medium flex items-start"
-                                >
-                                    <span className="text-cyan-400 mr-3 mt-1">▹</span>
-                                    <span>{point}</span>
-                                </li>
-                            ))}
-                        </ul>
+                    <div className="space-y-8">
+                        {experiences.map((exp, i) => (
+                            <motion.div
+                                key={i}
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ delay: i * 0.15 }}
+                                className="glass-cosmic p-8 rounded-xl"
+                            >
+                                <div className="flex items-start gap-4 mb-6">
+                                    <div className="relative w-16 h-16 flex-shrink-0">
+                                        <Image
+                                            src={exp.logo}
+                                            alt={exp.company}
+                                            fill
+                                            className="object-cover rounded-lg"
+                                        />
+                                    </div>
+                                    <div className="flex-1">
+                                        <h3 className="text-2xl font-semibold text-white mb-2">
+                                            {exp.title}
+                                        </h3>
+                                        <p className="text-cyan-300 font-semibold">{exp.company}</p>
+                                        <p className="text-[#C0C0C0] text-sm font-medium">{exp.period}</p>
+                                    </div>
+                                </div>
+                                <ul className="space-y-3">
+                                    {exp.points.map((point, idx) => (
+                                        <li
+                                            key={idx}
+                                            className="text-white/90 font-medium flex items-start"
+                                        >
+                                            <span className="text-cyan-400 mr-3 mt-1">▹</span>
+                                            <span>{point}</span>
+                                        </li>
+                                    ))}
+                                </ul>
+                                {exp.liveUrl && (
+                                    <a
+                                        href={exp.liveUrl}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="inline-flex items-center gap-2 mt-6 px-4 py-2 bg-cyan-600/20 hover:bg-cyan-600/30 text-cyan-300 font-semibold rounded-lg transition-all border border-cyan-500/30 hover:border-cyan-400 text-sm"
+                                    >
+                                        <ExternalLink size={16} />
+                                        View Live
+                                    </a>
+                                )}
+                            </motion.div>
+                        ))}
                     </div>
                 </motion.div>
 

@@ -3,8 +3,9 @@
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowRight, Code2, Cloud, Shield, Cpu, Database, Download } from 'lucide-react';
+import { ArrowRight, Cloud, Shield, Cpu, Download } from 'lucide-react';
 import Typewriter from 'typewriter-effect';
+import BrahmaandGalaxy from '@/components/BrahmaandGalaxy';
 
 export default function Home() {
   return (
@@ -20,9 +21,58 @@ export default function Home() {
             transition={{ duration: 0.8 }}
             className="mb-8 relative inline-block"
           >
-            <div className="relative w-40 h-40 md:w-56 md:h-56 mx-auto">
-              <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-cyan-500 rounded-full blur-3xl opacity-40 animate-pulse"></div>
-              <div className="relative w-full h-full rounded-full overflow-hidden ring-4 ring-purple-500/50 glow-purple shadow-2xl">
+            <div className="relative w-40 h-40 md:w-56 md:h-56 mx-auto" style={{ overflow: 'visible' }}>
+              {/* Mandala ring behind everything — scaled up to extend beyond profile */}
+              <div className="absolute" style={{
+                inset: '-25%',
+                zIndex: 0,
+                animation: 'mandala-spin 25s linear infinite',
+              }}>
+                <style>{`
+                  @keyframes mandala-spin {
+                    from { transform: rotate(0deg); }
+                    to { transform: rotate(360deg); }
+                  }
+                `}</style>
+                <svg
+                  viewBox="0 0 200 200"
+                  width="100%"
+                  height="100%"
+                  style={{ display: 'block' }}
+                >
+                  <g transform="translate(100,100)" fill="none" stroke="#E8A045" strokeWidth="0.8" opacity="0.55">
+                    <circle r="94" />
+                    <circle r="82" />
+                    {[0,45,90,135,180,225,270,315].map(angle => (
+                      <line
+                        key={angle}
+                        x1={Math.cos((angle * Math.PI) / 180) * 82}
+                        y1={Math.sin((angle * Math.PI) / 180) * 82}
+                        x2={Math.cos((angle * Math.PI) / 180) * 94}
+                        y2={Math.sin((angle * Math.PI) / 180) * 94}
+                        strokeWidth="1.5"
+                      />
+                    ))}
+                    <polygon points="0,-72 62,36 -62,36" />
+                    <polygon points="0,72 62,-36 -62,-36" />
+                    {[0,45,90,135,180,225,270,315].map(angle => (
+                      <circle
+                        key={angle}
+                        cx={Math.cos((angle * Math.PI) / 180) * 88}
+                        cy={Math.sin((angle * Math.PI) / 180) * 88}
+                        r="3"
+                        fill="#E8A045"
+                      />
+                    ))}
+                  </g>
+                </svg>
+              </div>
+
+              {/* Blur glow */}
+              <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-cyan-500 rounded-full blur-3xl opacity-40 animate-pulse" style={{ zIndex: 1 }}></div>
+
+              {/* Profile image */}
+              <div className="relative w-full h-full rounded-full overflow-hidden ring-4 ring-purple-500/50 glow-purple shadow-2xl" style={{ zIndex: 2 }}>
                 <Image
                   src="/aman1.png"
                   alt="Aman Kumar"
@@ -49,9 +99,8 @@ export default function Home() {
               <Typewriter
                 options={{
                   strings: [
-                    'A JS developer 💻',
-                    'A Ram bhakt 🙏',
-                    'Closer to god as I live inside Cloud ☁️',
+                    'Ram Bhakt 🙏',
+                    'JS Developer living inside AWS Cloud ☁️',
                   ],
                   autoStart: true,
                   loop: true,
@@ -130,53 +179,62 @@ export default function Home() {
             </p>
           </motion.div>
 
-          {/* Tech Stack Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16">
-            {[
-              {
-                icon: Cloud,
-                title: 'Cloud & DevOps',
-                desc: 'AWS Serverless, Infrastructure as Code, and container orchestration for production systems.',
-                skills: ['AWS Lambda', 'EC2', 'Docker', 'Kubernetes', 'Terraform']
-              },
-              {
-                icon: Code2,
-                title: 'Development',
-                desc: 'Full-stack web development with modern frameworks and type-safe architectures.',
-                skills: ['Next.js', 'React', 'Node.js', 'Python', 'TypeScript']
-              },
-              {
-                icon: Database,
-                title: 'AI & Data',
-                desc: 'LLM integration, multi-modal AI orchestration, and scalable data solutions.',
-                skills: ['OpenAI API', 'LangChain', 'MongoDB', 'PostgreSQL', 'DynamoDB']
-              },
-            ].map((item, idx) => (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: idx * 0.2 }}
-                className="glass-cosmic p-8 rounded-xl hover:border-purple-500/50 transition-all group"
-              >
-                <item.icon className="w-14 h-14 text-cyan-400 mb-6 group-hover:scale-110 transition-transform" />
-                <h3 className="text-2xl font-semibold mb-4 text-white">{item.title}</h3>
-                <p className="text-white/85 font-medium mb-6 leading-relaxed">{item.desc}</p>
-                <div className="flex flex-wrap gap-2">
-                  {item.skills.map((skill) => (
-                    <span
-                      key={skill}
-                      className="px-3 py-1 bg-purple-500/20 text-purple-200 rounded-full text-sm font-medium border border-purple-500/20"
-                    >
-                      {skill}
-                    </span>
-                  ))}
-                </div>
-              </motion.div>
-            ))}
+          {/* Brahmaand Galaxy — Tech Solar System */}
+          <div className="mt-16">
+            <h3 className="text-2xl font-semibold text-center text-white mb-2">
+              The Brahmaand — <span className="text-saffron">IT Universe</span>
+            </h3>
+            <p className="text-center text-white/50 text-sm mb-10">Your tech solar system</p>
+            <BrahmaandGalaxy />
           </div>
         </div>
+      </section>
+
+      {/* Dharma Code Section */}
+      <section className="py-20 px-6 flex justify-center">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="glass-cosmic rounded-2xl p-12 max-w-3xl w-full text-center"
+          style={{ borderColor: 'rgba(232,160,69,0.2)' }}
+        >
+          {/* Top saffron line */}
+          <div style={{ width: 40, height: 1, background: '#E8A045', opacity: 0.6, margin: '0 auto 20px' }} />
+
+          <p style={{
+            color: 'rgba(232,160,69,0.6)',
+            fontSize: '11px',
+            letterSpacing: '0.2em',
+            textTransform: 'uppercase',
+            marginBottom: '20px'
+          }}>
+            My Dharma
+          </p>
+
+          <p style={{
+            color: 'rgba(255,255,255,0.92)',
+            fontSize: '22px',
+            lineHeight: 1.8,
+            fontStyle: 'italic',
+            marginBottom: '16px',
+            fontFamily: 'serif'
+          }}>
+            कर्मण्येवाधिकारस्ते मा फलेषु कदाचन
+          </p>
+
+          <p style={{ color: '#E8A045', fontSize: '14px', letterSpacing: '0.03em', marginBottom: '10px' }}>
+            You have the right to work, never to its fruits.
+          </p>
+
+          <p style={{ color: 'rgba(255,255,255,0.3)', fontSize: '11px' }}>
+            — Bhagavad Gita 2.47
+          </p>
+
+          {/* Bottom saffron line */}
+          <div style={{ width: 40, height: 1, background: '#E8A045', opacity: 0.6, margin: '20px auto 0' }} />
+        </motion.div>
       </section>
 
       {/* CTA Section */}

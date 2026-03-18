@@ -83,6 +83,15 @@ export default function Footer() {
 
                 {/* Divider + Copyright */}
                 <div className="border-t border-purple-500/20 pt-6 flex flex-col md:flex-row items-center justify-between gap-3">
+                    <p className="w-full text-center" style={{
+                      fontSize: '13px',
+                      color: 'rgba(232, 160, 69, 0.55)',
+                      fontWeight: 500,
+                      letterSpacing: '0.15em',
+                      marginBottom: '8px'
+                    }}>
+                      🙏 Jai Shri Ram
+                    </p>
                     <p className="text-white/60 text-xs font-medium">
                         © {new Date().getFullYear()} Aman Kumar. All rights reserved.
                     </p>
