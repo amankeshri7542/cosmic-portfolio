@@ -91,7 +91,7 @@ export default function BrahmaandGalaxy() {
       <svg
         viewBox="0 0 480 480"
         width="100%"
-        style={{ maxWidth: 520, display: 'block' }}
+        style={{ maxWidth: 640, display: 'block' }}
       >
         {/* Orbit rings */}
         <circle cx={cx} cy={cy} r={110} fill="none" stroke="#22d3ee" strokeWidth="0.5" strokeDasharray="3 5" opacity="0.25" />

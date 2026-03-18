@@ -49,18 +49,18 @@ export async function POST(request: Request) {
 
     const { name, email, message } = await request.json();
 
-    // Sanitize inputs against HTML injection
-    const safeName = escapeHtml(name);
-    const safeEmail = escapeHtml(email);
-    const safeMessage = escapeHtml(message);
-
-    // Validation
+    // Validation first (before escaping, to avoid calling escapeHtml on undefined)
     if (!name || !email || !message) {
       return NextResponse.json(
         { error: 'All fields are required' },
         { status: 400 }
       );
     }
+
+    // Sanitize inputs against HTML injection (after validation confirms they exist)
+    const safeName = escapeHtml(String(name));
+    const safeEmail = escapeHtml(String(email));
+    const safeMessage = escapeHtml(String(message));
 
     // Email regex validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

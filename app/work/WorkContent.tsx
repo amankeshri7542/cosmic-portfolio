@@ -9,7 +9,7 @@ import React from 'react';
 const experiences = [
     {
         title: 'Contract Developer — Full-Stack Business Platform',
-        company: 'Shiv Cement Store (Bihar)',
+        company: 'Shiv Cement Store — Top 5 Cement Seller in Bihar',
         period: 'Aug 2025 – Mar 2026',
         logo: '/shivtraders.png',
         points: [
@@ -17,6 +17,7 @@ const experiences = [
             'Implemented RAG-powered AI chatbot using OpenAI GPT-4o, Pinecone vector search, and Upstash Redis caching — supports Hindi, English, and Hinglish with live product pricing via OpenAI function calling',
             'Engineered a tamper-proof GPS + rotating QR code attendance system with Haversine geofence validation, bcrypt-secured 4-digit PIN auth, and soft-delete staff management',
             'Architected multi-role JWT authentication (admin 7-day / staff 1-day), AWS S3 presigned uploads, rate limiting, NoSQL injection protection, and optimistic UI updates across mobile and web',
+            'Tech: Next.js 14 · Express 5 · MongoDB Atlas · React Native (Expo) · OpenAI GPT-4o · Pinecone · Upstash Redis · AWS S3 · Vercel · Render',
         ],
         liveUrl: 'https://shiv-cement-app.vercel.app/',
     },
@@ -77,7 +78,7 @@ const projects = [
         tech: ['Next.js', 'Vercel', 'TypeScript'],
         liveUrl: 'https://url-shortner-woad-tau.vercel.app',
         githubUrl: '',
-        image: '/prompt.png',
+        image: '/url.png',
     },
     {
         title: 'Prompt Enhancer',
@@ -230,15 +231,20 @@ export default function WorkContent() {
                                     </div>
                                 </div>
                                 <ul className="space-y-3">
-                                    {exp.points.map((point, idx) => (
-                                        <li
-                                            key={idx}
-                                            className="text-white/90 font-medium flex items-start"
-                                        >
-                                            <span className="text-cyan-400 mr-3 mt-1">▹</span>
-                                            <span>{point}</span>
-                                        </li>
-                                    ))}
+                                    {exp.points.map((point, idx) => {
+                                        const isTechLine = point.startsWith('Tech:');
+                                        return (
+                                            <li
+                                                key={idx}
+                                                className={`font-medium flex items-start ${isTechLine ? 'text-cyan-300/90 mt-2' : 'text-white/90'}`}
+                                            >
+                                                <span className={`mr-3 mt-1 ${isTechLine ? 'text-saffron' : 'text-cyan-400'}`}>{isTechLine ? '⚙' : '▹'}</span>
+                                                <span>{isTechLine ? (
+                                                    <span className="text-sm">{point}</span>
+                                                ) : point}</span>
+                                            </li>
+                                        );
+                                    })}
                                 </ul>
                                 {exp.liveUrl && (
                                     <a

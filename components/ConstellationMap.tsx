@@ -72,10 +72,19 @@ export default function ConstellationMap() {
 
   return (
     <div className="w-full flex flex-col items-center">
+      <div
+        className="w-full rounded-xl p-4 md:p-6"
+        style={{
+          background: 'rgba(5, 5, 15, 0.75)',
+          backdropFilter: 'blur(16px)',
+          WebkitBackdropFilter: 'blur(16px)',
+          border: '1px solid rgba(139, 92, 246, 0.1)',
+        }}
+      >
       <svg
         viewBox="0 0 480 330"
         width="100%"
-        style={{ maxWidth: 700, display: 'block' }}
+        style={{ maxWidth: 700, display: 'block', margin: '0 auto' }}
         className="overflow-visible"
       >
         {/* Background stars */}
@@ -171,6 +180,7 @@ export default function ConstellationMap() {
           );
         })}
       </svg>
+      </div>
 
       <p style={{ color: 'rgba(255,255,255,0.2)', fontSize: '11px', marginTop: 8, letterSpacing: '0.05em' }}>
         hover a constellation to explore
