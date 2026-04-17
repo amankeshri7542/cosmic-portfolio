@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { getAllBlogs } from '@/lib/blog';
 import BlogsContent from './BlogsContent';
 
 export const metadata: Metadata = {
@@ -8,5 +9,6 @@ export const metadata: Metadata = {
 };
 
 export default function BlogsPage() {
-  return <BlogsContent />;
+  const blogs = getAllBlogs();
+  return <BlogsContent blogs={blogs} />;
 }

@@ -143,7 +143,7 @@ export default function Home() {
                 <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
               </Link>
               <a
-                href="/cloud.pdf"
+                href="/amankeshridotcom.pdf"
                 download
                 className="glass-cosmic px-8 py-4 hover:bg-green-600/30 text-white font-semibold rounded-full transition-all inline-flex items-center gap-2 border border-green-500/30 hover:border-green-400"
               >

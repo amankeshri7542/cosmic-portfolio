@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Mail, Github, Linkedin, Send, XCircle, Loader2 } from 'lucide-react';
+import { containsAbusiveWord } from '@/lib/abusiveWords';
 
 interface FormData {
     name: string;
@@ -14,11 +15,18 @@ interface FormData {
 
 export default function ContactContent() {
     const { register, handleSubmit, formState: { errors }, reset } = useForm<FormData>();
-    const [status, setStatus] = useState<'idle' | 'loading' | 'error'>('idle');
+    const [status, setStatus] = useState<'idle' | 'loading' | 'error' | 'abusive'>('idle');
     const [errorMessage, setErrorMessage] = useState('');
     const router = useRouter();
 
     const onSubmit = async (data: FormData) => {
+        // Abuse filter — client-side check before hitting the API
+        if (containsAbusiveWord(data.name) || containsAbusiveWord(data.message)) {
+            setStatus('abusive');
+            setTimeout(() => setStatus('idle'), 5000);
+            return;
+        }
+
         setStatus('loading');
         setErrorMessage('');
 
@@ -216,6 +224,26 @@ export default function ContactContent() {
                             </button>
 
                             <AnimatePresence>
+                                {status === 'abusive' && (
+                                    <motion.div
+                                        initial={{ opacity: 0, scale: 0.9, y: -10 }}
+                                        animate={{ opacity: 1, scale: 1, y: 0 }}
+                                        exit={{ opacity: 0, scale: 0.9 }}
+                                        className="flex flex-col items-center gap-2 text-center p-5 rounded-xl border"
+                                        style={{
+                                            background: 'rgba(239,68,68,0.08)',
+                                            borderColor: 'rgba(239,68,68,0.4)',
+                                        }}
+                                    >
+                                        <span className="text-3xl">🚫</span>
+                                        <p className="text-red-400 font-bold text-xl tracking-wide">
+                                            Nice try, BYE
+                                        </p>
+                                        <p className="text-red-300/70 text-sm">
+                                            Keep it civil. The cosmos is watching. 👁️
+                                        </p>
+                                    </motion.div>
+                                )}
                                 {status === 'error' && (
                                     <motion.div
                                         initial={{ opacity: 0, y: -10 }}

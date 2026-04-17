@@ -1,10 +1,10 @@
 'use client';
 
-import { motion } from 'framer-motion';
-import { ExternalLink, Github } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ExternalLink, Github, Network, X } from 'lucide-react';
 import Image from 'next/image';
 import { useTilt } from '@/hooks/useTilt';
-import React from 'react';
+import React, { useState } from 'react';
 
 const experiences = [
     {
@@ -43,6 +43,7 @@ const projects = [
         liveUrl: 'https://tinyurl.com/bddevjbv',
         githubUrl: '',
         image: '/alexaAI.png',
+        architectureUrl: '', // Add path like '/diagrams/alexa-arch.png'
     },
     {
         title: 'Mythos AI Studio',
@@ -52,6 +53,7 @@ const projects = [
         liveUrl: 'https://ai-img-uw5tcdkkkrpzafnnaiq8am.streamlit.app',
         githubUrl: '',
         image: '/mythos.jpeg',
+        architectureUrl: '',
     },
     {
         title: 'Foxpop.in',
@@ -61,6 +63,7 @@ const projects = [
         liveUrl: 'https://foxpop.in',
         githubUrl: '',
         image: '/foxpop.png',
+        architectureUrl: '',
     },
     {
         title: 'MedScan AI',
@@ -70,6 +73,7 @@ const projects = [
         liveUrl: 'https://med-scan-ai-web.vercel.app/',
         githubUrl: '',
         image: '/image.png',
+        architectureUrl: '',
     },
     {
         title: 'URL Shortener',
@@ -79,6 +83,7 @@ const projects = [
         liveUrl: 'https://url-shortner-woad-tau.vercel.app',
         githubUrl: '',
         image: '/url.png',
+        architectureUrl: '',
     },
     {
         title: 'Prompt Enhancer',
@@ -88,6 +93,7 @@ const projects = [
         liveUrl: 'https://prompt-inhancer.vercel.app',
         githubUrl: '',
         image: '/prompt.png',
+        architectureUrl: '',
     },
     {
         title: 'Serverless Notification System',
@@ -97,89 +103,162 @@ const projects = [
         liveUrl: '',
         githubUrl: '',
         image: '/aws-serverless.png',
+        architectureUrl: '',
     },
 ];
 
-function ProjectCard({ project, idx }: { project: typeof projects[0]; idx: number }) {
-    const { ref, style, onMouseMove, onMouseLeave } = useTilt(6);
-
+// ── Architecture Diagram Modal ────────────────────────────────────────────────
+function ArchitectureModal({ url, title, onClose }: { url: string; title: string; onClose: () => void }) {
     return (
         <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: idx * 0.1 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[200] flex items-center justify-center p-4"
+            style={{ background: 'rgba(0,0,0,0.85)', backdropFilter: 'blur(8px)' }}
+            onClick={onClose}
         >
-            <div
-                ref={ref}
-                onMouseMove={onMouseMove}
-                onMouseLeave={onMouseLeave}
-                style={style}
-                className="glass-cosmic rounded-xl overflow-hidden transition-all group flex flex-col h-full border border-purple-500/15 hover:border-purple-500/60 hover:shadow-[0_0_35px_rgba(139,92,246,0.35)]"
+            <motion.div
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.9, opacity: 0 }}
+                transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+                className="relative max-w-4xl w-full glass-cosmic rounded-2xl overflow-hidden"
+                onClick={(e) => e.stopPropagation()}
             >
-                {/* Project Image */}
-                <div className="relative h-48 bg-[rgba(10,10,20,0.8)] overflow-hidden">
+                {/* Header */}
+                <div className="flex items-center justify-between px-6 py-4 border-b border-purple-500/20">
+                    <div className="flex items-center gap-2">
+                        <Network size={18} className="text-cyan-300" />
+                        <span className="text-white font-semibold text-sm">{title} — System Design</span>
+                    </div>
+                    <button
+                        onClick={onClose}
+                        className="w-8 h-8 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/15 text-white/70 hover:text-white transition-all"
+                    >
+                        <X size={16} />
+                    </button>
+                </div>
+                {/* Diagram */}
+                <div className="relative w-full" style={{ minHeight: '400px', maxHeight: '70vh', overflow: 'auto' }}>
                     <Image
-                        src={project.image}
-                        alt={project.title}
-                        fill
-                        className="object-cover group-hover:scale-105 transition-transform duration-500"
+                        src={url}
+                        alt={`${title} system design`}
+                        width={1200}
+                        height={800}
+                        className="w-full h-auto object-contain"
+                        style={{ display: 'block' }}
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[rgba(10,10,20,0.9)] via-transparent to-transparent" />
                 </div>
-
-                {/* Project Details */}
-                <div className="p-6 flex-1 flex flex-col">
-                    <div className="flex items-start justify-between mb-3">
-                        <h3 className="text-xl font-bold text-white">
-                            {project.title}
-                        </h3>
-                    </div>
-
-                    <p className="text-white/85 font-medium leading-relaxed mb-4 text-sm flex-1">
-                        {project.description}
-                    </p>
-
-                    {/* Tech Stack */}
-                    <div className="flex flex-wrap gap-2 mb-4">
-                        {project.tech.map((tech) => (
-                            <span
-                                key={tech}
-                                className="px-3 py-1 bg-purple-500/20 text-purple-200 rounded-full text-xs font-semibold border border-purple-500/25"
-                            >
-                                {tech}
-                            </span>
-                        ))}
-                    </div>
-
-                    {/* Actions */}
-                    <div className="flex gap-3 mt-auto">
-                        {project.liveUrl && (
-                            <a
-                                href={project.liveUrl}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-cyan-600/20 hover:bg-cyan-600/30 text-cyan-300 font-semibold rounded-lg transition-all border border-cyan-500/30 hover:border-cyan-400 text-sm"
-                            >
-                                <ExternalLink size={16} />
-                                Live Demo
-                            </a>
-                        )}
-                        {project.githubUrl && (
-                            <a
-                                href={project.githubUrl}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-white/10 text-white/90 font-semibold rounded-lg transition-all border border-white/10 hover:border-white/20 text-sm"
-                            >
-                                <Github size={16} />
-                                Code
-                            </a>
-                        )}
-                    </div>
-                </div>
-            </div>
+            </motion.div>
         </motion.div>
+    );
+}
+
+// ── Project Card ──────────────────────────────────────────────────────────────
+function ProjectCard({ project, idx }: { project: typeof projects[0]; idx: number }) {
+    const { ref, style, onMouseMove, onMouseLeave } = useTilt(6);
+    const [showArch, setShowArch] = useState(false);
+
+    return (
+        <>
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: idx * 0.1 }}
+            >
+                <div
+                    ref={ref}
+                    onMouseMove={onMouseMove}
+                    onMouseLeave={onMouseLeave}
+                    style={style}
+                    className="glass-cosmic rounded-xl overflow-hidden transition-all group flex flex-col h-full border border-purple-500/15 hover:border-purple-500/60 hover:shadow-[0_0_35px_rgba(139,92,246,0.35)]"
+                >
+                    {/* Project Image */}
+                    <div className="relative h-48 bg-[rgba(10,10,20,0.8)] overflow-hidden">
+                        <Image
+                            src={project.image}
+                            alt={project.title}
+                            fill
+                            className="object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-[rgba(10,10,20,0.9)] via-transparent to-transparent" />
+                    </div>
+
+                    {/* Project Details */}
+                    <div className="p-6 flex-1 flex flex-col">
+                        <div className="flex items-start justify-between mb-3">
+                            <h3 className="text-xl font-bold text-white">
+                                {project.title}
+                            </h3>
+                        </div>
+
+                        <p className="text-white/85 font-medium leading-relaxed mb-4 text-sm flex-1">
+                            {project.description}
+                        </p>
+
+                        {/* Tech Stack */}
+                        <div className="flex flex-wrap gap-2 mb-4">
+                            {project.tech.map((tech) => (
+                                <span
+                                    key={tech}
+                                    className="px-3 py-1 bg-purple-500/20 text-purple-200 rounded-full text-xs font-semibold border border-purple-500/25"
+                                >
+                                    {tech}
+                                </span>
+                            ))}
+                        </div>
+
+                        {/* Actions */}
+                        <div className="flex flex-wrap gap-3 mt-auto">
+                            {project.liveUrl && (
+                                <a
+                                    href={project.liveUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-cyan-600/20 hover:bg-cyan-600/30 text-cyan-300 font-semibold rounded-lg transition-all border border-cyan-500/30 hover:border-cyan-400 text-sm"
+                                >
+                                    <ExternalLink size={16} />
+                                    Live Demo
+                                </a>
+                            )}
+                            {project.architectureUrl && (
+                                <button
+                                    onClick={() => setShowArch(true)}
+                                    className="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-purple-600/20 hover:bg-purple-600/30 text-purple-300 font-semibold rounded-lg transition-all border border-purple-500/30 hover:border-purple-400 text-sm"
+                                >
+                                    <Network size={16} />
+                                    Architecture
+                                </button>
+                            )}
+                            {project.githubUrl && (
+                                <a
+                                    href={project.githubUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-white/10 text-white/90 font-semibold rounded-lg transition-all border border-white/10 hover:border-white/20 text-sm"
+                                >
+                                    <Github size={16} />
+                                    Code
+                                </a>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            </motion.div>
+
+            {/* Architecture Modal */}
+            <AnimatePresence>
+                {showArch && project.architectureUrl && (
+                    <ArchitectureModal
+                        url={project.architectureUrl}
+                        title={project.title}
+                        onClose={() => setShowArch(false)}
+                    />
+                )}
+            </AnimatePresence>
+        </>
     );
 }
 
@@ -211,10 +290,10 @@ export default function WorkContent() {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ delay: i * 0.15 }}
-                                className="glass-cosmic p-8 rounded-xl"
+                                className="glass-cosmic p-6 md:p-8 rounded-xl"
                             >
                                 <div className="flex items-start gap-4 mb-6">
-                                    <div className="relative w-16 h-16 flex-shrink-0">
+                                    <div className="relative w-14 h-14 md:w-16 md:h-16 flex-shrink-0">
                                         <Image
                                             src={exp.logo}
                                             alt={exp.company}
@@ -222,11 +301,11 @@ export default function WorkContent() {
                                             className="object-cover rounded-lg"
                                         />
                                     </div>
-                                    <div className="flex-1">
-                                        <h3 className="text-2xl font-semibold text-white mb-2">
+                                    <div className="flex-1 min-w-0">
+                                        <h3 className="text-lg md:text-2xl font-semibold text-white mb-2 leading-snug">
                                             {exp.title}
                                         </h3>
-                                        <p className="text-cyan-300 font-semibold">{exp.company}</p>
+                                        <p className="text-cyan-300 font-semibold text-sm md:text-base">{exp.company}</p>
                                         <p className="text-[#C0C0C0] text-sm font-medium">{exp.period}</p>
                                     </div>
                                 </div>
@@ -238,7 +317,7 @@ export default function WorkContent() {
                                                 key={idx}
                                                 className={`font-medium flex items-start ${isTechLine ? 'text-cyan-300/90 mt-2' : 'text-white/90'}`}
                                             >
-                                                <span className={`mr-3 mt-1 ${isTechLine ? 'text-saffron' : 'text-cyan-400'}`}>{isTechLine ? '⚙' : '▹'}</span>
+                                                <span className={`mr-3 mt-1 flex-shrink-0 ${isTechLine ? 'text-saffron' : 'text-cyan-400'}`}>{isTechLine ? '⚙' : '▹'}</span>
                                                 <span>{isTechLine ? (
                                                     <span className="text-sm">{point}</span>
                                                 ) : point}</span>
@@ -269,7 +348,7 @@ export default function WorkContent() {
                     transition={{ delay: 0.3 }}
                 >
                     <h2 className="text-3xl font-bold mb-8 text-cyan-300">Projects</h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8">
                         {projects.map((project, idx) => (
                             <ProjectCard key={idx} project={project} idx={idx} />
                         ))}
