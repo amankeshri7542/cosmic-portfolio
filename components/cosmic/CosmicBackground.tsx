@@ -66,8 +66,6 @@ export default function CosmicBackground() {
       </Canvas>
       {/* Dark overlay for text contrast */}
       <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-black/60 pointer-events-none" />
-      {/* Dawn mode warm nebula overlay — toggled via CSS class */}
-      <div className="dawn-nebula-overlay absolute inset-0 pointer-events-none" />
     </div>
   );
 }

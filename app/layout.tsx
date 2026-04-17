@@ -9,7 +9,6 @@ import ScrollProgress from "@/components/ScrollProgress";
 import CosmicCursor from "@/components/CosmicCursor";
 import CosmicLoader from "@/components/CosmicLoader";
 import PageTransition from "@/components/PageTransition";
-import ThemeToggle from "@/components/ThemeToggle";
 import CommandPalette from "@/components/CommandPalette";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
@@ -74,7 +73,6 @@ export default function RootLayout({
         <ScrollProgress />
         <CosmicCursor />
         <Navigation />
-        <ThemeToggle />
         <CommandPalette />
         <WelcomePopup />
         <PageTransition>{children}</PageTransition>
