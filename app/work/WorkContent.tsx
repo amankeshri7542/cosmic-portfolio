@@ -168,12 +168,13 @@ function ProjectCard({ project, idx }: { project: typeof projects[0]; idx: numbe
                 viewport={{ once: true }}
                 transition={{ delay: idx * 0.1 }}
             >
+                <div className="aurora-card rounded-xl h-full">
                 <div
                     ref={ref}
                     onMouseMove={onMouseMove}
                     onMouseLeave={onMouseLeave}
                     style={style}
-                    className="glass-cosmic rounded-xl overflow-hidden transition-all group flex flex-col h-full border border-purple-500/15 hover:border-purple-500/60 hover:shadow-[0_0_35px_rgba(139,92,246,0.35)]"
+                    className="glass-cosmic rounded-xl overflow-hidden transition-all group flex flex-col h-full border border-purple-500/15 hover:border-purple-500/40"
                 >
                     {/* Project Image */}
                     <div className="relative h-48 bg-[rgba(10,10,20,0.8)] overflow-hidden">
@@ -246,6 +247,7 @@ function ProjectCard({ project, idx }: { project: typeof projects[0]; idx: numbe
                         </div>
                     </div>
                 </div>
+                </div>{/* /aurora-card */}
             </motion.div>
 
             {/* Architecture Modal */}

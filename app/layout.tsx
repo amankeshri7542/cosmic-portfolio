@@ -10,6 +10,7 @@ import CosmicCursor from "@/components/CosmicCursor";
 import CosmicLoader from "@/components/CosmicLoader";
 import PageTransition from "@/components/PageTransition";
 import ThemeToggle from "@/components/ThemeToggle";
+import CommandPalette from "@/components/CommandPalette";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 const cinzel = Cinzel({ subsets: ["latin"], variable: "--font-cinzel" });
@@ -74,6 +75,7 @@ export default function RootLayout({
         <CosmicCursor />
         <Navigation />
         <ThemeToggle />
+        <CommandPalette />
         <WelcomePopup />
         <PageTransition>{children}</PageTransition>
         <Footer />

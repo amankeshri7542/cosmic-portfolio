@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import ConstellationMap from '@/components/ConstellationMap';
+import GitHubActivity from '@/components/GitHubActivity';
 
 const timeline = [
     {
@@ -135,6 +136,21 @@ export default function AboutContent() {
                             ))}
                         </div>
                     </div>
+                </motion.div>
+
+                {/* GitHub Activity Feed */}
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.3 }}
+                    className="mt-16"
+                >
+                    <h3 className="text-3xl font-semibold text-white mb-6 text-center">
+                        <span className="text-glow-white">Live</span>{' '}
+                        <span className="text-saffron">Activity</span>
+                    </h3>
+                    <GitHubActivity />
                 </motion.div>
             </div>
         </main>

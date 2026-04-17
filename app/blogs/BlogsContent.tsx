@@ -35,10 +35,11 @@ export default function BlogsContent({ blogs }: { blogs: BlogMeta[] }) {
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: idx * 0.1 }}
+                                className="aurora-card rounded-xl h-full"
                             >
                                 <Link
                                     href={`/blogs/${blog.slug}`}
-                                    className="block glass-cosmic p-6 rounded-xl hover:border-purple-500/60 hover:shadow-[0_0_25px_rgba(139,92,246,0.2)] transition-all group h-full"
+                                    className="block glass-cosmic p-6 rounded-xl hover:border-purple-500/40 transition-all group h-full"
                                 >
                                     <div className="flex items-center gap-2 text-purple-400 text-xs font-semibold mb-3">
                                         <Calendar size={12} />

@@ -140,8 +140,50 @@ body::-webkit-scrollbar-thumb:hover {
   color: #ffffff;
 }
 
-/* ── Dawn Mode — ONLY header (nav) & footer get warm treatment ─────────────── */
-/* Body/main content stays dark — light is not visible in space ✨              */
+/* ── Aurora Border (Feature 2) ───────────────────────────────────────────────── */
+/* Wrap any card with aurora-card to get the rotating gradient border on hover   */
+
+@keyframes aurora-rotate {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.aurora-card {
+  position: relative;
+  isolation: isolate;
+}
+
+.aurora-card::before {
+  content: '';
+  position: absolute;
+  inset: -1.5px;
+  border-radius: inherit;
+  background: conic-gradient(
+    from 0deg,
+    #8b5cf6,
+    #3b82f6,
+    #22d3ee,
+    #E8A045,
+    #a78bfa,
+    #8b5cf6
+  );
+  opacity: 0;
+  z-index: -1;
+  transition: opacity 0.35s ease;
+  animation: aurora-rotate 3s linear infinite paused;
+}
+
+.aurora-card:hover::before {
+  opacity: 1;
+  animation-play-state: running;
+}
+
+/* ── Dawn Mode — Full warm theme ─────────────────────────────────────────────── */
+
+/* Body background shifts to deep warm void */
+html.dawn body {
+  background: #0e0600;
+}
 
 /* Nav warm background */
 html.dawn nav {
@@ -154,9 +196,24 @@ html.dawn nav .text-cyan-300 {
   color: #E8A045 !important;
 }
 
+/* All glass cards get warm tint */
+html.dawn .glass-cosmic {
+  background: rgba(22, 10, 2, 0.65) !important;
+  border-color: rgba(232, 160, 69, 0.18) !important;
+}
+
+/* Section headings shift from cyan to saffron */
+html.dawn .text-cyan-300 {
+  color: #E8A045 !important;
+}
+
+html.dawn .text-cyan-400 {
+  color: #d4883a !important;
+}
+
 /* Footer warm background */
 html.dawn footer {
-  background: rgba(28, 18, 6, 0.98) !important;
+  background: rgba(18, 8, 2, 0.98) !important;
   border-top-color: rgba(232, 160, 69, 0.25) !important;
 }
 
@@ -164,6 +221,22 @@ html.dawn footer {
 html.dawn footer .glass-cosmic {
   background: rgba(35, 24, 10, 0.7) !important;
   border-color: rgba(232, 160, 69, 0.15) !important;
+}
+
+/* Three.js canvas warm overlay */
+.dawn-nebula-overlay {
+  opacity: 0;
+  transition: opacity 0.8s ease;
+  background: linear-gradient(
+    135deg,
+    rgba(130, 55, 5, 0.5) 0%,
+    rgba(90, 35, 2, 0.4) 50%,
+    rgba(110, 45, 5, 0.45) 100%
+  );
+}
+
+html.dawn .dawn-nebula-overlay {
+  opacity: 1;
 }
 
 /* Scrollbar tint */
