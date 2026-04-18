@@ -20,6 +20,7 @@ const experiences = [
             'Tech: Next.js 14 · Express 5 · MongoDB Atlas · React Native (Expo) · OpenAI GPT-4o · Pinecone · Upstash Redis · AWS S3 · Vercel · Render',
         ],
         liveUrl: 'https://shiv-cement-app.vercel.app/',
+        architectureUrl: '/diagram-export-18-04-2026-22_29_24.png',
     },
     {
         title: 'Intern — Cybersecurity, Cloud Computing & Web Development',
@@ -31,6 +32,7 @@ const experiences = [
             'Identified and remediated 20+ security flaws using Nmap, Burp Suite, and Wireshark',
             'Built MERN modules with secure coding, cutting load times by 25%',
         ],
+        architectureUrl: '',
     },
 ];
 
@@ -152,6 +154,90 @@ function ArchitectureModal({ url, title, onClose }: { url: string; title: string
                 </div>
             </motion.div>
         </motion.div>
+    );
+}
+
+// ── Experience Card ──────────────────────────────────────────────────────────
+function ExperienceCard({ exp, i }: { exp: (typeof experiences)[number]; i: number }) {
+    const [showArch, setShowArch] = useState(false);
+
+    return (
+        <>
+            <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.15 }}
+                className="glass-cosmic p-6 md:p-8 rounded-xl"
+            >
+                <div className="flex items-start gap-4 mb-6">
+                    <div className="relative w-14 h-14 md:w-16 md:h-16 flex-shrink-0">
+                        <Image
+                            src={exp.logo}
+                            alt={exp.company}
+                            fill
+                            className="object-cover rounded-lg"
+                        />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                        <h3 className="text-lg md:text-2xl font-semibold text-white mb-2 leading-snug">
+                            {exp.title}
+                        </h3>
+                        <p className="text-cyan-300 font-semibold text-sm md:text-base">{exp.company}</p>
+                        <p className="text-[#C0C0C0] text-sm font-medium">{exp.period}</p>
+                    </div>
+                </div>
+                <ul className="space-y-3">
+                    {exp.points.map((point, idx) => {
+                        const isTechLine = point.startsWith('Tech:');
+                        return (
+                            <li
+                                key={idx}
+                                className={`font-medium flex items-start ${isTechLine ? 'text-cyan-300/90 mt-2' : 'text-white/90'}`}
+                            >
+                                <span className={`mr-3 mt-1 flex-shrink-0 ${isTechLine ? 'text-saffron' : 'text-cyan-400'}`}>{isTechLine ? '⚙' : '▹'}</span>
+                                <span>{isTechLine ? (
+                                    <span className="text-sm">{point}</span>
+                                ) : point}</span>
+                            </li>
+                        );
+                    })}
+                </ul>
+                <div className="flex flex-wrap gap-3 mt-6">
+                    {exp.liveUrl && (
+                        <a
+                            href={exp.liveUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2 px-4 py-2 bg-cyan-600/20 hover:bg-cyan-600/30 text-cyan-300 font-semibold rounded-lg transition-all border border-cyan-500/30 hover:border-cyan-400 text-sm"
+                        >
+                            <ExternalLink size={16} />
+                            View Live
+                        </a>
+                    )}
+                    {exp.architectureUrl && (
+                        <button
+                            onClick={() => setShowArch(true)}
+                            className="inline-flex items-center gap-2 px-4 py-2 bg-purple-600/20 hover:bg-purple-600/30 text-purple-300 font-semibold rounded-lg transition-all border border-purple-500/30 hover:border-purple-400 text-sm"
+                        >
+                            <Network size={16} />
+                            Architecture
+                        </button>
+                    )}
+                </div>
+            </motion.div>
+
+            <AnimatePresence>
+                {showArch && exp.architectureUrl && (
+                    <ArchitectureModal
+                        url={exp.architectureUrl}
+                        title={exp.company}
+                        onClose={() => setShowArch(false)}
+                    />
+                )}
+            </AnimatePresence>
+        </>
     );
 }
 
@@ -286,59 +372,7 @@ export default function WorkContent() {
                     <h2 className="text-3xl font-bold mb-8 text-cyan-300">Experience</h2>
                     <div className="space-y-8">
                         {experiences.map((exp, i) => (
-                            <motion.div
-                                key={i}
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ delay: i * 0.15 }}
-                                className="glass-cosmic p-6 md:p-8 rounded-xl"
-                            >
-                                <div className="flex items-start gap-4 mb-6">
-                                    <div className="relative w-14 h-14 md:w-16 md:h-16 flex-shrink-0">
-                                        <Image
-                                            src={exp.logo}
-                                            alt={exp.company}
-                                            fill
-                                            className="object-cover rounded-lg"
-                                        />
-                                    </div>
-                                    <div className="flex-1 min-w-0">
-                                        <h3 className="text-lg md:text-2xl font-semibold text-white mb-2 leading-snug">
-                                            {exp.title}
-                                        </h3>
-                                        <p className="text-cyan-300 font-semibold text-sm md:text-base">{exp.company}</p>
-                                        <p className="text-[#C0C0C0] text-sm font-medium">{exp.period}</p>
-                                    </div>
-                                </div>
-                                <ul className="space-y-3">
-                                    {exp.points.map((point, idx) => {
-                                        const isTechLine = point.startsWith('Tech:');
-                                        return (
-                                            <li
-                                                key={idx}
-                                                className={`font-medium flex items-start ${isTechLine ? 'text-cyan-300/90 mt-2' : 'text-white/90'}`}
-                                            >
-                                                <span className={`mr-3 mt-1 flex-shrink-0 ${isTechLine ? 'text-saffron' : 'text-cyan-400'}`}>{isTechLine ? '⚙' : '▹'}</span>
-                                                <span>{isTechLine ? (
-                                                    <span className="text-sm">{point}</span>
-                                                ) : point}</span>
-                                            </li>
-                                        );
-                                    })}
-                                </ul>
-                                {exp.liveUrl && (
-                                    <a
-                                        href={exp.liveUrl}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="inline-flex items-center gap-2 mt-6 px-4 py-2 bg-cyan-600/20 hover:bg-cyan-600/30 text-cyan-300 font-semibold rounded-lg transition-all border border-cyan-500/30 hover:border-cyan-400 text-sm"
-                                    >
-                                        <ExternalLink size={16} />
-                                        View Live
-                                    </a>
-                                )}
-                            </motion.div>
+                            <ExperienceCard key={i} exp={exp} i={i} />
                         ))}
                     </div>
                 </motion.div>
