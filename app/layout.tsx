@@ -3,10 +3,10 @@ import { Inter, Cinzel } from "next/font/google";
 import "./globals.css";
 import Navigation from "@/components/Navigation";
 import ShaderBackground from "@/components/cosmic/ShaderBackground";
+import CosmicBackground from "@/components/cosmic/CosmicBackground";
 import WelcomePopup from "@/components/WelcomePopup";
 import Footer from "@/components/Footer";
 import ScrollProgress from "@/components/ScrollProgress";
-import CosmicCursor from "@/components/CosmicCursor";
 import CosmicLoader from "@/components/CosmicLoader";
 import PageTransition from "@/components/PageTransition";
 import CommandPalette from "@/components/CommandPalette";
@@ -70,8 +70,8 @@ export default function RootLayout({
       <body className={`${inter.variable} ${cinzel.variable} antialiased font-sans bg-cosmic-void text-gray-200`}>
         <CosmicLoader />
         <ShaderBackground />
+        <CosmicBackground />
         <ScrollProgress />
-        <CosmicCursor />
         <Navigation />
         <CommandPalette />
         <WelcomePopup />

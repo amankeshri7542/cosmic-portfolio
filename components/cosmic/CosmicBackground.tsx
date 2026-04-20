@@ -9,7 +9,7 @@ import SatelliteModel from './SatelliteModel';
 
 export default function CosmicBackground() {
   return (
-    <div className="fixed inset-0 -z-10">
+    <div className="fixed inset-0 -z-[5] pointer-events-none">
       <Canvas
         camera={{
           position: [0, 0, 10],
@@ -64,8 +64,6 @@ export default function CosmicBackground() {
         <pointLight position={[5, 5, 5]} intensity={1.2} color="#a78bfa" />
         <pointLight position={[-3, -2, 3]} intensity={0.6} color="#06b6d4" />
       </Canvas>
-      {/* Dark overlay for text contrast */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-black/60 pointer-events-none" />
     </div>
   );
 }
