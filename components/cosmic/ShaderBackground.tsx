@@ -289,8 +289,8 @@ export default function ShaderBackground() {
         ref={canvasRef}
         className="fixed inset-0 w-full h-full block"
       />
-      {/* Subtle overlay for text readability */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/40 pointer-events-none" />
+      {/* Overlay for text readability */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/25 to-black/50 pointer-events-none" />
     </div>
   );
 }

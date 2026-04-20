@@ -4,7 +4,6 @@ import { Canvas } from '@react-three/fiber';
 import { Suspense } from 'react';
 import Starfield from './Starfield';
 import NebulaCloud from './NebulaCloud';
-import CosmicDust from './CosmicDust';
 import SatelliteModel from './SatelliteModel';
 
 export default function CosmicBackground() {
@@ -53,8 +52,6 @@ export default function CosmicBackground() {
             speed={0.00033}
             shape="sphere"
           />
-
-          <CosmicDust count={400} speed={0.88} />
 
           {/* 3D Satellite - scroll-reactive */}
           <SatelliteModel />
