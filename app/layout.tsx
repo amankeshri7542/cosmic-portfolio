@@ -6,7 +6,7 @@ import ShaderBackground from "@/components/cosmic/ShaderBackground";
 import WelcomePopup from "@/components/WelcomePopup";
 import Footer from "@/components/Footer";
 import ScrollProgress from "@/components/ScrollProgress";
-
+import CosmicCursor from "@/components/CosmicCursor";
 import CosmicLoader from "@/components/CosmicLoader";
 import PageTransition from "@/components/PageTransition";
 import CommandPalette from "@/components/CommandPalette";
@@ -71,7 +71,7 @@ export default function RootLayout({
         <CosmicLoader />
         <ShaderBackground />
         <ScrollProgress />
-
+        <CosmicCursor />
         <Navigation />
         <CommandPalette />
         <WelcomePopup />
