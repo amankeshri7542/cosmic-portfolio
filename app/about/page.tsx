@@ -1,11 +1,7 @@
-import type { Metadata } from 'next';
-import AboutContent from './AboutContent';
+import { pageMetadata } from "@/lib/seo";
+import AboutContent from "./AboutContent";
 
-export const metadata: Metadata = {
-  title: 'About',
-  description:
-    'Learn about Aman Kumar — Cloud & GenAI Engineer specializing in AWS Serverless, AI-powered tools, and scalable infrastructure.',
-};
+export const metadata = pageMetadata("/about", "About Aman Kumar", "Meet Aman Kumar, a full-stack software engineer working across business software, Rust, PostgreSQL and AWS.");
 
 export default function AboutPage() {
   return <AboutContent />;

@@ -1,0 +1,77 @@
+import assert from "node:assert/strict";
+import fs from "node:fs";
+const { chromium } = await import(process.env.PLAYWRIGHT_MODULE || "playwright");
+const origin = process.env.PORTFOLIO_URL || "http://127.0.0.1:3000";
+const dir = "docs/qa/refinement";
+fs.mkdirSync(dir, { recursive: true });
+const report = { checks: [], errors: [] };
+const check = (name, value) => { assert.ok(value, name); report.checks.push(name); };
+const browser = await chromium.launch({ channel: "chrome", headless: true });
+try {
+  const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+  page.on("pageerror", error => report.errors.push(error.message));
+  const shot = name => page.screenshot({ path: `${dir}/${name}.png` });
+  await page.goto(origin, { waitUntil: "networkidle" });
+  const blogLink = page.getByRole("navigation", { name: "Main navigation", exact: true }).getByRole("link", { name: "Blog", exact: true });
+  check("Blog is explicitly named in navigation", await blogLink.count() === 1);
+  await blogLink.click();
+  await page.waitForURL("**/blogs");
+  check("Blog has a visible real article", await page.getByRole("link", { name: "Read the article", exact: true }).first().isVisible());
+  await shot("blog-desktop");
+  await page.getByRole("link", { name: "Read the article", exact: true }).first().click();
+  await page.waitForURL("**/blogs/aws-db");
+  check("Blog remains active on article pages", await page.getByRole("navigation", { name: "Main navigation", exact: true }).getByRole("link", { name: "Blog", exact: true }).getAttribute("aria-current") === "page");
+  await page.getByRole("link", { name: "All field notes" }).click();
+  await page.waitForURL("**/blogs");
+  check("Article returns to the blog", await page.locator(".blog-feature").first().isVisible());
+  await page.goto(origin, { waitUntil: "networkidle" });
+  await shot("home-desktop");
+  await page.locator("#blog").scrollIntoViewIfNeeded();
+  await page.waitForFunction(() => document.querySelector(".site-header").classList.contains("header-solid"));
+  check("Blog navigation remains visible while scrolled", await page.locator(".site-header").evaluate(e => { const r = e.getBoundingClientRect(); return r.top === 0 && r.bottom > 0; }));
+  check("Homepage has a prominent blog entry", await page.getByRole("link", { name: "Visit the blog", exact: true }).isVisible());
+  check("Homepage previews the actual published article", (await page.locator("#blog").innerText()).includes("AWS Database Ecosystem"));
+  await shot("home-blog-preview");
+  await page.locator(".interference-study").scrollIntoViewIfNeeded();
+  await page.getByRole("button", { name: "Pause drift", exact: true }).click();
+  check("Optical drift pauses", await page.locator(".interference-moving").evaluate(e => getComputedStyle(e).animationPlayState) === "paused");
+  const first = await page.locator(".interference-art").screenshot();
+  await page.getByRole("slider", { name: "Pattern alignment" }).fill("-9");
+  const second = await page.locator(".interference-art").screenshot();
+  check("Alignment changes the optical pattern", !first.equals(second));
+  await page.getByRole("slider", { name: "Pattern alignment" }).focus();
+  await page.keyboard.press("ArrowRight");
+  check("Optical alignment works by keyboard", await page.getByRole("slider", { name: "Pattern alignment" }).inputValue() === "-8.5");
+  await shot("optical-study");
+  await page.getByRole("button", { name: "Let it drift", exact: true }).click();
+  check("Drift resumes", await page.locator(".interference-moving").evaluate(e => getComputedStyle(e).animationPlayState) === "running");
+  for (const width of [360, 390, 768, 1920]) {
+    await page.setViewportSize({ width, height: width < 500 ? 844 : 1000 });
+    await page.goto(origin, { waitUntil: "networkidle" });
+    check(`${width}px homepage fits`, await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
+    await shot(`home-${width}`);
+    if (width === 390) {
+      await page.getByRole("button", { name: "Open navigation" }).click();
+      await page.getByRole("navigation", { name: "Mobile navigation", exact: true }).getByRole("link", { name: "Blog", exact: true }).click();
+      await page.waitForURL("**/blogs");
+      check("Blog is reachable from the mobile menu", await page.locator(".blog-feature").first().isVisible());
+      await shot("blog-mobile");
+      check("Mobile blog fits", await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
+      await page.goto(origin, { waitUntil: "networkidle" });
+      await page.locator(".interference-study").scrollIntoViewIfNeeded();
+      await shot("optical-mobile");
+      check("Mobile optical study fits", await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
+    }
+  }
+  check("No runtime errors", report.errors.length === 0);
+  await page.close();
+  const reduced = await browser.newPage({ reducedMotion: "reduce" });
+  await reduced.goto(origin, { waitUntil: "networkidle" });
+  await reduced.locator(".interference-study").scrollIntoViewIfNeeded();
+  check("Reduced motion stops optical animation", await reduced.locator(".interference-moving").evaluate(e => getComputedStyle(e).animationName) === "none");
+  await reduced.getByRole("slider", { name: "Pattern alignment" }).fill("10");
+  check("Reduced motion still allows deliberate adjustment", await reduced.getByRole("slider", { name: "Pattern alignment" }).inputValue() === "10");
+  await reduced.close();
+  fs.writeFileSync(`${dir}/verification.json`, JSON.stringify(report,null,2));
+  console.log(JSON.stringify({ passed: report.checks.length, errors: report.errors },null,2));
+} finally { await browser.close(); }

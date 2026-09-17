@@ -1,11 +1,7 @@
-import type { Metadata } from 'next';
+import { pageMetadata } from "@/lib/seo";
 import ContactContent from './ContactContent';
 
-export const metadata: Metadata = {
-  title: 'Contact',
-  description:
-    'Get in touch with Aman Kumar for freelance projects, full-time opportunities, or technical consultations.',
-};
+export const metadata = pageMetadata("/contact", "Contact Aman Kumar", "Talk with Aman Kumar about software engineering, projects and collaboration. Based in Bengaluru, India.");
 
 export default function ContactPage() {
   return <ContactContent />;

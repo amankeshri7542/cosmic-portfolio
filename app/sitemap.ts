@@ -1,13 +1,8 @@
-import type { MetadataRoute } from 'next';
-
-export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://amankeshri.com';
-
-  return [
-    { url: baseUrl, lastModified: new Date(), changeFrequency: 'monthly', priority: 1 },
-    { url: `${baseUrl}/about`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
-    { url: `${baseUrl}/work`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
-    { url: `${baseUrl}/blogs`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.6 },
-    { url: `${baseUrl}/contact`, lastModified: new Date(), changeFrequency: 'yearly', priority: 0.5 },
-  ];
+import type { MetadataRoute } from "next";
+import { getAllBlogs } from "@/lib/blog";
+import { SITE_URL } from "@/lib/seo";
+export const dynamic = "force-dynamic";
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const posts = (await getAllBlogs()).filter(post => !post.sample);
+  return [...["","/about","/work","/blogs","/contact"].map(path => ({url:`${SITE_URL}${path}`})),...posts.map(post => ({url:`${SITE_URL}/blogs/${post.slug}`,lastModified:post.modifiedISO || post.dateISO}))];
 }

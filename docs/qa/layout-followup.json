@@ -1,0 +1,23 @@
+[
+  {
+    "width": 360,
+    "noOverflow": true,
+    "geometry": {
+      "copy": 576.1875,
+      "art": 420,
+      "hero": 1080
+    }
+  },
+  {
+    "width": 390,
+    "noOverflow": true,
+    "geometry": {
+      "copy": 506.609375,
+      "art": 420,
+      "hero": 1080
+    }
+  },
+  {
+    "archiveImage": "loaded and uncropped"
+  }
+]

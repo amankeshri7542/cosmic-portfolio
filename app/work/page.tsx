@@ -1,11 +1,7 @@
-import type { Metadata } from 'next';
+import { pageMetadata } from "@/lib/seo";
 import WorkContent from './WorkContent';
 
-export const metadata: Metadata = {
-  title: 'Work & Projects',
-  description:
-    'Explore projects by Aman Kumar — AI assistants, e-commerce platforms, serverless systems, and more.',
-};
+export const metadata = pageMetadata("/work", "Software engineering projects", "Explore Aman Kumar’s business software, procurement workflows, real-time systems, cloud projects and independent experiments.");
 
 export default function WorkPage() {
   return <WorkContent />;

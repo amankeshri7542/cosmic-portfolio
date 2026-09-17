@@ -1,36 +1,55 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Aman Kumar — Cosmic Field Journal
 
-## Getting Started
+An illustrated portfolio with an etched planetary landscape, engineering diagrams and three small, meaningful Blender studies. Next.js 15, React 19 and React Three Fiber. No production deployment has been made.
 
-First, run the development server:
+## Run
 
-```bash
+```sh
+npm ci
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Production preview: `npm run build` followed by `npm start`. Open http://localhost:3000.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Verify
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```sh
+npm run lint
+npx tsc --noEmit
+npm run build
+```
 
-## Learn More
+`scripts/verify-journal.mjs` runs the current browser checks. Point `PLAYWRIGHT_MODULE` to an installed Playwright module if it is not in the local dependencies. `PORTFOLIO_URL` defaults to http://127.0.0.1:3000. Contact requests are mocked; verification sends no real messages. Results and screenshots are saved in `docs/qa/journal/`.
 
-To learn more about Next.js, take a look at the following resources:
+## Content and visuals
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- `lib/portfolio.ts`: verified resume facts and every preserved project.
+- `components/observatory/`: lazy visible-object renderers, native controls, illustrated delivery demonstration and scroll effects.
+- `public/observatory/`: cosmic illustration, three model exports and matching stills. Images are served through Next.js image optimization.
+- `assets/blender/observatory-studies.blend`: editable object studies. See the adjacent Python builders and optimization script.
+- `docs/cosmic-field-journal.md`: revised direction and research; `docs/concepts.png`: three contrasting concept studies.
+- The newest resume is served at `/amankeshridotcom.pdf`; the previous public resume is retained separately.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Reduced motion keeps static illustrations and avoids WebGL/model downloads. Render failures retain the relevant still, project content and navigation. Model rendering pauses by unmounting when outside the viewport. No audio, portrait, blocking loader or visitor-name popup.
 
-## Deploy on Vercel
+The contact endpoint retains the existing SMTP configuration (`EMAIL_USER`, `EMAIL_PASS`). Optional legacy image generation returns 503 when unconfigured. Credentials are not needed to view the portfolio.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Refinement
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The Blog now has explicit persistent navigation and a homepage article preview. The revised landscape and interactive moiré study add visible psychedelic influences through color, flowing contours and perception. `scripts/verify-refinement.mjs` covers these additions; see `docs/refinement-direction.md` and `docs/qa/refinement/`.
+
+## Responsive verification
+
+`scripts/verify-responsive.mjs` checks every page at 14 viewport sizes, expanded diagrams and mobile touch interactions. Use the same `PLAYWRIGHT_MODULE` and `PORTFOLIO_URL` settings as the other browser checks. See `docs/responsive-qa.md` and `docs/qa/responsive/` for results.
+
+## Object controls and sample essays
+
+Three illustrated sample essays accompany the original AWS article. Object sliders also work with rendered views when WebGL is unavailable. `scripts/verify-controls-blogs.mjs` covers these changes; see `docs/controls-and-sample-blogs.md` for the reproduction and verification.
+
+## Historical work
+
+The previous Quiet Engine direction, its assets, reports and old verification script are retained for recovery, but are superseded and not used by the current visible site. The user rejected that direction. Current QA refers only to `verify-journal.mjs` and `docs/qa/journal/`.
+
+## Private editor and SEO
+
+Open `/write` to create, preview, save and publish Markdown articles. See [the publishing guide](docs/publishing-seo-plan.md) for usage, configuration, password rotation and content storage. Blog changes publish immediately from Postgres; code changes deploy through GitHub/Vercel.

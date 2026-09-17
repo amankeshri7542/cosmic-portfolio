@@ -1,0 +1,6 @@
+.env*
+.agents/
+.codex/
+.playwright-mcp/
+assets/
+docs/

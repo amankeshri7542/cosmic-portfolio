@@ -1,81 +1,44 @@
 import type { Metadata } from "next";
-import { Inter, Cinzel } from "next/font/google";
+import { Manrope, Space_Grotesk, Caveat, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 import Navigation from "@/components/Navigation";
-import ShaderBackground from "@/components/cosmic/ShaderBackground";
-import CosmicBackground from "@/components/cosmic/CosmicBackground";
-import WelcomePopup from "@/components/WelcomePopup";
+import { pageMetadata, SITE_URL, JsonLd } from "@/lib/seo";
 import Footer from "@/components/Footer";
-import ScrollProgress from "@/components/ScrollProgress";
-import CosmicLoader from "@/components/CosmicLoader";
-import PageTransition from "@/components/PageTransition";
-import CommandPalette from "@/components/CommandPalette";
+const sans = Manrope({
+  subsets: ["latin"],
+  variable: "--font-body",
+  display: "swap",
+});
+const display = Space_Grotesk({
+  subsets: ["latin"],
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
-const cinzel = Cinzel({ subsets: ["latin"], variable: "--font-cinzel" });
-
+  variable: "--font-display",
+  display: "swap",
+});
+const hand = Caveat({ subsets: ["latin"], variable: "--font-hand", display: "swap" });
+const mono = IBM_Plex_Mono({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-mono",
+  display: "swap",
+});
 export const metadata: Metadata = {
-  title: {
-    default: "Aman Kumar - Cloud & GenAI Engineer",
-    template: "%s | Aman Kumar",
-  },
-  description:
-    "Cloud & GenAI Engineer specializing in AWS Serverless architectures, AI-powered creative tools, and scalable infrastructure.",
-  keywords: [
-    "Aman Kumar",
-    "Full Stack Developer",
-    "Cloud Engineer",
-    "GenAI",
-    "AWS",
-    "Serverless",
-    "Next.js",
-    "React",
-    "DevOps",
-    "Portfolio",
-  ],
-  openGraph: {
-    title: "Aman Kumar - Cloud & GenAI Engineer",
-    description:
-      "Cloud & GenAI Engineer building AI-powered tools and scalable serverless infrastructure on AWS.",
-    url: "https://amankeshri.com",
-    siteName: "Aman Kumar Portfolio",
-    images: [
-      {
-        url: "https://amankeshri.com/aman1.png",
-        width: 800,
-        height: 800,
-        alt: "Aman Kumar",
-      },
-    ],
-    locale: "en_US",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Aman Kumar - Cloud & GenAI Engineer",
-    description:
-      "Cloud & GenAI Engineer building AI-powered tools and scalable serverless infrastructure on AWS.",
-    images: ["https://amankeshri.com/aman1.png"],
-  },
-  metadataBase: new URL("https://amankeshri.com"),
+  ...pageMetadata("/", "Aman Kumar — Full-stack Software Engineer", "Aman Kumar builds business software, Rust and PostgreSQL workflows, real-time systems and AWS infrastructure. Explore his projects and technical writing."),
+  metadataBase: new URL(SITE_URL),
+  title: { default: "Aman Kumar — Full-stack Software Engineer", template: "%s | Aman Kumar" },
 };
-
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} ${cinzel.variable} antialiased font-sans bg-cosmic-void text-gray-200`}>
-        <CosmicLoader />
-        <ShaderBackground />
-        <CosmicBackground />
-        <ScrollProgress />
+      <body className={`${sans.variable} ${display.variable} ${hand.variable} ${mono.variable}`}>
+        <a className="skip-link" href="#main-content">
+          Skip to content
+        </a>
+        <JsonLd data={{ "@context":"https://schema.org", "@type":"Person", "@id":`${SITE_URL}/#person`, name:"Aman Kumar", url:SITE_URL, jobTitle:"Full-stack Software Engineer", sameAs:["https://github.com/amankeshri7542","https://www.linkedin.com/in/aman-kumar-keshri"] }} />
         <Navigation />
-        <CommandPalette />
-        <WelcomePopup />
-        <PageTransition>{children}</PageTransition>
+        {children}
         <Footer />
       </body>
     </html>

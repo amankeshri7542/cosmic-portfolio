@@ -1,0 +1,26 @@
+{
+  "checks": [
+    "Blog is explicitly named in navigation",
+    "Blog has a visible real article",
+    "Blog remains active on article pages",
+    "Article returns to the blog",
+    "Blog navigation remains visible while scrolled",
+    "Homepage has a prominent blog entry",
+    "Homepage previews the actual published article",
+    "Optical drift pauses",
+    "Alignment changes the optical pattern",
+    "Optical alignment works by keyboard",
+    "Drift resumes",
+    "360px homepage fits",
+    "390px homepage fits",
+    "Blog is reachable from the mobile menu",
+    "Mobile blog fits",
+    "Mobile optical study fits",
+    "768px homepage fits",
+    "1920px homepage fits",
+    "No runtime errors",
+    "Reduced motion stops optical animation",
+    "Reduced motion still allows deliberate adjustment"
+  ],
+  "errors": []
+}

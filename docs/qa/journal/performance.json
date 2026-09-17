@@ -1,0 +1,10 @@
+{
+  "meanFrameMs": 16.673033707848425,
+  "p95FrameMs": 18.200000002980232,
+  "illustration": "http://127.0.0.1:3000/_next/image?url=%2Fobservatory%2Fcosmic-landscape.png&w=1920&q=75",
+  "viewport": [
+    1440,
+    900
+  ],
+  "context": "Chrome headless on this Mac; not a physical-phone benchmark"
+}

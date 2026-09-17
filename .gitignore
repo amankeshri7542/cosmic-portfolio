@@ -40,3 +40,7 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 public/Gateway-Core.glb
+
+# Local visual QA logs and Blender's automatic backup; deliverables stay tracked.
+.playwright-mcp/
+assets/blender/*.blend1

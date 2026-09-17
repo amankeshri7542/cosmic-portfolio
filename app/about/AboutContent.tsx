@@ -1,158 +1,130 @@
-'use client';
-
-import { motion } from 'framer-motion';
-import Image from 'next/image';
-import ConstellationMap from '@/components/ConstellationMap';
-import GitHubActivity from '@/components/GitHubActivity';
-
-const timeline = [
-    {
-        year: '2021 – 2025',
-        title: 'B.E. Computer Science',
-        institution: 'JSS Academy of Technical Education, Bangalore',
-        type: 'education',
-    },
-    {
-        year: 'Feb 2026',
-        title: 'AWS Certified Solutions Architect – Associate',
-        institution: 'Amazon Web Services',
-        type: 'certification',
-    },
-    {
-        year: 'October 2025',
-        title: 'AWS Certified Cloud Practitioner',
-        institution: 'Amazon Web Services',
-        type: 'certification',
-    },
-    {
-        year: 'March 2023',
-        title: 'CODEATHON – 3rd Place',
-        institution: 'JSSATE Bengaluru',
-        type: 'achievement',
-    },
-];
-
+import Link from "next/link";
+import GitHubActivity from "@/components/GitHubActivity";
+import { profile } from "@/lib/portfolio";
 export default function AboutContent() {
-    return (
-        <main className="relative z-10 pt-24 pb-16 px-4">
-            <div className="max-w-6xl mx-auto">
-                <motion.h1
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="text-4xl md:text-6xl font-bold mb-12 text-white"
-                >
-                    <span className="text-glow-white">About Me</span>
-                </motion.h1>
-
-                <div className="grid md:grid-cols-2 gap-12 mb-16">
-                    {/* Profile & Bio */}
-                    <motion.div
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: 0.2 }}
-                        className="space-y-6"
-                    >
-                        <div className="flex items-center gap-6 mb-8">
-                            <div className="relative w-32 h-32 rounded-full overflow-hidden ring-4 ring-purple-500 glow-purple">
-                                <Image
-                                    src="/aman2.png"
-                                    alt="Aman Kumar"
-                                    fill
-                                    className="object-cover"
-                                />
-                            </div>
-                            <div>
-                                <h2 className="text-2xl font-bold text-white mb-2">Aman Kumar</h2>
-                                <p className="text-cyan-300 text-lg font-medium">Cloud & GenAI Engineer</p>
-                            </div>
-                        </div>
-
-                        <div className="glass-cosmic p-6 rounded-xl space-y-4 leading-relaxed">
-                            <p className="text-white/90 font-medium text-base md:text-lg">
-                                DevOps & Cloud Engineer with a passion for building AI-powered creative tools. I specialize in <span className="text-cyan-300 font-semibold">AWS Serverless architectures</span>, Infrastructure as Code (Terraform), and orchestrating <span className="text-purple-300 font-semibold">Multi-Modal AI systems</span>.
-                            </p>
-                            <p className="text-white/90 font-medium text-base md:text-lg">
-                                Experienced in deploying scalable MERN applications and managing production Linux environments. My focus is on engineering robust, secure, and scalable systems with clean, maintainable code.
-                            </p>
-                            <p className="text-white/90 font-medium text-base md:text-lg">
-                                Beyond coding, I&apos;m passionate about fitness and maintaining a healthy work-life balance. The discipline from the gym translates directly to my approach in software development.
-                            </p>
-                        </div>
-                    </motion.div>
-
-                    {/* Skills Constellation */}
-                    <motion.div
-                        initial={{ opacity: 0, x: 20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: 0.3 }}
-                        className="flex flex-col justify-center"
-                    >
-                        <h3 className="text-xl font-semibold text-white mb-4 text-center">
-                            Skill <span className="text-saffron">Nakshatras</span>
-                        </h3>
-                        <ConstellationMap />
-                    </motion.div>
-                </div>
-
-                {/* Timeline */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.5 }}
-                >
-                    <h3 className="text-3xl font-semibold text-white mb-8 text-center">
-                        <span className="text-glow-white">Journey</span>
-                    </h3>
-                    <div className="relative">
-                        {/* Timeline line: left on mobile, center on md+ */}
-                        <div className="absolute left-4 md:left-1/2 md:transform md:-translate-x-1/2 w-0.5 h-full bg-gradient-to-b from-purple-500 via-blue-500 to-cyan-500"></div>
-
-                        <div className="space-y-12">
-                            {timeline.map((item, idx) => (
-                                <motion.div
-                                    key={idx}
-                                    initial={{ opacity: 0, x: idx % 2 === 0 ? -50 : 50 }}
-                                    whileInView={{ opacity: 1, x: 0 }}
-                                    viewport={{ once: true }}
-                                    transition={{ delay: idx * 0.2 }}
-                                    className={`flex items-center gap-4 md:gap-8 ${idx % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'
-                                        }`}
-                                >
-                                    {/* Mobile: always left-aligned. Desktop: alternating */}
-                                    <div className={`flex-1 pl-10 md:pl-0 ${idx % 2 === 0 ? 'md:text-right' : 'md:text-left'}`}>
-                                        <div className="glass-cosmic p-6 rounded-xl inline-block hover:border-purple-500/50 transition-all">
-                                            <span className="text-cyan-300 text-sm font-semibold">{item.year}</span>
-                                            <h4 className="text-xl font-semibold text-white mt-2">{item.title}</h4>
-                                            <p className="text-white/85 font-medium mt-1">{item.institution}</p>
-                                        </div>
-                                    </div>
-
-                                    <div className="absolute left-2 md:relative md:left-auto z-10">
-                                        <div className="w-5 h-5 bg-purple-500 rounded-full ring-4 ring-purple-500/30 animate-pulse"></div>
-                                    </div>
-
-                                    <div className="hidden md:block flex-1"></div>
-                                </motion.div>
-                            ))}
-                        </div>
-                    </div>
-                </motion.div>
-
-                {/* GitHub Activity Feed */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.3 }}
-                    className="mt-16"
-                >
-                    <h3 className="text-3xl font-semibold text-white mb-6 text-center">
-                        <span className="text-glow-white">Live</span>{' '}
-                        <span className="text-saffron">Activity</span>
-                    </h3>
-                    <GitHubActivity />
-                </motion.div>
-            </div>
-        </main>
-    );
+  return (
+    <main id="main-content" className="reading-page section-shell about-page">
+      <header className="page-heading">
+        <p className="eyebrow">Aman Kumar / Bengaluru, India</p>
+        <h1>
+          Hello, I’m Aman.
+          <br />
+          <em>A work in progress.</em>
+        </h1>
+      </header>
+      <div className="about-grid">
+        <div className="about-body">
+          <p>
+            I’m a full-stack software engineer and AWS Certified Solutions
+            Architect. I build across the interface, backend, database and
+            deployment — because a feature is only useful when all of them work
+            together.
+          </p>
+          <p>
+            Currently, I’m a Full-Stack Software Engineering Intern at CodeApto,
+            working on an enterprise Procure-to-Pay platform with React,
+            TypeScript, Rust, Axum and PostgreSQL.
+          </p>
+          <p>
+            My independent work includes a production ERP for a hardware
+            business, serverless communication systems, and smaller experiments
+            in cloud and AI.
+          </p>
+          <p>
+            I care about the details that are easy to miss: a transaction that
+            cannot leave half a record, a permission checked at the right
+            boundary, a deployment that can be rolled back.
+          </p>
+          <div className="ram-inscription">
+            <span lang="hi">राम</span>
+            <span>
+              Beyond the complexity,
+              <br />
+              Ram Naam is my quieter center.
+            </span>
+          </div>
+          <p className="about-letter-signature">Still learning. Still looking up.</p>
+          <div className="text-links">
+            <a href={profile.resume} target="_blank" rel="noopener noreferrer">
+              Read my resume ↗
+            </a>
+            <Link href="/contact">Start a conversation ↗</Link>
+          </div>
+        </div>
+        <aside className="about-aside">
+          <h2>Learning, with intent.</h2>
+          <ul className="credentials">
+            <li>
+              <span>Feb 2026</span>
+              <strong>AWS Certified Solutions Architect — Associate</strong>
+              <p>Amazon Web Services · SAA-C03</p>
+            </li>
+            <li>
+              <span>Apr 2026</span>
+              <strong>
+                Advanced Certification in Cloud Computing & DevOps
+              </strong>
+              <p>E&ICT Academy, IIT Guwahati</p>
+            </li>
+            <li>
+              <span>Oct 2025</span>
+              <strong>AWS Certified Cloud Practitioner</strong>
+              <p>Amazon Web Services</p>
+            </li>
+            <li>
+              <span>2021 — 2025</span>
+              <strong>B.E. Computer Science</strong>
+              <p>JSS Academy of Technical Education, Bengaluru</p>
+            </li>
+            <li>
+              <span>Mar 2023</span>
+              <strong>CODEATHON — 3rd place</strong>
+              <p>JSS Academy of Technical Education</p>
+            </li>
+          </ul>
+        </aside>
+      </div>
+      <section className="career-section">
+        <p className="eyebrow">Experience</p>
+        <h2>The work so far.</h2>
+        <div className="career-entry">
+          <time>Jun 2026 — present</time>
+          <div>
+            <h3>CodeApto India Private Limited</h3>
+            <p>
+              Full-Stack Software Engineering Intern. Enterprise procurement
+              workflows, tenant-specific data handling, workflow rules and tests
+              across React, Rust and PostgreSQL.
+            </p>
+          </div>
+        </div>
+        <div className="career-entry">
+          <time>Aug 2025 — Mar 2026</time>
+          <div>
+            <h3>Shiv Cement Store</h3>
+            <p>
+              Contract full-stack development. A business platform connecting a
+              customer website, staff mobile app, REST API and an AI-assisted
+              enquiry flow.
+            </p>
+            <Link className="text-link" href="/work#shiv-cement">
+              Explore the project ↗
+            </Link>
+          </div>
+        </div>
+        <div className="career-entry">
+          <time>Feb 2025 — Aug 2025</time>
+          <div>
+            <h3>Technosys IT Management</h3>
+            <p>
+              Cloud & Full-Stack Engineering Intern. AWS migration, EC2
+              deployment, Route 53, IAM and Security Groups, with Docker and
+              GitHub Actions release workflows.
+            </p>
+          </div>
+        </div>
+      </section>
+      <GitHubActivity />
+    </main>
+  );
 }

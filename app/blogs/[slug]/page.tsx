@@ -1,85 +1,49 @@
-import { notFound } from 'next/navigation';
-import type { Metadata } from 'next';
-import Link from 'next/link';
-import { ArrowLeft, Calendar } from 'lucide-react';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
-import { getBlogBySlug, getAllBlogs } from '@/lib/blog';
-
+/* Author-supplied image URLs load in the browser, avoiding server-side fetches of arbitrary URLs. */
+/* eslint-disable @next/next/no-img-element */
+import { notFound } from "next/navigation";
+import type { Metadata } from "next";
+import Link from "next/link";
+import BlogIllustration from "@/components/BlogIllustration";
+import DeliveryStudy from "@/components/observatory/DeliveryStudy";
+import InterferenceStudy from "@/components/observatory/InterferenceStudy";
+import MarkdownArticle from "@/components/MarkdownArticle";
+import { pageMetadata, SITE_URL, JsonLd } from "@/lib/seo";
+import { getBlogBySlug } from "@/lib/blog";
 interface Props {
   params: Promise<{ slug: string }>;
 }
-
-export async function generateStaticParams() {
-  return getAllBlogs().map((b) => ({ slug: b.slug }));
-}
-
+export const dynamic = "force-dynamic";
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const blog = getBlogBySlug(slug);
-  if (!blog) return { title: 'Blog Not Found' };
-  return {
-    title: blog.title,
-    description: blog.excerpt,
-  };
-}
+  const blog = await getBlogBySlug(slug);
+  if (!blog) return {title:"Note not found",robots:{index:false,follow:false}};
+  const metadata = pageMetadata(`/blogs/${slug}`,blog.title,blog.excerpt);
+  const image = `${SITE_URL}/blogs/${slug}/opengraph-image`;
+  return {...metadata,robots:blog.sample ? {index:false,follow:true} : {index:true,follow:true},openGraph:{...metadata.openGraph,type:"article",publishedTime:blog.dateISO,modifiedTime:blog.modifiedISO || blog.dateISO,authors:[`${SITE_URL}/about`],images:[{url:image,width:1200,height:630,alt:blog.title}]},twitter:{card:"summary_large_image",title:blog.title,description:blog.excerpt,images:[image]}};
 
+}
 export default async function BlogPostPage({ params }: Props) {
   const { slug } = await params;
-  const blog = getBlogBySlug(slug);
+  const blog = await getBlogBySlug(slug);
   if (!blog) notFound();
-
   return (
-    <main className="relative z-10 pt-24 pb-20 px-4">
-      <div className="max-w-3xl mx-auto">
-        {/* Back link */}
-        <Link
-          href="/blogs"
-          className="inline-flex items-center gap-2 text-white/50 hover:text-cyan-300 text-sm font-medium mb-10 transition-colors group"
-        >
-          <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
-          Back to Blog
-        </Link>
-
-        {/* Meta */}
-        <div className="flex items-center gap-2 text-purple-400 text-sm font-semibold mb-4">
-          <Calendar size={14} />
-          <span>{blog.date}</span>
-        </div>
-
-        <h1 className="text-3xl md:text-5xl font-bold text-white text-glow-white mb-12 leading-tight">
-          {blog.title}
-        </h1>
-
-        {/* Markdown content */}
-        <article className="prose prose-invert prose-lg max-w-none
-          prose-headings:text-white prose-headings:font-bold
-          prose-h1:text-3xl prose-h2:text-2xl prose-h3:text-xl
-          prose-p:text-white/85 prose-p:leading-relaxed prose-p:font-medium
-          prose-a:text-cyan-300 prose-a:no-underline hover:prose-a:underline
-          prose-strong:text-white prose-strong:font-bold
-          prose-code:text-purple-300 prose-code:bg-purple-500/10 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-sm
-          prose-pre:bg-[rgba(10,10,20,0.8)] prose-pre:border prose-pre:border-purple-500/20 prose-pre:rounded-xl
-          prose-li:text-white/85 prose-li:font-medium
-          prose-hr:border-purple-500/20
-          prose-blockquote:border-l-purple-400 prose-blockquote:text-white/70
-        ">
-          <ReactMarkdown remarkPlugins={[remarkGfm]}>
-            {blog.content}
-          </ReactMarkdown>
-        </article>
-
-        {/* Bottom back link */}
-        <div className="mt-16 pt-8 border-t border-purple-500/20">
-          <Link
-            href="/blogs"
-            className="inline-flex items-center gap-2 text-white/50 hover:text-cyan-300 text-sm font-medium transition-colors group"
-          >
-            <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
-            Back to all posts
-          </Link>
-        </div>
-      </div>
+    <main id="main-content" className="reading-page section-shell article-page">
+      <JsonLd data={{"@context":"https://schema.org","@graph":[{"@type":"BlogPosting",headline:blog.title,description:blog.excerpt,datePublished:blog.dateISO,dateModified:blog.modifiedISO || blog.dateISO,mainEntityOfPage:`${SITE_URL}/blogs/${slug}`,image:`${SITE_URL}/blogs/${slug}/opengraph-image`,author:{"@type":"Person","@id":`${SITE_URL}/#person`,name:"Aman Kumar",url:`${SITE_URL}/about`},inLanguage:"en"},{"@type":"BreadcrumbList",itemListElement:[{"@type":"ListItem",position:1,name:"Home",item:SITE_URL},{"@type":"ListItem",position:2,name:"Blog",item:`${SITE_URL}/blogs`},{"@type":"ListItem",position:3,name:blog.title,item:`${SITE_URL}/blogs/${slug}`}]}]}} />
+      <Link className="text-link" href="/blogs">
+        ← All field notes
+      </Link>
+      <header className="page-heading">
+        <p className="eyebrow">{blog.sample && "Sample essay · "}{blog.date}</p>
+        <h1>{blog.title}</h1>
+      </header>
+      {blog.cover && <img className="article-cover" src={blog.cover} alt={blog.coverAlt || ""} referrerPolicy="no-referrer" />}
+      {blog.sample && ["one-sale-three-records","when-a-recipient-goes-offline","patterns-between-patterns"].includes(slug) && <BlogIllustration slug={blog.slug} />}
+      <article><MarkdownArticle content={blog.content} /></article>
+      {slug === "when-a-recipient-goes-offline" && <section className="article-experiment"><p className="eyebrow">Try the delivery sketch</p><h2>Take one recipient offline.</h2><DeliveryStudy /></section>}
+      {slug === "patterns-between-patterns" && <section className="article-optical"><InterferenceStudy /></section>}
+      <Link className="text-link" href="/blogs">
+        ← Back to field notes
+      </Link>
     </main>
   );
 }
