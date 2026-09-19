@@ -1,6 +1,6 @@
-# Aman Kumar — Cosmic Field Journal
+# Aman Kumar — Full-stack engineering
 
-An illustrated portfolio with an etched planetary landscape, engineering diagrams and three small, meaningful Blender studies. Next.js 15, React 19 and React Three Fiber. No production deployment has been made.
+A portfolio of full-stack, AI and cloud work. The design uses dark translucent surfaces, project case studies, and a lightweight CSS 3D technology stack. Next.js 15 and React 19.
 
 ## Run
 
@@ -24,13 +24,14 @@ npm run build
 ## Content and visuals
 
 - `lib/portfolio.ts`: verified resume facts and every preserved project.
-- `components/observatory/`: lazy visible-object renderers, native controls, illustrated delivery demonstration and scroll effects.
+- `components/TechStack.tsx`: selectable CSS 3D technology layers, with links to project evidence.
+- `components/observatory/`: delivery and optical demonstrations used in case studies and articles.
 - `public/observatory/`: cosmic illustration, three model exports and matching stills. Images are served through Next.js image optimization.
 - `assets/blender/observatory-studies.blend`: editable object studies. See the adjacent Python builders and optimization script.
 - `docs/cosmic-field-journal.md`: revised direction and research; `docs/concepts.png`: three contrasting concept studies.
 - The newest resume is served at `/amankeshridotcom.pdf`; the previous public resume is retained separately.
 
-Reduced motion keeps static illustrations and avoids WebGL/model downloads. Render failures retain the relevant still, project content and navigation. Model rendering pauses by unmounting when outside the viewport. No audio, portrait, blocking loader or visitor-name popup.
+The current homepage loads no WebGL or 3D models. Reduced motion stops the CSS stack animation; every technology layer remains accessible through buttons. Older Blender assets and reports are retained as design history.
 
 The contact endpoint retains the existing SMTP configuration (`EMAIL_USER`, `EMAIL_PASS`). Optional legacy image generation returns 503 when unconfigured. Credentials are not needed to view the portfolio.
 
@@ -53,3 +54,7 @@ The previous Quiet Engine direction, its assets, reports and old verification sc
 ## Private editor and SEO
 
 Open `/write` to create, preview, save and publish Markdown articles. See [the publishing guide](docs/publishing-seo-plan.md) for usage, configuration, password rotation and content storage. Blog changes publish immediately from Postgres; code changes deploy through GitHub/Vercel.
+
+## Engineering-first design
+
+See `docs/engineering-redesign.md`. The homepage uses local technology SVGs, CSS transforms and a perspective-projected canvas ribbon, with no WebGL runtime or model downloads. `scripts/verify-engineering.mjs` verifies the current design; the earlier visual scripts remain historical and target the superseded journal layout.

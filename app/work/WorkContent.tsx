@@ -4,11 +4,11 @@ export default function WorkContent() {
   return (
     <main id="main-content" className="reading-page section-shell work-page">
       <header className="page-heading">
-        <p className="eyebrow">The engineering notebook</p>
+        <p className="eyebrow">Selected work / full-stack, AI & cloud</p>
         <h1>
-          Things I’ve put
+          Software built
           <br />
-          <em>into the world.</em>
+          <em>for the real world.</em>
         </h1>
         <p>
           Business software, safe workflows and real-time infrastructure. A

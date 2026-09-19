@@ -5,7 +5,7 @@ export default function Footer() {
     <footer className="site-footer">
       <div>
         <Link href="/">Aman Kumar</Link>
-        <span>Made with attention. Kept with curiosity.</span>
+        <span>Full-stack engineering · AI · Cloud</span>
       </div>
       <nav aria-label="Social links">
         <a href={profile.github} target="_blank" rel="noopener noreferrer">

@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import CommandPalette from "@/components/CommandPalette";
 const links = [
   { name: "Work", href: "/work" },
+  { name: "Stack", href: "/#stack" },
   { name: "About", href: "/about" },
   { name: "Blog", href: "/blogs" },
   { name: "Contact", href: "/contact" },
@@ -24,7 +25,7 @@ export default function Navigation() {
       className={`site-header${scrolled || pathname !== "/" ? " header-solid" : ""}`}
     >
       <Link href="/" aria-label="Aman Kumar — home" className="wordmark">
-        <span className="name-script">ak.</span><span className="wordmark-name">Aman Kumar<span>Engineer &amp; curious human</span></span>
+        <span className="name-script">ak.</span><span className="wordmark-name">Aman Kumar<span>Full-stack · AI · Cloud</span></span>
       </Link>
       <nav aria-label="Main navigation" className="desktop-nav">
         {links.map((link) => (

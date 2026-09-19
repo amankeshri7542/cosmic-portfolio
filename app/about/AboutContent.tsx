@@ -7,9 +7,9 @@ export default function AboutContent() {
       <header className="page-heading">
         <p className="eyebrow">Aman Kumar / Bengaluru, India</p>
         <h1>
-          Hello, I’m Aman.
+          Understand the need.
           <br />
-          <em>A work in progress.</em>
+          <em>Build the whole thing.</em>
         </h1>
       </header>
       <div className="about-grid">
@@ -29,6 +29,11 @@ export default function AboutContent() {
             My independent work includes a production ERP for a hardware
             business, serverless communication systems, and smaller experiments
             in cloud and AI.
+          </p>
+          <p>
+            I start by understanding what the business and its users need. Then I
+            carry the work from the interface through the backend and into
+            production, with an eye on how the product will grow.
           </p>
           <p>
             I care about the details that are easy to miss: a transaction that

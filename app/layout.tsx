@@ -1,15 +1,17 @@
 import type { Metadata } from "next";
-import { Manrope, Space_Grotesk, Caveat, IBM_Plex_Mono } from "next/font/google";
+import { Manrope, Sora, Caveat, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
+import "./engineering.css";
 import Navigation from "@/components/Navigation";
 import { pageMetadata, SITE_URL, JsonLd } from "@/lib/seo";
 import Footer from "@/components/Footer";
+import StackAtmosphere from "@/components/StackAtmosphere";
 const sans = Manrope({
   subsets: ["latin"],
   variable: "--font-body",
   display: "swap",
 });
-const display = Space_Grotesk({
+const display = Sora({
   subsets: ["latin"],
 
   variable: "--font-display",
@@ -33,6 +35,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${sans.variable} ${display.variable} ${hand.variable} ${mono.variable}`}>
+        <StackAtmosphere />
         <a className="skip-link" href="#main-content">
           Skip to content
         </a>
