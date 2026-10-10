@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { credentials, education, experience, profile, stack, SITE_URL } from "@/content/profile";
 import { JsonLd, pageMetadata, personId } from "@/lib/seo";
 import { Tulsi } from "@/components/about/Tulsi";
+import { Portrait } from "@/components/Portrait";
 import styles from "./about.module.css";
 
 export const metadata: Metadata = pageMetadata(
@@ -11,9 +11,6 @@ export const metadata: Metadata = pageMetadata(
   "About Aman Kumar",
   "Aman Kumar is a full-stack software engineer in Bengaluru working across React, TypeScript, Rust, PostgreSQL and AWS. Experience, education, certifications and how he works.",
 );
-
-// Set when the portrait is supplied: { src, width, height, alt }.
-const portrait: { src: string; width: number; height: number; alt: string } | null = null;
 
 const principles = [
   { title: "Start with the business", body: "Who uses it, what slows them down, what must never be wrong. A useful product begins with the right problem." },
@@ -24,7 +21,7 @@ const principles = [
 export default function AboutPage() {
   return (
     <div className={`shell ${styles.page}`}>
-      <header className={styles.head} data-has-portrait={portrait ? "" : undefined}>
+      <header className={styles.head} data-has-portrait="">
         <div className={styles.intro}>
           <p className="label label--caps">About</p>
           <h1>Hello, I’m Aman.</h1>
@@ -42,12 +39,9 @@ export default function AboutPage() {
             <Link className="button" href="/contact">Get in touch</Link>
           </p>
         </div>
-        {portrait && (
-          <figure className={styles.portrait}>
-            <Image src={portrait.src} alt={portrait.alt} width={portrait.width} height={portrait.height} sizes="(max-width: 860px) 100vw, 36vw" priority />
-            <figcaption className="label">Printed as a cyanotype. Bengaluru, 2026.</figcaption>
-          </figure>
-        )}
+        <div className={styles.portrait}>
+          <Portrait priority />
+        </div>
       </header>
 
       <section aria-labelledby="how-title" className={styles.section}>

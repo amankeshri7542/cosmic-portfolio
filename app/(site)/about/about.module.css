@@ -8,8 +8,8 @@
   .intro p { color: var(--ink-2); font-size: var(--step-1); }
   .intro .lede { color: var(--ink); }
   .actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 0.5rem; }
-  .portrait { display: grid; gap: 0.6rem; border: 1px solid var(--line-strong); padding: 12px; }
-  .portrait img { width: 100%; height: auto; }
+  .head[data-has-portrait] { align-items: center; }
+  .portrait { display: grid; justify-items: center; }
 
   .section { display: grid; gap: 1.6rem; padding-top: 2rem; border-top: 1px solid var(--line); }
   .principles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2rem; }
@@ -39,6 +39,7 @@
 
   @media (max-width: 860px) {
     .head[data-has-portrait], .principles, .split, .quiet { grid-template-columns: 1fr; }
+    .portrait { order: -1; }
     .stack div { grid-template-columns: 1fr; gap: 0.2rem; }
   }
 }

@@ -78,3 +78,15 @@ test("the Motion toggle turns the scroll animation off and on @desktop-only", as
   await page.getByRole("button", { name: "Motion off" }).click();
   await expect(page.locator("html")).toHaveClass(/story-live/);
 });
+
+test.describe("portrait", () => {
+  test("builds in, and its stack logos link into the story", async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: "reduce" }); // floating logos never settle for the test runner
+    await page.goto("/about");
+    const fig = page.locator("figure[data-size]").first();
+    await expect(fig).toHaveAttribute("data-built");
+    await expect(fig.getByRole("img", { name: /Aman Kumar, smiling/ })).toBeVisible();
+    await fig.getByRole("link", { name: /PostgreSQL/ }).click();
+    await expect(page).toHaveURL(/\/#data$/);
+  });
+});

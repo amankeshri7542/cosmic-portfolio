@@ -1,12 +1,17 @@
 import { credentials, education, experience } from "@/content/profile";
+import { Portrait } from "@/components/Portrait";
 import styles from "./Experience.module.css";
 
 export function Experience() {
   return (
     <section className={`shell ${styles.wrap}`} aria-labelledby="exp-title">
+      <aside className={styles.me}>
+        <Portrait size="md" />
+      </aside>
+      <div className={styles.main}>
       <header className={styles.head} data-reveal>
-        <p className="label label--caps">Where I’ve done it</p>
-        <h2 id="exp-title">Experience</h2>
+        <p className="label label--caps">The person behind the build</p>
+        <h2 id="exp-title">Where I’ve done it</h2>
       </header>
       <ol role="list" className={styles.list}>
         {experience.map((r) => (
@@ -30,6 +35,7 @@ export function Experience() {
       <ul role="list" className={styles.creds} data-reveal>
         {credentials.map((c) => <li key={c.name}><span>{c.name}</span><span className="label">{c.date}</span></li>)}
       </ul>
+      </div>
     </section>
   );
 }
