@@ -209,3 +209,27 @@ test.describe("contact", () => {
     await expect(page.getByLabel("Message")).toHaveValue("This should stay in the box after a failure.");
   });
 });
+
+test.describe("sharing and AI discoverability", () => {
+  test("every page has a preview image, title and URL for social cards", async ({ request }) => {
+    for (const path of ["/", "/about", "/work", "/blogs", "/contact", "/blogs/aws-db"]) {
+      const html = await (await request.get(path)).text();
+      expect(html, path).toMatch(/<meta property="og:image" content="https:\/\/www\.amankeshri\.com\/[^"]*opengraph-image/);
+      expect(html, path).toContain('property="og:title"');
+      expect(html, path).toContain('property="og:url"');
+    }
+  });
+
+  test("answer engines get plain facts: llms files, FAQ and person data", async ({ request }) => {
+    const full = await (await request.get("/llms-full.txt")).text();
+    expect(full).toContain("Also known as: Aman Keshri");
+    expect(full).toContain("Hardware Store ERP");
+    expect(full).toContain("Beyond the Connection String"); // full article text included
+    const about = await (await request.get("/about")).text();
+    expect(about).toContain('"@type":"FAQPage"');
+    expect(about).toContain('"alternateName":["Aman Keshri","Aman Kumar Keshri"]');
+    const robots = await (await request.get("/robots.txt")).text();
+    expect(robots).toContain("User-Agent: OAI-SearchBot");
+    expect(robots).toContain("User-Agent: ClaudeBot");
+  });
+});

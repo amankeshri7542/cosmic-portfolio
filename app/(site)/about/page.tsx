@@ -4,6 +4,7 @@ import { credentials, education, experience, profile, stack, SITE_URL } from "@/
 import { JsonLd, pageMetadata, personId } from "@/lib/seo";
 import { Tulsi } from "@/components/about/Tulsi";
 import { Portrait } from "@/components/Portrait";
+import { faq, faqUpdated } from "@/content/faq";
 import styles from "./about.module.css";
 
 export const metadata: Metadata = pageMetadata(
@@ -56,7 +57,7 @@ export default function AboutPage() {
         </ul>
       </section>
 
-      <section aria-labelledby="exp-title" className={styles.section}>
+      <section aria-labelledby="exp-title" className={styles.section} id="experience">
         <h2 id="exp-title" className="label label--caps">Experience</h2>
         <ol role="list" className={styles.timeline}>
           {experience.map((r) => (
@@ -90,6 +91,19 @@ export default function AboutPage() {
         </div>
       </section>
 
+      <section aria-labelledby="faq-title" className={styles.section} id="quick-answers">
+        <h2 id="faq-title" className="label label--caps">Quick answers</h2>
+        <dl className={styles.faq}>
+          {faq.map((f) => (
+            <div key={f.q}>
+              <dt><h3>{f.q}</h3></dt>
+              <dd>{f.a}</dd>
+            </div>
+          ))}
+        </dl>
+        <p className="label">Last updated <time dateTime={faqUpdated}>{new Date(faqUpdated).toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" })}</time></p>
+      </section>
+
       <section aria-labelledby="quiet-title" className={`${styles.section} ${styles.quiet}`}>
         <Tulsi />
         <div>
@@ -107,7 +121,16 @@ export default function AboutPage() {
           "@type": "ProfilePage",
           url: `${SITE_URL}/about`,
           mainEntity: { "@id": personId },
-          dateModified: "2026-10-10",
+          dateModified: faqUpdated,
+        }}
+      />
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          url: `${SITE_URL}/about#quick-answers`,
+          dateModified: faqUpdated,
+          mainEntity: faq.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
         }}
       />
     </div>

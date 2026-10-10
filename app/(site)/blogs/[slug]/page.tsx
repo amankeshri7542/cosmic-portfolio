@@ -27,7 +27,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const data = await getRenderedPost(slug);
   if (!data) return { title: "Not found", robots: { index: false } };
   const { post } = data;
-  const base = pageMetadata(`/blogs/${slug}`, post.title, post.excerpt);
+  // Drop the site-wide preview so this article's own opengraph-image file is used.
+  const { images: _ogImages, ...og } = pageMetadata(`/blogs/${slug}`, post.title, post.excerpt).openGraph ?? {};
+  const { images: _twImages, ...tw } = (pageMetadata(`/blogs/${slug}`, post.title, post.excerpt).twitter ?? {}) as Record<string, unknown>;
+  void _ogImages; void _twImages;
+  const base = { ...pageMetadata(`/blogs/${slug}`, post.title, post.excerpt), openGraph: og, twitter: tw };
   return {
     ...base,
     robots: post.sample ? { index: false, follow: true } : undefined,

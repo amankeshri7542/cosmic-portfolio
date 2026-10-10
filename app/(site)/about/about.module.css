@@ -31,6 +31,13 @@
   .stack div { display: grid; grid-template-columns: 7rem 1fr; gap: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--line); }
   .stack dd { color: var(--ink-2); }
 
+  .faq { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0; border-top: 1px solid var(--line-strong); }
+  .faq > div { display: grid; gap: 0.5rem; padding: 1.4rem 1.4rem 1.4rem 0; border-bottom: 1px solid var(--line); }
+  .faq > div:nth-child(2n) { padding-left: 1.4rem; border-left: 1px solid var(--line); }
+  .faq h3 { font-size: var(--step-1); line-height: 1.25; }
+  .faq dd { margin: 0; color: var(--ink-2); line-height: 1.65; }
+  @media (max-width: 860px) { .faq { grid-template-columns: 1fr; } .faq > div:nth-child(2n) { padding-left: 0; border-left: 0; } }
+
   .quiet { grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: clamp(2rem, 6vw, 5rem); }
   .quiet > div { display: grid; gap: 1rem; max-width: 38rem; }
   .ram { font-family: var(--font-display); font-size: var(--step-3); line-height: 1.15; }

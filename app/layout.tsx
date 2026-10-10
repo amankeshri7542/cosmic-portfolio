@@ -14,6 +14,11 @@ export const metadata: Metadata = {
   openGraph: { type: "website", siteName: profile.name, locale: "en_IN" },
   twitter: { card: "summary_large_image" },
   formatDetection: { telephone: false, email: false, address: false },
+  // Search-engine ownership checks (Google Search Console, Bing Webmaster Tools), set as env vars on Vercel.
+  verification: {
+    google: process.env.GOOGLE_SITE_VERIFICATION || undefined,
+    other: process.env.BING_SITE_VERIFICATION ? { "msvalidate.01": process.env.BING_SITE_VERIFICATION } : undefined,
+  },
 };
 
 export const viewport: Viewport = { themeColor: "#0f2c57", colorScheme: "dark" };

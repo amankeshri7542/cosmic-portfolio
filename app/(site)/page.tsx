@@ -5,7 +5,18 @@ import { LatestNote } from "@/components/home/LatestNote";
 import { BuildYours } from "@/components/home/BuildYours";
 import { plates, prints } from "@/content/work";
 import { JsonLd } from "@/lib/seo";
-import { SITE_URL } from "@/content/profile";
+import { SITE_URL, profile } from "@/content/profile";
+import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
+
+export const metadata: Metadata = {
+  ...pageMetadata(
+    "/",
+    "Aman Kumar — full-stack software engineer, Bengaluru",
+    `${profile.summary} Scroll to watch a product get built, layer by layer — and try it.`,
+  ),
+  title: { absolute: "Aman Kumar — full-stack software engineer, Bengaluru" },
+};
 
 export default function Home() {
   return (
