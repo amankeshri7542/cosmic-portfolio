@@ -1,48 +1,37 @@
-import type { Metadata } from "next";
-import { Manrope, Sora, Caveat, IBM_Plex_Mono } from "next/font/google";
-import "./globals.css";
-import "./engineering.css";
-import Navigation from "@/components/Navigation";
-import { pageMetadata, SITE_URL, JsonLd } from "@/lib/seo";
-import Footer from "@/components/Footer";
-import StackAtmosphere from "@/components/StackAtmosphere";
-const sans = Manrope({
-  subsets: ["latin"],
-  variable: "--font-body",
-  display: "swap",
-});
-const display = Sora({
-  subsets: ["latin"],
+import "@/styles/global.css";
+import type { Metadata, Viewport } from "next";
+import { fontVariables } from "./fonts";
+import { SITE_URL, profile } from "@/content/profile";
 
-  variable: "--font-display",
-  display: "swap",
-});
-const hand = Caveat({ subsets: ["latin"], variable: "--font-hand", display: "swap" });
-const mono = IBM_Plex_Mono({
-  subsets: ["latin"],
-  weight: "400",
-  variable: "--font-mono",
-  display: "swap",
-});
 export const metadata: Metadata = {
-  ...pageMetadata("/", "Aman Kumar — Full-stack Software Engineer", "Aman Kumar builds business software, Rust and PostgreSQL workflows, real-time systems and AWS infrastructure. Explore his projects and technical writing."),
   metadataBase: new URL(SITE_URL),
-  title: { default: "Aman Kumar — Full-stack Software Engineer", template: "%s | Aman Kumar" },
+  title: { default: "Aman Kumar — full-stack software engineer, Bengaluru", template: "%s · Aman Kumar" },
+  description: profile.summary,
+  applicationName: "Aman Kumar",
+  authors: [{ name: profile.name, url: SITE_URL }],
+  creator: profile.name,
+  alternates: { canonical: SITE_URL, types: { "application/rss+xml": `${SITE_URL}/blogs/rss.xml` } },
+  openGraph: { type: "website", siteName: profile.name, locale: "en_IN" },
+  twitter: { card: "summary_large_image" },
+  formatDetection: { telephone: false, email: false, address: false },
 };
-export default function RootLayout({
-  children,
-}: Readonly<{ children: React.ReactNode }>) {
+
+export const viewport: Viewport = { themeColor: "#0f2c57", colorScheme: "dark" };
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <body className={`${sans.variable} ${display.variable} ${hand.variable} ${mono.variable}`}>
-        <StackAtmosphere />
-        <a className="skip-link" href="#main-content">
-          Skip to content
-        </a>
-        <JsonLd data={{ "@context":"https://schema.org", "@type":"Person", "@id":`${SITE_URL}/#person`, name:"Aman Kumar", url:SITE_URL, jobTitle:"Full-stack Software Engineer", sameAs:["https://github.com/amankeshri7542","https://www.linkedin.com/in/aman-kumar-keshri"] }} />
-        <Navigation />
+    <html lang="en" className={fontVariables} suppressHydrationWarning>
+      <head>
+        {/* Before first paint: let the home story start from an empty canvas when motion is allowed. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "(function(){try{var d=document.documentElement;if(!matchMedia('(prefers-reduced-motion: reduce)').matches){d.classList.add('story-motion');setTimeout(function(){if(!d.classList.contains('story-live'))d.classList.remove('story-motion')},6000)}}catch(e){}})()",
+          }}
+        />
+      </head>
+      <body>
         {children}
-        <Footer />
       </body>
     </html>
   );

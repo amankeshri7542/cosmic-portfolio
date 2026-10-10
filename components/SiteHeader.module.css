@@ -1,0 +1,39 @@
+@layer reset, tokens, base, layout, components, utilities;
+@layer components {
+  .header {
+    position: fixed;
+    inset: 0 0 auto;
+    z-index: 50;
+    height: var(--header-h);
+    transition: background-color var(--dur) var(--ease-out), border-color var(--dur);
+    border-bottom: 1px solid transparent;
+  }
+  :global(html[data-scrolled]) .header {
+    background: color-mix(in oklab, var(--ground) 82%, transparent);
+    backdrop-filter: blur(10px) saturate(1.1);
+    border-bottom-color: var(--line);
+  }
+  .bar { height: 100%; display: flex; align-items: center; gap: 1.5rem; }
+  .mark { display: grid; text-decoration: none; line-height: 1.1; margin-right: auto; }
+  .name { font-family: var(--font-display); font-size: 1.35rem; letter-spacing: -0.01em; }
+  .role { font-size: 12px; color: var(--ink-3); }
+  .nav { display: flex; gap: 1.6rem; }
+  .nav a {
+    position: relative;
+    text-decoration: none;
+    font-size: 0.98rem;
+    color: var(--ink-2);
+    padding-block: 0.4rem;
+  }
+  .nav a:hover, .nav a[aria-current="page"] { color: var(--ink); }
+  .nav a[aria-current="page"]::after {
+    content: "";
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    height: 1px;
+    background: var(--ink);
+  }
+  @media (max-width: 760px) {
+    .nav, .role { display: none; }
+  }
+}

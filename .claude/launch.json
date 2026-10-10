@@ -1,0 +1,7 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    { "name": "dev", "runtimeExecutable": "npx", "runtimeArgs": ["next", "dev", "-p", "3010"], "port": 3010 },
+    { "name": "prod", "runtimeExecutable": "npx", "runtimeArgs": ["next", "start", "-p", "3001", "-H", "127.0.0.1"], "port": 3001 }
+  ]
+}

@@ -44,3 +44,16 @@ public/Gateway-Core.glb
 # Local visual QA logs and Blender's automatic backup; deliverables stay tracked.
 .playwright-mcp/
 assets/blender/*.blend1
+
+# local secrets & snapshots
+.secrets/
+content-snapshot/
+.vercel
+.playwright-mcp/
+.qa/
+
+# local dev image uploads
+public/uploads-dev/
+test-results/
+playwright-report/
+.claude/settings.local.json

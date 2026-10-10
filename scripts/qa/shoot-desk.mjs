@@ -1,0 +1,17 @@
+import { chromium } from "@playwright/test";
+import { readFileSync } from "node:fs";
+const [root, out] = process.argv.slice(2);
+const pw = readFileSync(`${root}/.secrets/dev-editor-password`, "utf8");
+const b = await chromium.launch();
+const p = await b.newPage({ viewport: { width: 1440, height: 900 } });
+await p.goto("http://127.0.0.1:3001/write");
+await p.screenshot({ path: `${out}/desk-login.jpg`, quality: 80, type: "jpeg" });
+await p.getByLabel("Editor password").fill(pw);
+await p.getByRole("button", { name: "Sign in" }).click();
+await p.locator("#desk-list").getByRole("button").filter({ hasText: "Beyond the Connection" }).click();
+await p.waitForTimeout(1500);
+await p.screenshot({ path: `${out}/desk-editor.jpg`, quality: 80, type: "jpeg" });
+await p.getByRole("button", { name: /Publish/ }).first().click();
+await p.waitForTimeout(400);
+await p.screenshot({ path: `${out}/desk-publish.jpg`, quality: 80, type: "jpeg" });
+await b.close();

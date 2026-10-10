@@ -1,6 +1,9 @@
-import { ImageResponse } from "next/og";
-import SocialImage from "@/components/SocialImage";
-export const alt = "Aman Kumar — Full-stack Software Engineer. From UI to AI to cloud.";
-export const size = {width:1200,height:630};
+import { ogImage, ogSize } from "@/lib/og";
+
+export const alt = "Aman Kumar — Let’s build a product, together.";
+export const size = ogSize;
 export const contentType = "image/png";
-export default function Image() { return new ImageResponse(<SocialImage title="From the interface to the infrastructure." />, size); }
+
+export default function Image() {
+  return ogImage({ eyebrow: "Aman Kumar · full-stack engineer · Bengaluru", title: "Let’s build a product, together.", footer: "amankeshri.com" });
+}

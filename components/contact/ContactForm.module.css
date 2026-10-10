@@ -1,0 +1,34 @@
+@layer reset, tokens, base, layout, components, utilities;
+@layer components {
+  .form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem 1.5rem;
+    padding: clamp(1.25rem, 3vw, 2.25rem);
+    border: 1px solid var(--line-strong);
+    background: color-mix(in oklab, var(--sheet) 70%, transparent);
+    max-width: 60rem;
+    transition: background-color 900ms var(--ease-out);
+  }
+  .form[data-sending] { background: color-mix(in oklab, var(--paper) 10%, var(--sheet)); }
+  .row { display: grid; gap: 0.4rem; align-content: start; }
+  .wide { grid-column: 1 / -1; position: relative; }
+  .row input, .row textarea {
+    width: 100%;
+    min-height: 48px;
+    padding: 0.65rem 0.8rem;
+    background: color-mix(in oklab, var(--deep) 55%, transparent);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius);
+    font-size: 1.05rem;
+    line-height: 1.5;
+  }
+  .row textarea { resize: vertical; min-height: 12rem; }
+  .row [aria-invalid="true"] { border-color: var(--fail); }
+  .err { color: var(--fail); font-size: 0.95rem; }
+  .count { justify-self: end; color: var(--ink-3); }
+  .trap { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+  .foot { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; }
+  .fail { grid-column: 1 / -1; color: var(--ink); border-left: 2px solid var(--fail); padding-left: 0.8rem; }
+  @media (max-width: 640px) { .form { grid-template-columns: 1fr; } }
+}

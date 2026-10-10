@@ -1,137 +1,54 @@
-import { NextResponse } from 'next/server';
-import nodemailer from 'nodemailer';
+import { connection } from "next/server";
+import { checkContactToken, clientIp, hashIp, issueContactToken, RATE_LIMIT, SPAM_THRESHOLD, spamScore, validateContact } from "@/lib/contact";
+import { hasDatabase, sql } from "@/lib/db";
+import { ApiError, handle, json, readJson } from "@/lib/editor/http";
+import { sendContactMail } from "@/lib/mail";
 
-function escapeHtml(str: string): string {
-  return str
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#039;');
-}
+/** Issues the signed minimum-time token the form echoes back as `t`. */
+export const GET = handle(async () => {
+  await connection();
+  return json({ t: issueContactToken() });
+});
 
-// Simple in-memory rate limiting (resets on server restart)
-const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
+export const POST = handle(async (request: Request) => {
+  const body = await readJson(request, 20_000);
+  const bot = json({ ok: true });
 
-const RATE_LIMIT = 3; // Max requests
-const RATE_WINDOW = 60 * 60 * 1000; // 1 hour in ms
+  if (typeof body.company === "string" ? body.company.trim() !== "" : body.company != null) return bot;
+  const state = checkContactToken(typeof body.t === "string" ? body.t : "");
+  if (state === "invalid" || state === "too_fast") return bot;
+  if (state === "expired") throw new ApiError(400, "token_expired", "This form has expired. Reload the page and try again.");
 
-function checkRateLimit(ip: string): boolean {
-  const now = Date.now();
-  const record = rateLimitMap.get(ip);
+  const parsed = validateContact(body);
+  if (!parsed.ok) throw new ApiError(422, "invalid", "Check the highlighted fields.", { fields: parsed.fields });
+  const { name, email, message } = parsed.value;
 
-  if (!record || now > record.resetTime) {
-    rateLimitMap.set(ip, { count: 1, resetTime: now + RATE_WINDOW });
-    return true;
-  }
-
-  if (record.count >= RATE_LIMIT) {
-    return false;
-  }
-
-  record.count++;
-  return true;
-}
-
-export async function POST(request: Request) {
-  try {
-    // Get client IP for rate limiting
-    const forwarded = request.headers.get('x-forwarded-for');
-    const ip = forwarded ? forwarded.split(',')[0] : 'unknown';
-
-    // Check rate limit
-    if (!checkRateLimit(ip)) {
-      return NextResponse.json(
-        { error: 'Too many requests. Please try again later.' },
-        { status: 429 }
-      );
+  const ip = hashIp(clientIp(request));
+  const spam = spamScore(`${name} ${message}`) >= SPAM_THRESHOLD;
+  let id: number | null = null;
+  if (hasDatabase()) {
+    try {
+      const [{ n }] = await sql()<{ n: number }[]>`
+        SELECT count(*)::int AS n FROM portfolio_contact_messages WHERE ip_hash = ${ip} AND created_at > now() - make_interval(secs => ${RATE_LIMIT.windowSeconds})`;
+      if (n >= RATE_LIMIT.max) {
+        throw new ApiError(429, "rate_limited", "Too many messages. Please try again later.", {}, { "Retry-After": String(RATE_LIMIT.windowSeconds) });
+      }
+      const [row] = await sql()<{ id: number }[]>`
+        INSERT INTO portfolio_contact_messages (name, email, message, ip_hash, status) VALUES (${name}, ${email}, ${message}, ${ip}, ${spam ? "spam" : "queued"}) RETURNING id`;
+      id = row.id;
+    } catch (error) {
+      if (error instanceof ApiError) throw error;
+      console.error("[contact] database unavailable, sending without a record", error);
     }
-
-    const { name, email, message } = await request.json();
-
-    // Validation first (before escaping, to avoid calling escapeHtml on undefined)
-    if (!name || !email || !message) {
-      return NextResponse.json(
-        { error: 'All fields are required' },
-        { status: 400 }
-      );
-    }
-
-    // Sanitize inputs against HTML injection (after validation confirms they exist)
-    const safeName = escapeHtml(String(name));
-    const safeEmail = escapeHtml(String(email));
-    const safeMessage = escapeHtml(String(message));
-
-    // Email regex validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      return NextResponse.json(
-        { error: 'Invalid email address' },
-        { status: 400 }
-      );
-    }
-
-    // Create transporter
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-      },
-    });
-
-    // Send email
-    await transporter.sendMail({
-      from: process.env.EMAIL_USER,
-      to: process.env.EMAIL_USER,
-      subject: `Portfolio Contact: ${safeName}`,
-      html: `
-        <!DOCTYPE html>
-        <html>
-        <head>
-          <style>
-            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
-            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-            .header { background: linear-gradient(135deg, #8b5cf6, #3b82f6); color: white; padding: 20px; border-radius: 8px 8px 0 0; }
-            .content { background: #f9f9f9; padding: 20px; border-radius: 0 0 8px 8px; }
-            .field { margin-bottom: 15px; }
-            .label { font-weight: bold; color: #8b5cf6; }
-            .message-box { background: white; padding: 15px; border-left: 4px solid #8b5cf6; margin-top: 10px; }
-          </style>
-        </head>
-        <body>
-          <div class="container">
-            <div class="header">
-              <h2>New Portfolio Contact</h2>
-            </div>
-            <div class="content">
-              <div class="field">
-                <span class="label">From:</span> ${safeName}
-              </div>
-              <div class="field">
-                <span class="label">Email:</span> ${safeEmail}
-              </div>
-              <div class="field">
-                <span class="label">Message:</span>
-                <div class="message-box">${safeMessage}</div>
-              </div>
-            </div>
-          </div>
-        </body>
-        </html>
-      `,
-      replyTo: email,
-    });
-
-    return NextResponse.json(
-      { message: 'Email sent successfully' },
-      { status: 200 }
-    );
-  } catch (error) {
-    console.error('Email error:', error);
-    return NextResponse.json(
-      { error: 'Failed to send email. Please try again later.' },
-      { status: 500 }
-    );
   }
-}
+  if (spam) return bot;
+
+  const result = await sendContactMail(parsed.value);
+  if (id !== null) {
+    await sql()`UPDATE portfolio_contact_messages SET status = ${result.ok ? "sent" : "failed"}, error = ${result.ok ? null : result.error} WHERE id = ${id}`.catch(() => {});
+  }
+  if (!result.ok) console.error("[contact] mail failed:", result.error);
+  // A stored message is not lost, so only report failure when there is no record of it.
+  if (!result.ok && id === null) throw new ApiError(502, "send_failed", "Your message could not be sent. Please try again later.");
+  return json({ ok: true });
+});

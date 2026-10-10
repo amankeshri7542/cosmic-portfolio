@@ -1,0 +1,24 @@
+@layer reset, tokens, base, layout, components, utilities;
+@layer components {
+  .wrap { padding-block: 4rem 7rem; }
+  .box {
+    position: relative;
+    display: grid;
+    gap: 1.2rem;
+    justify-items: start;
+    padding: clamp(2rem, 6vw, 5rem);
+    border: 1px solid var(--line-strong);
+    border-radius: 24px;
+    background:
+      radial-gradient(70% 90% at 100% 0%, color-mix(in oklab, var(--saffron) 14%, transparent), transparent 60%),
+      linear-gradient(180deg, var(--sheet), var(--deep));
+    overflow: hidden;
+  }
+  .box h2 { font-size: var(--step-5); line-height: 0.95; }
+  .box h2 span { color: var(--saffron); }
+  .box > p:not(:first-child) { color: var(--ink-2); font-size: var(--step-1); max-width: 52ch; }
+  .actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+  .dot { display: inline-block; width: 8px; height: 8px; margin-right: 0.4rem; border-radius: 50%; background: var(--ok); vertical-align: middle; }
+  .quiet { color: var(--ink-3) !important; font-size: 12px !important; }
+  .quiet span { color: var(--saffron); font-size: 14px; }
+}

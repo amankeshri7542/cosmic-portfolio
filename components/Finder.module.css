@@ -1,0 +1,91 @@
+@layer reset, tokens, base, layout, components, utilities;
+@layer components {
+  .trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    min-height: 40px;
+    padding: 0.35rem 0.4rem 0.35rem 0.75rem;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius);
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    font-variation-settings: "wdth" 90;
+    color: var(--ink);
+    background: color-mix(in oklab, var(--deep) 40%, transparent);
+    backdrop-filter: blur(6px);
+  }
+  .trigger:hover { border-color: var(--paper); }
+  .menuWord { display: none; }
+  .kbd {
+    padding: 0.1rem 0.35rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    font-size: 0.75rem;
+    color: var(--ink-2);
+  }
+  @media (max-width: 760px) {
+    .menuWord { display: inline; }
+    .findWord, .kbd { display: none; }
+    .trigger { padding-inline: 0.85rem; }
+  }
+
+  .dialog {
+    width: min(640px, 100% - 2rem);
+    max-height: min(80dvh, 720px);
+    margin: 12dvh auto auto;
+    padding: 0;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius);
+    background: var(--deep);
+    color: var(--ink);
+    box-shadow: 0 30px 80px rgb(0 0 0 / 0.45);
+  }
+  .dialog::backdrop { background: color-mix(in oklab, var(--deep) 70%, transparent); backdrop-filter: blur(3px); }
+  @media (prefers-reduced-motion: no-preference) {
+    .dialog[open] { animation: rise 260ms var(--ease-out); }
+    @keyframes rise { from { transform: translateY(8px); opacity: 0; } }
+  }
+  @media (max-width: 760px) {
+    .dialog { margin: auto 0 0; width: 100%; max-width: 100%; max-height: 88dvh; border-inline: 0; border-bottom: 0; }
+  }
+
+  .panel { display: grid; gap: 1.1rem; padding: 1.25rem; }
+  .primary { display: none; }
+  @media (max-width: 760px) {
+    .primary { display: grid; gap: 0.15rem; }
+    .primary a {
+      font-family: var(--font-display);
+      font-size: 2.1rem;
+      line-height: 1.2;
+      text-decoration: none;
+      padding-block: 0.15rem;
+    }
+  }
+
+  .search { display: grid; gap: 0.4rem; }
+  .search input {
+    width: 100%;
+    min-height: 48px;
+    padding: 0.6rem 0.8rem;
+    background: transparent;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius);
+    font-size: 1.05rem;
+  }
+  .search input:focus-visible { outline: 2px solid var(--paper); outline-offset: 0; }
+
+  .results { list-style: none; padding: 0; display: grid; overflow: auto; max-height: 46dvh; }
+  .result {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    padding: 0.6rem 0.6rem;
+    border-top: 1px solid var(--line);
+    cursor: pointer;
+  }
+  .result[aria-selected="true"] { background: color-mix(in oklab, var(--paper) 9%, transparent); box-shadow: inset 2px 0 0 var(--paper); }
+  .empty { padding: 0.8rem 0.6rem; color: var(--ink-2); }
+  .help { color: var(--ink-3); }
+}

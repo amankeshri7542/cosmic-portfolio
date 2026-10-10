@@ -1,60 +1,55 @@
-# Aman Kumar — Full-stack engineering
+# amankeshri.com
 
-A portfolio of full-stack, AI and cloud work. The design uses dark translucent surfaces, project case studies, and a lightweight CSS 3D technology stack. Next.js 15 and React 19.
+Aman Kumar's portfolio, blog and private publishing desk.
 
-## Run
+- Home: a scroll story that builds one product in front of you — interface, API, data, cloud, applied AI, running —
+  naming the tools, what Aman knows about them, and the real project behind each step. GSAP ScrollTrigger + SVG.
+- Work: three engineering case studies with working instruments you can break (transactions and row locks, guarded
+  workflow transitions, fan-out with `Promise.allSettled`), plus every other project.
+- Blog rendered by one Markdown pipeline (unified + Shiki), statically cached and invalidated by tag on publish.
+- `/write`: a private editor with autosave, an on-device mirror, conflict handling, revisions, image uploads,
+  private preview links, publish/unpublish, and slug renames with permanent redirects.
 
-```sh
-npm ci
-npm run dev
+## Stack
+
+Next.js 16 (App Router, Cache Components), React 19, TypeScript, plain CSS (tokens, modules, cascade layers),
+GSAP + Lenis for motion, postgres.js on Neon, Vercel Blob, nodemailer. Tests: Vitest and Playwright (+ axe).
+
+## Commands
+
+```bash
+npm run dev          # http://localhost:3000
+npm run build && npm start
+npm run lint && npm run typecheck
+npm test             # unit + integration (needs a local Postgres for integration tests)
+npm run e2e          # Playwright against `next start` on :3001
+npm run db:migrate   # apply db/migrations (refuses production without explicit flags)
 ```
 
-Production preview: `npm run build` followed by `npm start`. Open http://localhost:3000.
+## Environment
 
-## Verify
+| Variable | Purpose |
+| --- | --- |
+| `DATABASE_URL` / `DATABASE_URL_UNPOOLED` | Postgres (Neon in production; any local Postgres in development) |
+| `EDITOR_PASSWORD_HASH` | `npm run -s hash-password` output (escape `$` as `\$` in `.env` files) |
+| `BLOB_READ_WRITE_TOKEN` | Vercel Blob for editor uploads |
+| `EMAIL_USER`, `EMAIL_PASS` | Gmail transport for the contact form; `CONTACT_TRANSPORT=log` to only log |
+| `CONTACT_SECRET` | Signs the contact form's timing token |
+| `SHORTENER_ORIGIN` | URL-shortener app mounted at `/url-shortner`, `/api/shorten` and 6-character codes |
 
-```sh
-npm run lint
-npx tsc --noEmit
-npm run build
+Without a database the site reads the seed essays in `content/posts/`.
+
+## Layout
+
+```
+app/(site)/    public pages (home, work, about, blogs, contact, preview)
+app/write/     the private editor        app/api/   contact, health, editor/*
+components/    story, home, plates, sims, prints, blog, write
+content/       verified profile and project data
+lib/           db, posts, markdown, seo, editor/*
+components/story  the home scroll story   motion/    optional, idle-loaded enhancements
+db/migrations  additive SQL               scripts/   migrate, seed, stars, poster, subset font
+tests/         unit, integration, e2e
 ```
 
-`scripts/verify-journal.mjs` runs the current browser checks. Point `PLAYWRIGHT_MODULE` to an installed Playwright module if it is not in the local dependencies. `PORTFOLIO_URL` defaults to http://127.0.0.1:3000. Contact requests are mocked; verification sends no real messages. Results and screenshots are saved in `docs/qa/journal/`.
-
-## Content and visuals
-
-- `lib/portfolio.ts`: verified resume facts and every preserved project.
-- `components/TechStack.tsx`: selectable CSS 3D technology layers, with links to project evidence.
-- `components/observatory/`: delivery and optical demonstrations used in case studies and articles.
-- `public/observatory/`: cosmic illustration, three model exports and matching stills. Images are served through Next.js image optimization.
-- `assets/blender/observatory-studies.blend`: editable object studies. See the adjacent Python builders and optimization script.
-- `docs/cosmic-field-journal.md`: revised direction and research; `docs/concepts.png`: three contrasting concept studies.
-- The newest resume is served at `/amankeshridotcom.pdf`; the previous public resume is retained separately.
-
-The current homepage loads no WebGL or 3D models. Reduced motion stops the CSS stack animation; every technology layer remains accessible through buttons. Older Blender assets and reports are retained as design history.
-
-The contact endpoint retains the existing SMTP configuration (`EMAIL_USER`, `EMAIL_PASS`). Optional legacy image generation returns 503 when unconfigured. Credentials are not needed to view the portfolio.
-
-## Refinement
-
-The Blog now has explicit persistent navigation and a homepage article preview. The revised landscape and interactive moiré study add visible psychedelic influences through color, flowing contours and perception. `scripts/verify-refinement.mjs` covers these additions; see `docs/refinement-direction.md` and `docs/qa/refinement/`.
-
-## Responsive verification
-
-`scripts/verify-responsive.mjs` checks every page at 14 viewport sizes, expanded diagrams and mobile touch interactions. Use the same `PLAYWRIGHT_MODULE` and `PORTFOLIO_URL` settings as the other browser checks. See `docs/responsive-qa.md` and `docs/qa/responsive/` for results.
-
-## Object controls and sample essays
-
-Three illustrated sample essays accompany the original AWS article. Object sliders also work with rendered views when WebGL is unavailable. `scripts/verify-controls-blogs.mjs` covers these changes; see `docs/controls-and-sample-blogs.md` for the reproduction and verification.
-
-## Historical work
-
-The previous Quiet Engine direction, its assets, reports and old verification script are retained for recovery, but are superseded and not used by the current visible site. The user rejected that direction. Current QA refers only to `verify-journal.mjs` and `docs/qa/journal/`.
-
-## Private editor and SEO
-
-Open `/write` to create, preview, save and publish Markdown articles. See [the publishing guide](docs/publishing-seo-plan.md) for usage, configuration, password rotation and content storage. Blog changes publish immediately from Postgres; code changes deploy through GitHub/Vercel.
-
-## Engineering-first design
-
-See `docs/engineering-redesign.md`. The homepage uses local technology SVGs, CSS transforms and a perspective-projected canvas ribbon, with no WebGL runtime or model downloads. `scripts/verify-engineering.mjs` verifies the current design; the earlier visual scripts remain historical and target the superseded journal layout.
+Design and verification notes: `docs/design.md`.

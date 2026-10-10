@@ -1,0 +1,97 @@
+@layer reset, tokens, base, layout, components, utilities;
+@layer components {
+
+  .track {
+    list-style: none;
+    padding: 0.5rem 0 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    position: relative;
+  }
+  .track::before {
+    content: "";
+    position: absolute;
+    left: 10%; right: 10%;
+    top: calc(0.5rem + 9px);
+    border-top: 1px dashed var(--line-strong);
+  }
+  .station { position: relative; display: grid; justify-items: center; gap: 0.55rem; text-align: center; }
+  .dot {
+    position: relative;
+    z-index: 1;
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    border: 1px solid var(--line-strong);
+    background: var(--deep);
+    transition: background-color 300ms, border-color 300ms, box-shadow 300ms;
+  }
+  .station[data-done] .dot { background: color-mix(in oklab, var(--paper) 55%, var(--deep)); border-color: var(--paper); }
+  .station[data-here] .dot { background: var(--paper); border-color: var(--paper); box-shadow: 0 0 0 5px color-mix(in oklab, var(--paper) 18%, transparent); }
+  .stName { font-family: var(--font-mono); font-size: 12px; font-variation-settings: "wdth" 82; color: var(--ink-2); }
+  .station[data-here] .stName { color: var(--ink); }
+
+  /* the gate sits halfway to the next station */
+  .gate {
+    position: absolute;
+    z-index: 2;
+    top: -0.1rem;
+    left: 100%;
+    translate: -50% 0;
+    display: grid;
+    gap: 2px;
+    padding: 3px;
+    border: 1px solid var(--line-strong);
+    background: var(--deep);
+    border-radius: var(--radius);
+    transition: border-color 250ms, transform 250ms var(--ease-out);
+  }
+  .gate span {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    line-height: 1;
+    padding: 3px 5px;
+    border: 1px solid var(--line);
+    color: var(--ink-3);
+    transition: color 200ms, border-color 200ms, background-color 200ms;
+  }
+  .gate[data-open] { border-color: var(--line); opacity: 0.55; }
+  .gate[data-active] { border-color: var(--paper); transform: scale(1.08); }
+  .gate span[data-check="pass"] { color: var(--prussian); background: var(--paper); border-color: var(--paper); }
+  .gate span[data-check="fail"] { color: var(--fail); border-color: var(--fail); }
+
+  .caption { margin-top: 2.6rem; text-align: center; color: var(--ink-3); }
+
+  .seg { border: 0; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 0.35rem; align-items: center; }
+  .seg legend { float: left; margin-right: 0.4rem; }
+  .seg label { position: relative; cursor: pointer; }
+  .seg input { position: absolute; opacity: 0; inset: 0; cursor: pointer; }
+  .seg span {
+    display: inline-flex;
+    align-items: center;
+    min-height: 36px;
+    padding: 0.3rem 0.65rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    color: var(--ink-2);
+  }
+  .seg input:checked + span { border-color: var(--paper); color: var(--ink); background: color-mix(in oklab, var(--paper) 10%, transparent); }
+  .seg input:focus-visible + span { outline: 2px solid var(--paper); outline-offset: 2px; }
+  .actions { display: flex; flex-wrap: wrap; gap: 0.5rem; width: 100%; }
+  .actions :global(.button) { min-height: 40px; padding-block: 0.5rem; }
+  .disclaimer { padding: 0.5rem 1rem 0.8rem; color: var(--ink-3); background: color-mix(in oklab, var(--deep) 75%, transparent); }
+
+  @media (max-width: 620px) {
+    .track { grid-template-columns: 1fr; gap: 1.6rem; justify-items: start; padding-left: 0.5rem; }
+    .track::before { left: calc(0.5rem + 9px); right: auto; top: 0.5rem; bottom: 0.5rem; border-top: 0; border-left: 1px dashed var(--line-strong); }
+    .station { grid-template-columns: 18px auto; justify-items: start; align-items: center; gap: 0.8rem; text-align: left; }
+    .gate { top: 100%; left: 2.4rem; translate: 0 -2px; grid-auto-flow: column; }
+    .caption { margin-top: 1rem; text-align: left; }
+  }
+}
+@layer components {
+  .stage { align-content: center; }
+  .controls { align-items: flex-start; }
+}

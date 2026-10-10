@@ -1,0 +1,17 @@
+@layer reset, tokens, base, layout, components, utilities;
+@layer components {
+  .wrap { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 1.5rem clamp(2rem, 5vw, 5rem); border-top: 1px solid var(--line); }
+  .head { display: grid; gap: 1rem; align-content: start; }
+  .head h2 { font-size: var(--step-4); }
+  .all { font-family: var(--font-mono); font-size: 0.9rem; }
+  .lead { display: grid; gap: 0.8rem; padding: 1.5rem; border: 1px solid var(--line-strong); background: color-mix(in oklab, var(--sheet) 60%, transparent); }
+  .lead h3 { font-size: var(--step-3); }
+  .lead h3 a { text-decoration: none; }
+  .lead h3 a:hover { text-decoration: underline; text-decoration-thickness: 1px; }
+  .lead > p:last-child { color: var(--ink-2); }
+  .more { grid-column: 2; display: grid; }
+  .more li { display: flex; justify-content: space-between; gap: 1rem; padding: 0.85rem 0; border-bottom: 1px solid var(--line); align-items: baseline; }
+  .more a { text-decoration: none; }
+  .more a:hover { text-decoration: underline; }
+  @media (max-width: 860px) { .wrap { grid-template-columns: 1fr; } .more { grid-column: auto; } .more li { flex-direction: column; gap: 0.2rem; } }
+}

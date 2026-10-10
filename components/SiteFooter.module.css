@@ -1,0 +1,25 @@
+@layer reset, tokens, base, layout, components, utilities;
+@layer components {
+  .footer {
+    border-top: 1px solid var(--line);
+    padding-block: 3.5rem 2.5rem;
+    background: color-mix(in oklab, var(--deep) 55%, transparent);
+  }
+  .grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 2.5rem 4rem; }
+  .reach { display: grid; gap: 0.9rem; align-content: start; }
+  .email {
+    font-family: var(--font-display);
+    font-size: var(--step-3);
+    line-height: 1.05;
+    text-decoration: none;
+    overflow-wrap: anywhere;
+  }
+  .email:hover { text-decoration: underline; text-decoration-thickness: 1px; }
+  .links { display: flex; flex-wrap: wrap; gap: 0.4rem 1.4rem; }
+  .links a { color: var(--ink-2); text-decoration: none; }
+  .links a:hover { color: var(--ink); text-decoration: underline; }
+  .colophon { display: grid; gap: 0.75rem; align-content: start; max-width: 46ch; }
+  .build { color: var(--ink-3); }
+  .build code { font-size: 1em; }
+  @media (max-width: 760px) { .grid { grid-template-columns: 1fr; } }
+}

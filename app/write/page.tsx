@@ -1,13 +1,12 @@
 import type { Metadata } from "next";
-import { sql } from "@vercel/postgres";
-import { editorSession } from "@/lib/editor";
-import type { EditorPost } from "@/lib/blog-types";
-import Writer from "./Writer";
+import { Desk } from "@/components/write/Desk";
 
-export const metadata: Metadata = { title:"Writer’s desk", robots:{index:false,follow:false} };
-export const dynamic = "force-dynamic";
-export default async function WritePage() {
-  const authenticated = await editorSession();
-  const posts: EditorPost[] = authenticated ? (await sql`SELECT slug, draft, published, version FROM portfolio_posts ORDER BY updated_at DESC`).rows as EditorPost[] : [];
-  return <main id="main-content" className="reading-page section-shell writer-page"><Writer authenticated={authenticated} initialPosts={posts} /></main>;
+export const metadata: Metadata = {
+  title: "Writer’s desk",
+  robots: { index: false, follow: false, nocache: true },
+};
+
+/** The private publishing portal. A client app; every action goes through authenticated APIs. */
+export default function WritePage() {
+  return <Desk />;
 }

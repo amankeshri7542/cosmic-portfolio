@@ -1,0 +1,28 @@
+@layer reset, tokens, base, layout, components, utilities;
+@layer components {
+  .block {
+    display: grid;
+    border: 1px solid var(--line-strong);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-variation-settings: "wdth" 86;
+    line-height: 1.35;
+    background: color-mix(in oklab, var(--deep) 55%, transparent);
+  }
+  .row { display: grid; grid-template-columns: 7.5ch 1fr; }
+  .row + .row { border-top: 1px solid var(--line); }
+  .row dt {
+    padding: 0.45rem 0.6rem;
+    border-right: 1px solid var(--line);
+    color: var(--ink-3);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-size: 12px;
+    font-variation-settings: "wdth" 78;
+    align-self: stretch;
+    display: flex;
+    align-items: center;
+  }
+  .row dd { padding: 0.45rem 0.6rem; color: var(--ink); }
+  .foot dd { color: var(--ink-2); }
+}

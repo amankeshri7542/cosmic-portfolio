@@ -1,0 +1,38 @@
+@layer reset, tokens, base, layout, components, utilities;
+@layer components {
+  .toggles { border: 0; padding: 0; margin: 0; display: flex; align-items: center; gap: 0.2rem 0.8rem; flex-wrap: wrap; }
+  .toggles legend { float: left; margin-right: 0.3rem; }
+
+  .drawing { width: 100%; height: auto; color: var(--ink-2); overflow: visible; }
+  .drawing text {
+    fill: var(--ink);
+    font-family: var(--font-mono);
+    font-size: 14px;
+    text-anchor: middle;
+  }
+  .drawing .small { fill: var(--ink-3); font-size: 11px; }
+  .node rect { fill: color-mix(in oklab, var(--deep) 70%, transparent); stroke: var(--line-strong); stroke-width: 1; transition: stroke 250ms; }
+  .node[data-hot] rect { stroke: var(--paper); }
+  .wire { fill: none; stroke: currentColor; stroke-width: 1.2; stroke-dasharray: 3 4; }
+
+  .leg:not([data-online]) .wire { stroke: var(--line-strong); }
+  .leg:not([data-online]) rect { stroke-dasharray: 3 3; }
+  .leg[data-result="delivered"] rect { stroke: var(--paper); fill: color-mix(in oklab, var(--paper) 12%, transparent); }
+  .leg[data-result="gone"] rect, .leg[data-result="duplicate"] rect { stroke: var(--fail); }
+  .leg[data-result="gone"] .small, .leg[data-result="duplicate"] .small { fill: var(--fail); }
+  .leg[data-result="gone"] .wire { stroke: var(--fail); }
+
+  .packet {
+    fill: var(--paper);
+    offset-rotate: 0deg;
+    offset-distance: 100%;
+    filter: drop-shadow(0 0 4px var(--paper));
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .packet { animation: travel 600ms var(--ease-out) both; }
+    @keyframes travel { from { offset-distance: 0%; } to { offset-distance: 100%; } }
+  }
+}
+@layer components {
+  .stage { align-content: center; }
+}

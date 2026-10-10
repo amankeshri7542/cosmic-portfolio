@@ -1,0 +1,6 @@
+@layer reset, tokens, base, layout, components, utilities;
+@layer components {
+  .companion { display: grid; gap: 0.8rem; max-width: 56rem; }
+  
+  .sheet { border: 1px solid var(--line-strong); background: color-mix(in oklab, var(--sheet) 70%, transparent); }
+}
