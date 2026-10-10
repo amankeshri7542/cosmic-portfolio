@@ -69,32 +69,3 @@
   .body :global(pre) { margin: 0; padding: 1.1rem 1.2rem; overflow-x: auto; font-size: 0.86rem; line-height: 1.6; background: transparent !important; }
   .body :global(pre:focus-visible) { outline-offset: -2px; }
 }
-
-/* Code colours: the cyanotype palette, via Shiki's CSS-variables theme. */
-@layer tokens {
-  :root {
-    --code-foreground: #e3e9f0;
-    --code-background: transparent;
-    --code-token-constant: #f0bdce;
-    --code-token-string: #c9d27a;
-    --code-token-comment: #8094b4;
-    --code-token-keyword: #9fc3ff;
-    --code-token-parameter: #e3e9f0;
-    --code-token-function: #ffffff;
-    --code-token-string-expression: #c9d27a;
-    --code-token-punctuation: #a9b6c8;
-    --code-token-link: #9fc3ff;
-  }
-  :root[data-paper="on"] {
-    --code-foreground: #10284c;
-    --code-token-constant: #8a2b4b;
-    --code-token-string: #556100;
-    --code-token-comment: #66789a;
-    --code-token-keyword: #1d4fa0;
-    --code-token-parameter: #10284c;
-    --code-token-function: #0a1b36;
-    --code-token-string-expression: #556100;
-    --code-token-punctuation: #3d4d66;
-    --code-token-link: #1d4fa0;
-  }
-}

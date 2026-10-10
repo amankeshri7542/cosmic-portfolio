@@ -48,6 +48,33 @@
     color-scheme: dark;
   }
 
+  /* Code colours (Shiki CSS-variables theme): warm keywords, cool strings, quiet comments. */
+  :root {
+    --code-foreground: #e6eaf1;
+    --code-background: transparent;
+    --code-token-constant: #ffb86b;
+    --code-token-string: #9fe0c0;
+    --code-token-comment: #6f7c90;
+    --code-token-keyword: #ff9f1c;
+    --code-token-parameter: #e6eaf1;
+    --code-token-function: #8cc4ff;
+    --code-token-string-expression: #9fe0c0;
+    --code-token-punctuation: #8a96a8;
+    --code-token-link: #8cc4ff;
+  }
+  [data-paper="on"] {
+    --code-foreground: #111722;
+    --code-token-constant: #a04a00;
+    --code-token-string: #11764a;
+    --code-token-comment: #6b7586;
+    --code-token-keyword: #b45a00;
+    --code-token-parameter: #111722;
+    --code-token-function: #1f5fb4;
+    --code-token-string-expression: #11764a;
+    --code-token-punctuation: #4b5566;
+    --code-token-link: #1f5fb4;
+  }
+
   /* Paper reading mode for long articles: blue ink on white paper (the inverse print). */
   [data-paper="on"] {
     --ink: #111722;

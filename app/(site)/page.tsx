@@ -2,7 +2,7 @@ import { Story } from "@/components/story/Story";
 import { Projects } from "@/components/home/Projects";
 import { Experience } from "@/components/home/Experience";
 import { LatestNote } from "@/components/home/LatestNote";
-import { ContactCta } from "@/components/home/ContactCta";
+import { BuildYours } from "@/components/home/BuildYours";
 import { plates, prints } from "@/content/work";
 import { JsonLd } from "@/lib/seo";
 import { SITE_URL } from "@/content/profile";
@@ -11,10 +11,10 @@ export default function Home() {
   return (
     <>
       <Story />
+      <BuildYours />
       <Projects />
       <Experience />
       <LatestNote />
-      <ContactCta />
       <JsonLd
         data={{
           "@context": "https://schema.org",

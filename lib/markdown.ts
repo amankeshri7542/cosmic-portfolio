@@ -164,3 +164,10 @@ export async function renderMarkdown(markdown: string, opts: Options = {}): Prom
     .process(normalise(markdown));
   return { html: String(file), toc };
 }
+
+/** Highlight one code sample with the site's palette (server-only; used for the story's "Read the code"). */
+export async function highlightCode(code: string, lang: string) {
+  const hl = await getHighlighter();
+  const l = ALIASES[lang] ?? lang;
+  return hl.codeToHtml(code.trim(), { lang: hl.getLoadedLanguages().includes(l) ? l : "text", theme: "cyanotype" });
+}

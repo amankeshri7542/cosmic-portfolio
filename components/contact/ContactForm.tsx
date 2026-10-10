@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { needs } from "@/content/briefs";
 import styles from "./ContactForm.module.css";
 
 type Status = { kind: "idle" } | { kind: "sending" } | { kind: "error"; message: string };
@@ -19,12 +20,20 @@ export function ContactForm({ email }: { email: string }) {
   const router = useRouter();
 
   useEffect(() => {
+    /* eslint-disable react-hooks/set-state-in-effect -- one-time sync from the URL and session storage on mount */
     try {
+      // A brief from the home page ("Now let's build yours") starts the message.
+      const brief = new URLSearchParams(location.search).get("brief")?.split(",") ?? [];
+      const picked = needs.filter((n) => brief.includes(n.id)).map((n) => n.label.toLowerCase());
+      if (picked.length) {
+        setValues((v) => (v.message ? v : { ...v, message: `Hi Aman, I'm looking to build: ${picked.join(", ")}.\n\nA bit about the project: ` }));
+        return;
+      }
       const saved = sessionStorage.getItem(DRAFT_KEY);
       // Restoring an unsent draft from this tab is a one-time sync from external storage.
-      // eslint-disable-next-line react-hooks/set-state-in-effect
       if (saved) setValues(JSON.parse(saved));
     } catch {}
+    /* eslint-enable react-hooks/set-state-in-effect */
     fetch("/api/contact", { cache: "no-store" })
       .then((r) => (r.ok ? r.json() : null))
       .then((d) => { if (d?.t) token.current = d.t; })

@@ -26,7 +26,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script
           dangerouslySetInnerHTML={{
             __html:
-              "(function(){try{var d=document.documentElement;if(!matchMedia('(prefers-reduced-motion: reduce)').matches){d.classList.add('story-motion');setTimeout(function(){if(!d.classList.contains('story-live'))d.classList.remove('story-motion')},6000)}}catch(e){}})()",
+              "(function(){try{var d=document.documentElement;var off=false;try{off=localStorage.getItem('story-motion')==='off'}catch(e){}if(!off&&!matchMedia('(prefers-reduced-motion: reduce)').matches){d.classList.add('story-motion');setTimeout(function(){if(!d.classList.contains('story-live'))d.classList.remove('story-motion')},6000)}}catch(e){}})()",
           }}
         />
       </head>
