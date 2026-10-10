@@ -2,11 +2,24 @@ import "server-only";
 import { cacheLife, cacheTag } from "next/cache";
 import { readdir, readFile } from "node:fs/promises";
 import path from "node:path";
-import matter from "gray-matter";
 import { hasDatabase, sql } from "./db";
 import { toMeta, validSlug, type PostBody, type PostMeta } from "./post-types";
 
 const POSTS_DIR = path.join(process.cwd(), "content/posts");
+
+/** Minimal front matter: `key: "value"` / `key: value` / `key: true` lines between --- fences. Repo files only. */
+function matter(raw: string): { data: Record<string, unknown>; content: string } {
+  const m = /^---\r?\n([\s\S]*?)\r?\n---\r?\n?/.exec(raw);
+  if (!m) return { data: {}, content: raw };
+  const data: Record<string, unknown> = {};
+  for (const line of m[1].split(/\r?\n/)) {
+    const kv = /^([A-Za-z0-9_]+):\s*(.*)$/.exec(line);
+    if (!kv) continue;
+    const v = kv[2].trim();
+    data[kv[1]] = v === "true" ? true : v === "false" ? false : v.replace(/^"(.*)"$/, "$1").replace(/^'(.*)'$/, "$1");
+  }
+  return { data, content: raw.slice(m[0].length) };
+}
 
 /** Seed essays in the repository — used when no database is configured (local design work, CI). */
 async function filePosts(): Promise<PostBody[]> {
@@ -14,7 +27,7 @@ async function filePosts(): Promise<PostBody[]> {
   return Promise.all(
     files.map(async (f) => {
       const { data, content } = matter(await readFile(path.join(POSTS_DIR, f), "utf8"));
-      const iso = new Date(data.date).toISOString();
+      const iso = new Date(String(data.date)).toISOString();
       return {
         slug: f.replace(/\.md$/, ""),
         title: String(data.title),

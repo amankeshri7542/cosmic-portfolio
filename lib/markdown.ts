@@ -64,6 +64,14 @@ function rehypeArticle(opts: Options, hl: HighlighterCore, toc: TocEntry[]) {
         });
       }
 
+      // Links and images: only http(s), mailto, tel and relative/fragment URLs survive (no javascript:, data:, …).
+      for (const attr of ["href", "src"] as const) {
+        const v = node.properties?.[attr];
+        if (typeof v === "string" && !/^(https?:|mailto:|tel:|\/|#|\.\/|\.\.\/)/i.test(v.trim()) && /^[a-z][a-z0-9+.-]*:/i.test(v.trim())) {
+          delete node.properties[attr];
+        }
+      }
+
       // Links: open external links safely; keep internal links as-is.
       if (node.tagName === "a" && typeof node.properties?.href === "string") {
         const href = node.properties.href;

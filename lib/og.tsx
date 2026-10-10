@@ -56,3 +56,16 @@ export async function ogImage({ eyebrow, title, footer, photo = false }: { eyebr
     { ...ogSize, fonts: [{ name: "Bricolage", data: font, style: "normal", weight: 700 }] },
   );
 }
+
+/** Render once and reuse: the image bytes are cached, so query-string variations can't force re-rendering. */
+export async function cachedOgPng(args: { eyebrow: string; title: string; footer: string; photo?: boolean }) {
+  "use cache";
+  const res = await ogImage(args);
+  return new Uint8Array(await res.arrayBuffer());
+}
+
+export function pngResponse(bytes: Uint8Array) {
+  return new Response(bytes as unknown as BodyInit, {
+    headers: { "Content-Type": "image/png", "Cache-Control": "public, max-age=86400, s-maxage=31536000, immutable" },
+  });
+}

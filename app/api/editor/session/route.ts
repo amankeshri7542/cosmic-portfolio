@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { checkOrigin, clearSessionCookie, destroySession, editorConfigured, login, requireEditor, sessionTokenFrom, setSessionCookie } from "@/lib/editor/auth";
+import { checkOrigin, clearSessionCookie, destroySession, editorConfigured, login, requireEditor, sessionTokenFrom, setDeviceCookie, setSessionCookie } from "@/lib/editor/auth";
 import { handle, json } from "@/lib/editor/http";
 
 export const GET = handle(async (request: Request) => {
@@ -15,6 +15,7 @@ export const POST = handle(async (request: Request) => {
   const { token, expiresAt } = await login(request);
   const response = NextResponse.json({ ok: true, expiresAt: expiresAt.toISOString() }, { headers: { "Cache-Control": "no-store" } });
   setSessionCookie(response, token);
+  setDeviceCookie(response);
   return response;
 });
 

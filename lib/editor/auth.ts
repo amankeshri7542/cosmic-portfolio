@@ -1,7 +1,7 @@
 import "server-only";
 import { cookies } from "next/headers";
 import type { NextResponse } from "next/server";
-import { createHash, randomBytes, scrypt, timingSafeEqual } from "node:crypto";
+import { createHash, createHmac, randomBytes, scrypt, timingSafeEqual } from "node:crypto";
 import { hasDatabase, sql } from "../db";
 import { ApiError, Halt, json, readJson } from "./http";
 
@@ -117,6 +117,26 @@ export const setSessionCookie = (res: NextResponse, token: string) => res.cookie
 export const clearSessionCookie = (res: NextResponse) => res.cookies.set(sessionCookieName(), "", cookieOptions(0));
 export const sessionTokenFrom = (request: Request) => cookieFrom(request, sessionCookieName());
 
+/* ---------- trusted devices ---------- */
+// A browser that has signed in successfully gets a signed, long-lived device cookie. When attackers trip the
+// global lockout, trusted devices can still sign in, so a flood of wrong passwords can't lock the owner out.
+// Changing the password (EDITOR_PASSWORD_HASH) invalidates every device.
+const DEVICE_TTL_S = 180 * 24 * 60 * 60;
+export const deviceCookieName = () => (prod() ? "__Host-ak_device" : "ak_device");
+const deviceSig = (id: string) => createHmac("sha256", `device:${process.env.EDITOR_PASSWORD_HASH ?? ""}`).update(id).digest("hex");
+export function setDeviceCookie(res: NextResponse) {
+  const id = randomBytes(16).toString("hex");
+  res.cookies.set(deviceCookieName(), `${id}.${deviceSig(id)}`, cookieOptions(DEVICE_TTL_S));
+}
+export function trustedDevice(request: Request) {
+  const value = cookieFrom(request, deviceCookieName());
+  const m = value ? /^([a-f0-9]{32})\.([a-f0-9]{64})$/.exec(value) : null;
+  if (!m) return false;
+  const a = Buffer.from(m[2], "hex");
+  const b = Buffer.from(deviceSig(m[1]), "hex");
+  return a.length === b.length && timingSafeEqual(a, b);
+}
+
 /* ---------- CSRF ---------- */
 
 const first = (value: string | null) => value?.split(",")[0].trim() || "";
@@ -160,7 +180,7 @@ export async function loginLockedOut(request: Request) {
     SELECT key, count(*)::int AS n FROM portfolio_login_failures
     WHERE key IN (${keys.ip}, ${keys.global}) AND failed_at > now() - ${FAILURE_WINDOW}::interval GROUP BY key`;
   const n = (key: string) => rows.find((r) => r.key === key)?.n ?? 0;
-  return n(keys.ip) >= MAX_FAILURES_PER_IP || n(keys.global) >= MAX_FAILURES_GLOBAL;
+  return n(keys.ip) >= MAX_FAILURES_PER_IP || (n(keys.global) >= MAX_FAILURES_GLOBAL && !trustedDevice(request));
 }
 
 export async function recordLoginFailure(request: Request) {

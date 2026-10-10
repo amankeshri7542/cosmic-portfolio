@@ -4,6 +4,8 @@ export const MIN_FILL_MS = 3_000;
 export const MAX_FILL_MS = 2 * 60 * 60 * 1000;
 export const SPAM_THRESHOLD = 2;
 export const RATE_LIMIT = { max: 3, windowSeconds: 3600 };
+/** Site-wide: beyond this many emails an hour, messages are still stored but not emailed (no inbox flooding). */
+export const GLOBAL_MAIL_PER_HOUR = 20;
 
 const ABUSIVE_WORDS = [
   "fuck", "shit", "bitch", "bastard", "asshole", "ass", "cunt", "dick", "cock", "pussy", "whore", "slut", "fag", "faggot", "nigger", "nigga",

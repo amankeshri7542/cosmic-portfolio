@@ -1,5 +1,5 @@
 import { connection } from "next/server";
-import { checkContactToken, clientIp, hashIp, issueContactToken, RATE_LIMIT, SPAM_THRESHOLD, spamScore, validateContact } from "@/lib/contact";
+import { checkContactToken, clientIp, GLOBAL_MAIL_PER_HOUR, hashIp, issueContactToken, RATE_LIMIT, SPAM_THRESHOLD, spamScore, validateContact } from "@/lib/contact";
 import { hasDatabase, sql } from "@/lib/db";
 import { ApiError, handle, json, readJson } from "@/lib/editor/http";
 import { sendContactMail } from "@/lib/mail";
@@ -42,6 +42,16 @@ export const POST = handle(async (request: Request) => {
     }
   }
   if (spam) return bot;
+
+  // Under a flood from many addresses, keep accepting (and storing) messages but stop sending email.
+  if (id !== null) {
+    const [{ n }] = await sql()<{ n: number }[]>`
+      SELECT count(*)::int AS n FROM portfolio_contact_messages WHERE status = 'sent' AND created_at > now() - interval '1 hour'`.catch(() => [{ n: 0 }]);
+    if (n >= GLOBAL_MAIL_PER_HOUR) {
+      await sql()`UPDATE portfolio_contact_messages SET error = 'held: hourly email cap' WHERE id = ${id}`.catch(() => {});
+      return json({ ok: true });
+    }
+  }
 
   const result = await sendContactMail(parsed.value);
   if (id !== null) {
