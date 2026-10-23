@@ -1,13 +1,9 @@
 @layer reset, tokens, base, layout, components, utilities;
 @layer components {
-  .page { padding-block: calc(var(--header-h) + 4rem) 6rem; display: grid; gap: clamp(3.5rem, 7vw, 6rem); }
+  .page { padding-block: 0 6rem; display: grid; gap: clamp(3.5rem, 7vw, 6rem); }
   .head { display: grid; gap: 3rem; }
   .head[data-has-portrait] { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); align-items: end; }
-  .intro { display: grid; gap: 1.1rem; max-width: 46rem; }
-  .intro h1 { font-size: var(--step-5); }
-  .intro p { color: var(--ink-2); font-size: var(--step-1); }
-  .intro .lede { color: var(--ink); }
-  .actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 0.5rem; }
+  .more { color: var(--ink-2); font-size: var(--step-0); max-width: 60ch; }
   .head[data-has-portrait] { align-items: center; }
   .portrait { display: grid; justify-items: center; }
 
@@ -41,12 +37,13 @@
   .quiet { grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: clamp(2rem, 6vw, 5rem); }
   .quiet > div { display: grid; gap: 1rem; max-width: 38rem; }
   .ram { font-family: var(--font-display); font-size: var(--step-3); line-height: 1.15; }
-  .ram span { color: var(--saffron); font-family: var(--font-anek-deva), serif; }
+  .ram span { color: var(--c4); font-family: var(--font-anek-deva), serif; }
   .quiet p:last-child { color: var(--ink-2); }
 
   @media (max-width: 860px) {
     .head[data-has-portrait], .principles, .split, .quiet { grid-template-columns: 1fr; }
-    .portrait { order: -1; }
+    .portrait { order: -1; padding-top: calc(var(--header-h) + 40px); }
+    .head :global(.page-head) { padding-top: 8px; }
     .stack div { grid-template-columns: 1fr; gap: 0.2rem; }
   }
 }

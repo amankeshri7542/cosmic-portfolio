@@ -3,14 +3,18 @@ import Link from "next/link";
 import { credentials, education, experience, profile, stack, SITE_URL } from "@/content/profile";
 import { JsonLd, pageMetadata, personId } from "@/lib/seo";
 import { Tulsi } from "@/components/about/Tulsi";
-import { Portrait } from "@/components/Portrait";
+import Image from "next/image";
+import { Ambient } from "@/components/acid/Ambient";
+import { PageHead } from "@/components/acid/PageHead";
+import { PaletteHalo } from "@/components/acid/PaletteHalo";
+import { Wobble } from "@/components/acid/Text";
 import { faq, faqUpdated } from "@/content/faq";
 import styles from "./about.module.css";
 
 export const metadata: Metadata = pageMetadata(
   "/about",
-  "About Aman Kumar",
-  "Aman Kumar is a full-stack software engineer in Bengaluru working across React, TypeScript, Rust, PostgreSQL and AWS. Experience, education, certifications and how he works.",
+  "About Aman Keshri (Aman Kumar)",
+  "Aman Keshri (Aman Kumar) is a freelance full-stack software engineer in Bengaluru working across React, TypeScript, Rust, PostgreSQL and AWS. Experience, education, certifications and how he works.",
 );
 
 const principles = [
@@ -21,32 +25,37 @@ const principles = [
 
 export default function AboutPage() {
   return (
+    <div className="lab">
+    <Ambient />
     <div className={`shell ${styles.page}`}>
-      <header className={styles.head} data-has-portrait="">
-        <div className={styles.intro}>
-          <p className="label label--caps">About</p>
-          <h1>Hello, I’m Aman.</h1>
-          <p className={styles.lede}>
-            I’m a full-stack software engineer in Bengaluru. I like owning a feature end to end: understanding the business
-            problem, shaping the data, building the interface and the API, and running it on AWS.
-          </p>
-          <p>
-            Most of my work sits where correctness matters — billing that has to agree with stock, workflows that must not skip a
+      <div className={styles.head} data-has-portrait="">
+        <PageHead
+          kicker="ABOUT ✺ WHO YOU’D WORK WITH"
+          title="Hello, I’m *Aman.*"
+          lede="I’m a full-stack software engineer in Bengaluru. I like owning a feature end to end: understanding the business problem, shaping the data, building the interface and the API, and running it on AWS."
+        >
+          <p className={styles.more}>
+            Most of my work sits where correctness matters: billing that has to agree with stock, workflows that must not skip a
             step, messages that should reach everyone who’s listening. Right now I’m building a procure-to-pay platform at
             CodeApto with React, TypeScript, Rust and PostgreSQL.
           </p>
-          <p className={styles.actions}>
-            <a className="button button--solid" href={profile.resume}>Resume (PDF)</a>
-            <Link className="button" href="/contact">Get in touch</Link>
+          <p className="row">
+            <a className="cta cta-main cta-sm" href={profile.resume}>Resume (PDF)</a>
+            <Link className="cta cta-ghost cta-sm" href="/contact">Start a project</Link>
           </p>
-        </div>
+        </PageHead>
         <div className={styles.portrait}>
-          <Portrait priority />
+          <PaletteHalo>
+            <span className="rings" aria-hidden="true" />
+            <span className="portrait">
+              <Image src="/about/aman-halo.webp" alt="Portrait of Aman Kumar Keshri" width={480} height={480} priority sizes="(max-width: 600px) 56vw, 320px" />
+            </span>
+          </PaletteHalo>
         </div>
-      </header>
+      </div>
 
-      <section aria-labelledby="how-title" className={styles.section}>
-        <h2 id="how-title" className="label label--caps">How I work</h2>
+      <section aria-labelledby="how-title" className={`sec ${styles.section}`} data-sec="about">
+        <Wobble id="how-title" className="h2 sm" text="How I *work*" />
         <ul role="list" className={styles.principles}>
           {principles.map((p) => (
             <li key={p.title}>
@@ -57,8 +66,8 @@ export default function AboutPage() {
         </ul>
       </section>
 
-      <section aria-labelledby="exp-title" className={styles.section} id="experience">
-        <h2 id="exp-title" className="label label--caps">Experience</h2>
+      <section aria-labelledby="exp-title" className={`sec ${styles.section}`} id="experience" data-sec="experience">
+        <Wobble id="exp-title" className="h2 sm" text="Where I’ve *built*" />
         <ol role="list" className={styles.timeline}>
           {experience.map((r) => (
             <li key={r.org}>
@@ -74,15 +83,15 @@ export default function AboutPage() {
         </ol>
       </section>
 
-      <section aria-labelledby="cred-title" className={`${styles.section} ${styles.split}`}>
+      <section aria-labelledby="cred-title" className={`sec ${styles.section} ${styles.split}`} data-sec="stack">
         <div>
-          <h2 id="cred-title" className="label label--caps">Certifications & recognition</h2>
+          <Wobble id="cred-title" className="h2 sm" text="Certified & *recognised*" />
           <ul role="list" className={styles.creds}>
             {credentials.map((c) => <li key={c.name}><span>{c.name}</span><span className="label">{c.date}</span></li>)}
           </ul>
         </div>
         <div>
-          <h2 className="label label--caps">Tools I reach for</h2>
+          <Wobble className="h2 sm" text="Tools I *reach* for" />
           <dl className={styles.stack}>
             {Object.entries(stack).map(([k, v]) => (
               <div key={k}><dt className="label">{k}</dt><dd>{v.join(" · ")}</dd></div>
@@ -91,8 +100,8 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section aria-labelledby="faq-title" className={styles.section} id="quick-answers">
-        <h2 id="faq-title" className="label label--caps">Quick answers</h2>
+      <section aria-labelledby="faq-title" className={`sec ${styles.section}`} id="quick-answers" data-sec="faq">
+        <Wobble id="faq-title" className="h2 sm" text="Quick *answers*" />
         <dl className={styles.faq}>
           {faq.map((f) => (
             <div key={f.q}>
@@ -104,7 +113,7 @@ export default function AboutPage() {
         <p className="label">Last updated <time dateTime={faqUpdated}>{new Date(faqUpdated).toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" })}</time></p>
       </section>
 
-      <section aria-labelledby="quiet-title" className={`${styles.section} ${styles.quiet}`}>
+      <section aria-labelledby="quiet-title" className={`sec ${styles.section} ${styles.quiet}`} data-sec="contact">
         <Tulsi />
         <div>
           <h2 id="quiet-title" className="label label--caps">Underneath</h2>
@@ -133,6 +142,7 @@ export default function AboutPage() {
           mainEntity: faq.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
         }}
       />
+    </div>
     </div>
   );
 }

@@ -208,5 +208,3 @@ export const prints: Print[] = [
   },
 ];
 
-/** The three applied-AI prints featured on the home page as photograms. */
-export const photogramIds = ["shiv-cement", "alexa", "medscan"] as const;

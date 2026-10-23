@@ -1,39 +1,59 @@
 @layer reset, tokens, base, layout, components, utilities;
 @layer components {
+  /* Fixed, solid once scrolled. No backdrop blur: it repaints the whole strip on every scroll frame on phones. */
   .header {
     position: fixed;
     inset: 0 0 auto;
     z-index: 50;
     height: var(--header-h);
-    transition: background-color var(--dur) var(--ease-out), border-color var(--dur);
     border-bottom: 1px solid transparent;
+    transition: background-color 0.3s, border-color 0.3s;
   }
   :global(html[data-scrolled]) .header {
-    background: color-mix(in oklab, var(--ground) 82%, transparent);
-    backdrop-filter: blur(10px) saturate(1.1);
+    background: rgb(10 10 15 / 0.94);
     border-bottom-color: var(--line);
   }
-  .bar { height: 100%; display: flex; align-items: center; gap: 1.5rem; }
-  .mark { display: grid; text-decoration: none; line-height: 1.1; margin-right: auto; }
-  .name { font-family: var(--font-display); font-size: 1.35rem; letter-spacing: -0.01em; }
-  .role { font-size: 12px; color: var(--ink-3); }
-  .nav { display: flex; gap: 1.6rem; }
+  .bar {
+    height: 100%;
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 0 clamp(16px, 4vw, 24px);
+    display: flex;
+    align-items: center;
+    gap: 12px 24px;
+  }
+  .mark {
+    font: 900 20px var(--font-display);
+    letter-spacing: -0.04em;
+    color: var(--paper);
+    text-decoration: none;
+    padding: 10px 4px;
+  }
+  .mark span { color: var(--c2); }
+  .mark:hover { color: var(--c1); text-decoration: none; }
+  .nav { display: flex; gap: 4px 20px; margin-right: auto; }
   .nav a {
     position: relative;
+    padding: 12px 4px;
+    color: var(--paper);
+    font: 700 13px var(--font-mono);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
     text-decoration: none;
-    font-size: 0.98rem;
-    color: var(--ink-2);
-    padding-block: 0.4rem;
+    transition: color 0.2s;
   }
-  .nav a:hover, .nav a[aria-current="page"] { color: var(--ink); }
+  .nav a:hover, .nav a[aria-current="page"] { color: var(--c1); }
   .nav a[aria-current="page"]::after {
     content: "";
     position: absolute;
-    left: 0; right: 0; bottom: 0;
-    height: 1px;
-    background: var(--ink);
+    left: 4px; right: 4px; bottom: 6px;
+    height: 3px;
+    border-radius: 3px;
+    background: var(--c2);
   }
-  @media (max-width: 760px) {
-    .nav, .role { display: none; }
-  }
+  .tools { display: flex; align-items: center; gap: 10px; margin-left: auto; }
+  .hire { min-height: 44px; padding: 0 20px; font-size: 13px; box-shadow: 4px 4px 0 var(--paper); }
+  @media (max-width: 1020px) { .hire { display: none; } }
+  @media (max-width: 860px) { .nav { display: none; } }
+  @media (max-width: 420px) { .tools { gap: 6px; } }
 }

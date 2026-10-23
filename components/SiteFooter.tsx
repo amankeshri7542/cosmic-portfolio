@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { profile } from "@/content/profile";
+import { Drip } from "./acid/Text";
+import { MotionToggle } from "./acid/MotionToggle";
 import { Inspect } from "./Inspect";
 import styles from "./SiteFooter.module.css";
 
@@ -8,13 +10,13 @@ const built = process.env.BUILD_TIME?.slice(0, 10) ?? "";
 
 export function SiteFooter() {
   return (
-    <footer className={styles.footer}>
-      <div className={`shell ${styles.grid}`}>
+    <footer className={`sec ${styles.footer}`} data-sec="foot">
+      <div className={styles.grid}>
         <div className={styles.reach}>
-          <p className="label label--caps">Reach me</p>
+          <Drip text="REACH ME ✺ ONE EMAIL AWAY" as="p" className={styles.kick} />
           <a className={styles.email} href={`mailto:${profile.email}`}>{profile.email}</a>
           <ul role="list" className={styles.links}>
-            <li><Link href="/contact">Contact form</Link></li>
+            <li><Link href="/contact">Start a project</Link></li>
             <li><a href={profile.linkedin} rel="me noopener" target="_blank">LinkedIn ↗</a></li>
             <li><a href={profile.github} rel="me noopener" target="_blank">GitHub ↗</a></li>
             <li><a href={profile.resume}>Resume (PDF)</a></li>
@@ -22,15 +24,17 @@ export function SiteFooter() {
           </ul>
         </div>
         <div className={styles.colophon}>
-          <p className="label label--caps">Colophon</p>
           <p className="label">
-            Printed in Prussian blue. Set in Redaction, Anek and Martian Mono. The night sky is the Yale Bright
-            Star Catalogue, as seen from Bengaluru at the moment you opened the page.
+            © {built.slice(0, 4) || "2026"} Aman Kumar Keshri · freelance full-stack developer · Bengaluru, India
           </p>
+          <p className="label">Set in Unbounded, Shrikhand, Space Grotesk and Space Mono. Motion respects your reduced-motion setting.</p>
           <p className={`label ${styles.build}`}>
             build <code>{sha}</code>{built && <> · {built}</>} · served from bom1
           </p>
-          <Inspect sha={sha} />
+          <div className={styles.switches}>
+            <MotionToggle />
+            <Inspect sha={sha} />
+          </div>
         </div>
       </div>
     </footer>

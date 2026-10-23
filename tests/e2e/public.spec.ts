@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 
 const pages = [
-  { path: "/", h1: /Let’s build a product/ },
+  { path: "/", h1: /Aman Keshri/ },
   { path: "/work", h1: /Systems that hold/ },
   { path: "/about", h1: /Hello, I’m Aman/ },
   { path: "/blogs", h1: /Notes from the workbench/ },
@@ -133,50 +133,63 @@ test.describe("instruments", () => {
   });
 });
 
-test.describe("the build story", () => {
-  test("scrolling builds the product step by step, and back @desktop-only", async ({ page }) => {
+test.describe("the home page", () => {
+  test("the stack explorer shows where a tool was used", async ({ page }) => {
     await page.goto("/");
-    const label = page.locator("[data-stage-label]");
-    await expect(label).toHaveText("step 0 / 6");
-    await expect(page.locator("html")).toHaveClass(/story-live/);
-    for (const [id, n] of [["interface", 1], ["data", 3], ["run", 6]] as const) {
-      await page.evaluate((id) => window.scrollTo(0, document.getElementById(id)!.getBoundingClientRect().top + scrollY - innerHeight * 0.1), id);
-      await expect(label).toHaveText(`step ${n} / 6`);
-    }
-    await expect(page.locator("[data-part='done']")).toHaveCSS("opacity", "1");
-    await page.evaluate(() => window.scrollTo(0, 0));
-    await expect(label).toHaveText("step 0 / 6");
-    await expect.poll(() => page.locator("[data-part='done']").evaluate((el) => getComputedStyle(el).opacity)).toBe("0");
+    const stack = page.locator("#stack");
+    await stack.getByRole("button", { name: "Rust / Axum" }).click();
+    await expect(stack.getByRole("button", { name: "Rust / Axum" })).toHaveAttribute("aria-pressed", "true");
+    await expect(stack.getByText("Procure-to-Pay platform (CodeApto)")).toBeVisible();
+    await stack.getByRole("button", { name: "Cloud", exact: true }).click();
+    await expect(stack.getByRole("button", { name: "Cloud", exact: true })).toHaveAttribute("aria-pressed", "true");
   });
 
-  test("reduced motion shows the finished product", async ({ page }) => {
-    await page.emulateMedia({ reducedMotion: "reduce" });
+  test("the case deck shuffles to the next study", async ({ page }) => {
     await page.goto("/");
-    await expect(page.locator("[data-part='done']")).toHaveCSS("opacity", "1");
-    await expect(page.locator("[data-part='api']")).toHaveCSS("opacity", "1");
+    const work = page.locator("#work");
+    await expect(work.getByRole("heading", { level: 3, name: /Everything goes through/ })).toBeVisible();
+    await work.getByRole("button", { name: /Shuffle the deck/ }).click();
+    await expect(work.getByRole("heading", { level: 3, name: /Check the role/ })).toBeVisible();
+    await expect(work.getByRole("heading", { level: 3, name: /Everything goes through/ })).toBeHidden();
   });
 
-  test("every chapter is readable text in order", async ({ page }) => {
+  test("the brief builder carries the picks to the contact form", async ({ page }) => {
     await page.goto("/");
-    const titles = await page.locator("article[data-chapter] h2").allTextContents();
-    expect(titles).toEqual([
-      "Start with what people touch.",
-      "Then the contract between screen and data.",
-      "Make the data agree with itself.",
-      "Package it, test it, put it in the cloud.",
-      "Then make it smarter — where it helps.",
-      "And then I keep it running.",
-    ]);
+    const brief = page.locator("#brief");
+    await brief.getByRole("button", { name: "Admin dashboard" }).click();
+    await expect(brief.getByRole("link", { name: /Send this brief/ })).toHaveAttribute("href", "/contact?brief=website,ai,dashboard");
+    await brief.getByRole("link", { name: /Send this brief/ }).click();
+    await expect(page).toHaveURL(/\/contact\?brief=/);
+    await expect(page.getByRole("textbox", { name: "Message" })).toHaveValue(/admin dashboard/i);
+  });
+
+  test("the portrait shifts the palette and the footer pauses motion", async ({ page }) => {
+    await page.goto("/");
+    await page.getByRole("button", { name: /Shift the colours/ }).click();
+    await expect(page.locator("html")).toHaveAttribute("data-pal", "1");
+    await page.getByRole("button", { name: "Pause motion" }).click();
+    await expect(page.locator("html")).toHaveAttribute("data-motion", "off");
+    await page.reload();
+    await expect(page.locator("html")).toHaveAttribute("data-pal", "1");
+    await expect(page.getByRole("button", { name: "Play motion" })).toBeVisible();
+  });
+
+  test("don't press: the page falls apart and rebuilds itself", async ({ page }) => {
+    await page.goto("/");
+    await page.getByRole("button", { name: /don’t press/ }).click();
+    await expect(page.locator("html")).toHaveClass(/chaos/);
+    await expect(page.getByRole("status").filter({ hasText: "restored" })).toBeVisible();
+    await expect(page.locator("html")).not.toHaveClass(/chaos|rebuild/, { timeout: 6000 });
   });
 });
 
 test.describe("without JavaScript", () => {
   test.use({ javaScriptEnabled: false });
-  test("the story and the finished product are still there", async ({ page }) => {
+  test("every section is still there and readable", async ({ page }) => {
     await page.goto("/");
-    await expect(page.getByRole("heading", { level: 1 })).toHaveText(/Let’s build a product/);
-    await expect(page.locator("[data-part='done']")).toHaveCSS("opacity", "1");
-    await expect(page.locator("#projects")).toBeVisible();
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText(/Aman Keshri/);
+    for (const id of ["#about", "#services", "#stack", "#work", "#brief", "#experience", "#contact"]) await expect(page.locator(id)).toBeVisible();
+    await expect(page.getByRole("heading", { level: 2, name: "Hello, I’m Aman." })).toBeVisible();
   });
 });
 
@@ -227,7 +240,7 @@ test.describe("sharing and AI discoverability", () => {
     expect(full).toContain("Beyond the Connection String"); // full article text included
     const about = await (await request.get("/about")).text();
     expect(about).toContain('"@type":"FAQPage"');
-    expect(about).toContain('"alternateName":["Aman Keshri","Aman Kumar Keshri"]');
+    expect(about).toContain('"alternateName":["Aman Keshri","Aman Kumar"]');
     const robots = await (await request.get("/robots.txt")).text();
     expect(robots).toContain("User-Agent: OAI-SearchBot");
     expect(robots).toContain("User-Agent: ClaudeBot");

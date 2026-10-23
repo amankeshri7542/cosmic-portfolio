@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { Enhance } from "@/components/Enhance";
+import { SiteMotion } from "@/components/acid/SiteMotion";
 import { JsonLd, personLd, websiteLd } from "@/lib/seo";
 
 export default function SiteLayout({ children }: { children: React.ReactNode }) {
@@ -13,6 +14,7 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
       <SiteFooter />
       <JsonLd data={{ "@context": "https://schema.org", "@graph": [personLd, websiteLd] }} />
       <Suspense fallback={null}><Enhance /></Suspense>
+      <Suspense fallback={null}><SiteMotion /></Suspense>
     </>
   );
 }
