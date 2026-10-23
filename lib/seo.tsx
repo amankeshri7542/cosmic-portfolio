@@ -12,7 +12,7 @@ export function pageMetadata(path: string, title: string, description: string, e
     title,
     description,
     alternates: { canonical: url, types: { "application/rss+xml": `${SITE_URL}/blogs/rss.xml` } },
-    openGraph: { type: "website", url, title, description, siteName: "Aman Kumar", locale: "en_IN", images: [ogImageRef] },
+    openGraph: { type: "website", url, title, description, siteName: "Aman Keshri", locale: "en_IN", images: [ogImageRef] },
     twitter: { card: "summary_large_image", title, description, images: [ogImageRef] },
     ...extra,
   };
@@ -34,12 +34,12 @@ export const websiteId = `${SITE_URL}/#website`;
 export const personLd = {
   "@type": "Person",
   "@id": personId,
-  name: profile.name,
-  alternateName: ["Aman Keshri", "Aman Kumar Keshri"],
+  name: "Aman Kumar Keshri",
+  alternateName: ["Aman Keshri", "Aman Kumar"],
   url: SITE_URL,
   image: `${SITE_URL}/about/aman.webp`,
   description: profile.summary,
-  jobTitle: "Full-stack Software Engineer",
+  jobTitle: "Freelance Full-stack Developer",
   email: `mailto:${profile.email}`,
   address: { "@type": "PostalAddress", addressLocality: "Bengaluru", addressRegion: "Karnataka", addressCountry: "IN" },
   homeLocation: { "@type": "Place", name: "Bengaluru, India" },
@@ -58,7 +58,7 @@ export const personLd = {
     { "@type": "EducationalOccupationalCredential", name: "B.E. Computer Science", credentialCategory: "degree", recognizedBy: { "@type": "CollegeOrUniversity", name: "JSS Academy of Technical Education, Bengaluru" } },
   ],
   award: "CODEATHON 2023 — 3rd place, JSS Academy of Technical Education",
-  knowsAbout: ["Full-stack development", "React", "Next.js", "TypeScript", "Node.js", "Rust", "Axum", "PostgreSQL", "Database transactions", "Redis", "DynamoDB", "AWS", "Serverless", "Docker", "CI/CD", "Retrieval-augmented generation", "Procure-to-pay systems", "ERP systems"],
+  knowsAbout: ["Full-stack development", "Freelance web development", "React", "Next.js", "TypeScript", "Node.js", "Rust", "Axum", "PostgreSQL", "Database transactions", "Redis", "DynamoDB", "AWS", "Serverless", "Docker", "CI/CD", "Retrieval-augmented generation", "Procure-to-pay systems", "ERP systems"],
   sameAs: [profile.github, profile.linkedin],
 };
 
@@ -66,7 +66,8 @@ export const websiteLd = {
   "@type": "WebSite",
   "@id": websiteId,
   url: SITE_URL,
-  name: "Aman Kumar",
+  name: "Aman Keshri",
+  alternateName: ["Aman Kumar", "amankeshri.com"],
   inLanguage: "en",
   publisher: { "@id": personId },
 };

@@ -4,6 +4,8 @@ import { getPublishedPosts } from "@/lib/posts";
 import { formatDate } from "@/lib/post-types";
 import { JsonLd, pageMetadata, personId } from "@/lib/seo";
 import { SITE_URL } from "@/content/profile";
+import { Ambient } from "@/components/acid/Ambient";
+import { PageHead } from "@/components/acid/PageHead";
 import styles from "./blogs.module.css";
 
 export const metadata: Metadata = pageMetadata(
@@ -17,16 +19,16 @@ export default async function BlogIndex() {
   const articles = posts.filter((p) => !p.sample);
   const studies = posts.filter((p) => p.sample);
   return (
+    <div className="lab">
+    <Ambient />
     <div className={`shell ${styles.page}`}>
-      <header className={styles.head}>
-        <p className="label label--caps">Blog</p>
-        <h1>Notes from the workbench.</h1>
-        <p>
-          Databases, transactions, serverless systems and the decisions behind software that keeps working. Written to be
-          useful a year from now.
-        </p>
+      <PageHead
+        kicker="BLOG ✺ NOTES & ARTICLES"
+        title="Notes from the *workbench.*"
+        lede="Databases, transactions, serverless systems and the decisions behind software that keeps working. Written to be useful a year from now."
+      >
         <p className="label"><a href="/blogs/rss.xml">Subscribe with RSS</a></p>
-      </header>
+      </PageHead>
 
       <section aria-labelledby="articles-title">
         <h2 id="articles-title" className="label label--caps">Articles</h2>
@@ -72,6 +74,7 @@ export default async function BlogIndex() {
           })),
         }}
       />
+    </div>
     </div>
   );
 }

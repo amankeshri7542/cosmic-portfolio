@@ -1,25 +1,44 @@
 @layer reset, tokens, base, layout, components, utilities;
 @layer components {
   .footer {
+    position: relative;
+    z-index: 3;
     border-top: 1px solid var(--line);
     padding-block: 3.5rem 2.5rem;
-    background: color-mix(in oklab, var(--deep) 55%, transparent);
+    background: #06060A;
   }
-  .grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 2.5rem 4rem; }
+  .grid {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 0 clamp(16px, 4vw, 24px);
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 2.5rem 4rem;
+  }
   .reach { display: grid; gap: 0.9rem; align-content: start; }
+  .kick { margin: 0; font: 700 12px var(--font-mono); letter-spacing: 0.06em; color: var(--c1); }
   .email {
-    font-family: var(--font-display);
-    font-size: var(--step-3);
-    line-height: 1.05;
+    font: 900 clamp(16px, 4.6vw, 30px) / 1.1 var(--font-display);
+    letter-spacing: -0.04em;
     text-decoration: none;
     overflow-wrap: anywhere;
+    color: var(--paper);
   }
-  .email:hover { text-decoration: underline; text-decoration-thickness: 1px; }
+  .email:hover { color: var(--c1); text-decoration: none; }
   .links { display: flex; flex-wrap: wrap; gap: 0.4rem 1.4rem; }
-  .links a { color: var(--ink-2); text-decoration: none; }
-  .links a:hover { color: var(--ink); text-decoration: underline; }
+  .links a { display: inline-block; padding: 10px 0; color: var(--ink-2); font: 700 13px var(--font-mono); text-decoration: none; }
+  .links a:hover { color: var(--c2); }
   .colophon { display: grid; gap: 0.75rem; align-content: start; max-width: 46ch; }
   .build { color: var(--ink-3); }
   .build code { font-size: 1em; }
+  .switches { display: flex; flex-wrap: wrap; gap: 4px 20px; align-items: center; }
+  .switches :global(.motion-t) {
+    min-height: 44px;
+    color: var(--ink-3);
+    font: 400 12px var(--font-mono);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+  .switches :global(.motion-t):hover { color: var(--paper); }
   @media (max-width: 760px) { .grid { grid-template-columns: 1fr; } }
 }

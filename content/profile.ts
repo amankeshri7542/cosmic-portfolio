@@ -14,7 +14,7 @@ export const profile = {
   linkedin: "https://www.linkedin.com/in/aman-kumar-keshri",
   resume: "/amankeshridotcom.pdf",
   summary:
-    "Full-stack software engineer in Bengaluru. I build the interface, the API, the data model and the cloud it runs on — and add applied AI where it earns its place.",
+    "Freelance full-stack developer in Bengaluru. I build the interface, the API, the data model and the cloud it runs on, and add applied AI where it earns its place.",
 } as const;
 
 export type Role = {

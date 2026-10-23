@@ -1,8 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type CSSProperties } from "react";
 import type { Print } from "@/content/work";
+import { Drip, Melt } from "@/components/acid/Text";
 import styles from "./ContactSheet.module.css";
 
 /** Every project, as frames on a photographer's contact sheet. Each frame is linkable: /work#id. */
@@ -33,57 +34,59 @@ export function ContactSheet({ prints, headingId = "sheet-title" }: { prints: Pr
     <div className={styles.sheet}>
       <div className={styles.tools}>
         <label className={styles.search}>
-          <span className="label">Find a project</span>
+          <span className="mono">FIND A PROJECT</span>
           <input type="search" value={q} onChange={(e) => setQ(e.target.value)} placeholder="Try “AWS”, “RAG” or “payments”" aria-controls="frames" />
         </label>
-        <p className="label" aria-live="polite">{shown.length} of {prints.length} frames</p>
+        <p className={styles.count} aria-live="polite">{shown.length} of {prints.length} projects</p>
       </div>
 
-      <ol id="frames" className={styles.frames} aria-labelledby={headingId}>
+      <ol id="frames" className={styles.frames} aria-labelledby={headingId} data-all={shown.length === prints.length || undefined}>
         {shown.map((p) => {
           const n = prints.indexOf(p) + 1;
+          const ink = `var(--c${((n - 1) % 4) + 1})`;
           return (
-            <li key={p.id} id={p.id} className={styles.frame}>
-              <p className={styles.edge} aria-hidden="true">
-                <span>▸ {String(n).padStart(2, "0")}</span>
-                <span>{String(n).padStart(2, "0")}A</span>
-              </p>
+            <li key={p.id} id={p.id} className={styles.frame} style={{ "--pc": ink, "--pr": `${[-3, 2, -1.5, 3][n % 4]}deg` } as CSSProperties}>
               <div className={styles.thumb}>
-                <Image src={p.image.src} alt={p.image.alt} width={p.image.width} height={p.image.height} sizes="(max-width: 620px) 100vw, (max-width: 1100px) 50vw, 25vw" />
+                <Image src={p.image.src} alt={p.image.alt} width={p.image.width} height={p.image.height} sizes="(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 400px" />
+                <span className={styles.no} aria-hidden="true">Nº {String(n).padStart(2, "0")}</span>
               </div>
-              <h3 className={styles.title}>{p.title}</h3>
-              <p className="label">{p.kind} · {p.date}</p>
-              <details
-                className={styles.details}
-                open={open === p.id}
-                onToggle={(e) => {
-                  const el = e.currentTarget;
-                  if (el.open) setOpen(p.id);
-                  else if (open === p.id) setOpen(null);
-                }}
-              >
-                <summary>Details</summary>
-                <div className={styles.body}>
-                  <p>{p.description}</p>
-                  <p className={styles.muted}>{p.detail}</p>
-                  <p className="label">{p.tech.join(" · ")}</p>
-                  {p.diagram && (
-                    <a href={p.diagram.src} className={styles.diagram} target="_blank" rel="noopener">
-                      <Image src={p.diagram.src} alt={p.diagram.alt} width={p.diagram.width} height={p.diagram.height} sizes="(max-width: 620px) 100vw, 40vw" />
-                      <span className="label">Open the architecture diagram ↗</span>
-                    </a>
-                  )}
-                  <p className={styles.links}>
-                    {p.href ? <a href={p.href} target="_blank" rel="noopener">Visit {p.title} ↗</a> : <span className={styles.muted}>No public demo.</span>}
-                    <a href={`/work#${p.id}`} className={styles.perma}>Link to this frame</a>
-                  </p>
-                </div>
-              </details>
+              <div className={styles.body}>
+                <Drip as="p" className={`mono ${styles.kind}`} text={`${p.kind.toUpperCase()} · ${p.date.toUpperCase()}`} />
+                <Drip as="h3" className={`disp ${styles.title}`} text={p.title} />
+                <Melt className={styles.desc} text={p.description} />
+                <details
+                  className={styles.details}
+                  open={open === p.id}
+                  onToggle={(e) => {
+                    const el = e.currentTarget;
+                    if (el.open) setOpen(p.id);
+                    else if (open === p.id) setOpen(null);
+                  }}
+                >
+                  <summary>How it’s built</summary>
+                  <div className={styles.more}>
+                    <p>{p.detail}</p>
+                    <div className="pills">{p.tech.map((t) => <span className="pill" key={t}>{t}</span>)}</div>
+                    {p.diagram && (
+                      <a href={p.diagram.src} className={styles.diagram} target="_blank" rel="noopener">
+                        <Image src={p.diagram.src} alt={p.diagram.alt} width={p.diagram.width} height={p.diagram.height} sizes="(max-width: 700px) 100vw, 400px" />
+                        <span className="mono">Open the architecture diagram ↗</span>
+                      </a>
+                    )}
+                    <a href={`/work#${p.id}`} className={styles.perma}>Link to this project</a>
+                  </div>
+                </details>
+                {p.href ? (
+                  <a className={styles.go} href={p.href} target="_blank" rel="noopener">Open {p.title} <span aria-hidden="true">↗</span></a>
+                ) : (
+                  <span className={styles.nodemo}>Architecture project, no public demo</span>
+                )}
+              </div>
             </li>
           );
         })}
       </ol>
-      {shown.length === 0 && <p className={styles.empty}>No frame matches “{q}”. Try a technology like PostgreSQL, Lambda or OpenAI.</p>}
+      {shown.length === 0 && <p className={styles.empty}>Nothing matches “{q}”. Try a tool like PostgreSQL, Lambda or OpenAI.</p>}
     </div>
   );
 }

@@ -3,29 +3,34 @@
 /* ───────────── tokens ───────────── */
 @layer tokens {
   :root {
-    /* Dark, precise, one warm accent. Saffron marks action and data in motion; green only means "done". */
-    --deep: #05070b;
-    --prussian: #090c12; /* page ground (name kept for component compatibility) */
-    --sheet: #0e131b; /* raised panels */
-    --wash: #1a2230; /* hover / strong panel */
-    --paper: #f3f5f8; /* solid buttons, focus, brightest text */
-    --saffron: #ff9f1c;
-    --saffron-soft: color-mix(in oklab, var(--saffron) 16%, transparent);
-    --ok: #3ddc97;
-    --ferric: #f4d35e; /* pending, uncommitted, waiting */
-    --fail: #ff6b7a;
+    /* Colourful lab: four inks that rotate (tap the portrait), on near-black. --c1…--c4 are animatable. */
+    --c1: #D4FF3A;
+    --c2: #FF4FD8;
+    --c3: #7B90FF;
+    --c4: #FF8A3D;
+    --deep: #06060A;
+    --prussian: #0A0A0F; /* page ground (name kept for component compatibility) */
+    --sheet: #13131B; /* raised panels */
+    --wash: #1E1E2A; /* hover / strong panel */
+    --paper: #F5F2EA; /* solid buttons, focus, brightest text */
+    --saffron: var(--c1); /* the action colour now follows the palette */
+    --saffron-soft: color-mix(in oklab, var(--c1) 16%, transparent);
+    --ok: #7CFF6B;
+    --ferric: #FFC93C; /* pending, uncommitted, waiting */
+    --fail: #FF6B7A;
 
-    --ink: #eef1f6;
-    --ink-2: #a9b3c3;
-    --ink-3: #8592a6;
-    --line: color-mix(in oklab, #ffffff 9%, transparent);
-    --line-strong: color-mix(in oklab, #ffffff 18%, transparent);
+    --ink: #F5F2EA;
+    --ink-2: #CFCBC2;
+    --ink-3: #A9A59C;
+    --line: color-mix(in oklab, #ffffff 12%, transparent);
+    --line-strong: color-mix(in oklab, #ffffff 24%, transparent);
     --ground: var(--prussian);
     --ground-2: var(--deep);
 
-    --font-display: var(--font-bricolage), system-ui, sans-serif;
-    --font-text: var(--font-bricolage), system-ui, sans-serif;
-    --font-mono: var(--font-jetbrains), ui-monospace, "SF Mono", monospace;
+    --font-display: var(--font-unbounded), system-ui, sans-serif;
+    --font-text: var(--font-grotesk), system-ui, sans-serif;
+    --font-mono: var(--font-mono-face), ui-monospace, "SF Mono", monospace;
+    --font-accent: var(--font-shrikhand), cursive;
 
     --step--1: 0.8125rem;
     --step-0: 1.0625rem;
@@ -37,12 +42,13 @@
 
     --gutter: clamp(1rem, 0.5rem + 2.4vw, 2.5rem);
     --measure: 66ch;
-    --max: 1360px;
-    --radius: 10px;
-    --radius-sm: 6px;
-    --header-h: 64px;
+    --max: 1280px;
+    --radius: 18px;
+    --radius-sm: 10px;
+    --header-h: 72px;
 
     --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-pop: cubic-bezier(0.2, 1.6, 0.4, 1);
     --dur: 420ms;
 
     color-scheme: dark;
@@ -52,12 +58,12 @@
   :root {
     --code-foreground: #e6eaf1;
     --code-background: transparent;
-    --code-token-constant: #ffb86b;
-    --code-token-string: #9fe0c0;
+    --code-token-constant: #FF8A3D;
+    --code-token-string: #D4FF3A;
     --code-token-comment: #6f7c90;
-    --code-token-keyword: #ff9f1c;
+    --code-token-keyword: #FF4FD8;
     --code-token-parameter: #e6eaf1;
-    --code-token-function: #8cc4ff;
+    --code-token-function: #7B90FF;
     --code-token-string-expression: #9fe0c0;
     --code-token-punctuation: #8a96a8;
     --code-token-link: #8cc4ff;
@@ -118,27 +124,23 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  /* A faint engineering grid and one warm glow at the top; static, no JS. */
+  /* A dotted lab bench under everything; static, no JS. The moving colour lives in the ambient layer. */
   body::before {
     content: "";
     position: fixed;
     inset: 0;
     z-index: -1;
     pointer-events: none;
-    background:
-      radial-gradient(60% 40% at 50% -6%, color-mix(in oklab, var(--saffron) 9%, transparent), transparent 70%),
-      linear-gradient(to right, color-mix(in oklab, #fff 3.2%, transparent) 1px, transparent 1px) 0 0 / 64px 64px,
-      linear-gradient(to bottom, color-mix(in oklab, #fff 3.2%, transparent) 1px, transparent 1px) 0 0 / 64px 64px;
-    mask: radial-gradient(120% 90% at 50% 0%, #000 40%, transparent 85%);
+    background-image: radial-gradient(color-mix(in oklab, var(--paper) 9%, transparent) 1px, transparent 1.6px);
+    background-size: 30px 30px;
   }
   [data-paper="on"] body::before { opacity: 0; }
 
   h1, h2, h3 {
     font-family: var(--font-display);
-    font-weight: 600;
-    line-height: 1.02;
-    letter-spacing: -0.03em;
-    font-variation-settings: "opsz" 96;
+    font-weight: 800;
+    line-height: 1.04;
+    letter-spacing: -0.035em;
     text-wrap: balance;
   }
   p { text-wrap: pretty; }
@@ -146,13 +148,13 @@
   a:hover { text-decoration-thickness: 2px; }
 
   :focus-visible {
-    outline: 2px solid var(--paper);
+    outline: 3px solid var(--c1);
     outline-offset: 3px;
-    border-radius: var(--radius);
+    border-radius: var(--radius-sm);
   }
   [data-paper="on"] :focus-visible { outline-color: var(--ink); }
 
-  ::selection { background: var(--saffron); color: #111; }
+  ::selection { background: var(--c2); color: #0A0A0F; }
 
   code, kbd, samp, pre { font-family: var(--font-mono); font-size: 0.88em; }
   [lang="hi"] { font-family: var(--font-anek-deva), var(--font-text); font-variation-settings: normal; }
@@ -196,18 +198,20 @@
     display: inline-flex;
     align-items: center;
     gap: 0.6em;
-    min-height: 44px;
-    padding: 0.7rem 1.1rem;
-    border: 1px solid var(--line-strong);
-    border-radius: var(--radius);
+    min-height: 48px;
+    padding: 0.7rem 1.3rem;
+    border: 2px solid var(--line-strong);
+    border-radius: 999px;
     font-family: var(--font-mono);
     font-size: 0.875rem;
+    font-weight: 700;
     text-decoration: none;
-    transition: background-color var(--dur) var(--ease-out), color var(--dur) var(--ease-out), border-color var(--dur);
+    transition: background-color var(--dur) var(--ease-out), color var(--dur) var(--ease-out), border-color var(--dur), transform 0.35s var(--ease-pop);
   }
-  .button:hover { background: color-mix(in oklab, var(--paper) 10%, transparent); text-decoration: none; }
-  .button--solid { background: var(--saffron); color: #160d00; border-color: var(--saffron); font-weight: 600; }
-  .button--solid:hover { background: color-mix(in oklab, var(--saffron) 86%, #fff); }
+  .button:hover { background: color-mix(in oklab, var(--paper) 10%, transparent); border-color: var(--c1); text-decoration: none; transform: rotate(-2deg) scale(1.04); }
+  .button--solid { background: var(--c2); color: #0A0A0F; border-color: #0A0A0F; box-shadow: 4px 4px 0 var(--paper); }
+  .button--solid:hover { background: var(--c2); color: #0A0A0F; }
+  @media (hover: none) { .button:hover { transform: none; } }
   .button[disabled] { opacity: 0.5; cursor: not-allowed; }
 
   .rule { border: 0; border-top: 1px solid var(--line); }

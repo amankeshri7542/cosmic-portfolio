@@ -1,12 +1,15 @@
 @layer reset, tokens, base, layout, components, utilities;
 @layer components {
-  .page { padding-block: calc(var(--header-h) + 4rem) 6rem; display: grid; gap: 4rem; }
-  .head { display: grid; gap: 1rem; max-width: 46rem; }
-  .head h1 { font-size: var(--step-5); }
-  .head p { color: var(--ink-2); font-size: var(--step-1); }
+  .page { padding-block: 0 6rem; display: grid; gap: 4rem; }
   .list { display: grid; margin-top: 1rem; border-top: 1px solid var(--line-strong); }
-  .item { display: grid; gap: 0.6rem; padding-block: 2rem; border-bottom: 1px solid var(--line); max-width: 56rem; }
-  .item h3 { font-size: var(--step-3); }
+  .item { display: grid; gap: 0.6rem; padding: 2rem 0; border-bottom: 1px dashed var(--line-strong); max-width: 56rem; transition: transform 0.4s var(--ease-pop); }
+  .item:hover { transform: translateX(8px); }
+  .item:nth-child(4n + 1) h3 a:hover { color: var(--c1); }
+  .item:nth-child(4n + 2) h3 a:hover { color: var(--c2); }
+  .item:nth-child(4n + 3) h3 a:hover { color: var(--c3); }
+  .item:nth-child(4n) h3 a:hover { color: var(--c4); }
+  @media (hover: none), (prefers-reduced-motion: reduce) { .item:hover { transform: none; } }
+  .item h3 { font-size: var(--step-3); font-weight: 900; letter-spacing: -0.04em; }
   .item h3 a { text-decoration: none; }
   .item h3 a:hover { text-decoration: underline; text-decoration-thickness: 1px; }
   .excerpt { color: var(--ink-2); max-width: 60ch; }

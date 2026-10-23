@@ -1,13 +1,14 @@
 import "@/styles/global.css";
+import "@/styles/acid.css";
 import type { Metadata, Viewport } from "next";
 import { fontVariables } from "./fonts";
 import { SITE_URL, profile } from "@/content/profile";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: { default: "Aman Kumar — full-stack software engineer, Bengaluru", template: "%s · Aman Kumar" },
+  title: { default: "Aman Keshri (Aman Kumar) — freelance full-stack developer, Bengaluru", template: "%s · Aman Keshri" },
   description: profile.summary,
-  applicationName: "Aman Kumar",
+  applicationName: "Aman Keshri",
   authors: [{ name: profile.name, url: SITE_URL }],
   creator: profile.name,
   alternates: { canonical: SITE_URL, types: { "application/rss+xml": `${SITE_URL}/blogs/rss.xml` } },
@@ -21,17 +22,17 @@ export const metadata: Metadata = {
   },
 };
 
-export const viewport: Viewport = { themeColor: "#0f2c57", colorScheme: "dark" };
+export const viewport: Viewport = { themeColor: "#0A0A0F", colorScheme: "dark" };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={fontVariables} suppressHydrationWarning>
       <head>
-        {/* Before first paint: let the home story start from an empty canvas when motion is allowed. */}
+        {/* Before first paint: restore this visitor's palette and "Pause motion" choice, so nothing flashes. */}
         <script
           dangerouslySetInnerHTML={{
             __html:
-              "(function(){try{var d=document.documentElement;var off=false;try{off=localStorage.getItem('story-motion')==='off'}catch(e){}if(!off&&!matchMedia('(prefers-reduced-motion: reduce)').matches){d.classList.add('story-motion');setTimeout(function(){if(!d.classList.contains('story-live'))d.classList.remove('story-motion')},6000)}}catch(e){}})()",
+              "(function(){try{var d=document.documentElement,p=localStorage.getItem('pal');if(p&&p!=='0')d.dataset.pal=p;if(localStorage.getItem('motion')==='off')d.dataset.motion='off'}catch(e){}})()",
           }}
         />
       </head>
