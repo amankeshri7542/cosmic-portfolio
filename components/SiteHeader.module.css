@@ -53,7 +53,8 @@
   }
   .tools { display: flex; align-items: center; gap: 10px; margin-left: auto; }
   .hire { min-height: 44px; padding: 0 20px; font-size: 13px; box-shadow: 4px 4px 0 var(--paper); }
-  @media (max-width: 1020px) { .hire { display: none; } }
-  @media (max-width: 860px) { .nav { display: none; } }
-  @media (max-width: 420px) { .tools { gap: 6px; } }
+  /* Tablets and phones: nav links move into the Menu sheet, and the easter egg moves to the footer so the
+     top bar is just logo, Menu and Hire me. Keep 860px in step with Finder.module.css. */
+  @media (max-width: 860px) { .nav, .egg { display: none; } }
+  @media (max-width: 420px) { .tools { gap: 6px; } .hire { padding: 0 14px; } }
 }

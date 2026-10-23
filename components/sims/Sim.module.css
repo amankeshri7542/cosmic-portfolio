@@ -39,8 +39,8 @@
     font-family: var(--font-mono);
     font-size: 13px;
   }
-  .check { display: inline-flex; align-items: center; gap: 0.5rem; min-height: 40px; cursor: pointer; }
-  .check input { width: 18px; height: 18px; accent-color: var(--paper); }
+  .check { display: inline-flex; align-items: center; gap: 0.5rem; min-height: 44px; padding-inline: 4px; cursor: pointer; }
+  .check input { width: 22px; height: 22px; accent-color: var(--paper); }
 
   .log {
     list-style: none;

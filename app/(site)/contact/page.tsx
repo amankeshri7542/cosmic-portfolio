@@ -9,8 +9,8 @@ import styles from "./contact.module.css";
 
 export const metadata: Metadata = pageMetadata(
   "/contact",
-  "Contact Aman Kumar",
-  "Write to Aman Kumar about a role, a project or a system that needs to hold. Email, LinkedIn and GitHub.",
+  "Contact me — Aman Kumar",
+  "I’m Aman Kumar (Aman Keshri). Write to me about a project, a role or a system that needs to hold. Email, LinkedIn and GitHub.",
 );
 
 export default function ContactPage() {

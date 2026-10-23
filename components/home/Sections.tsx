@@ -97,7 +97,7 @@ export function Fresh() {
         <Drip as="p" className="hint hover-only" text="Hover: a server fails, the windows light up, the light moves." />
       </div>
       <div className="grid-fresh">
-        <a className="feat wide" href={a.href} target="_blank" rel="noopener" aria-label="System Lab: Watch systems work. Then watch them break. Open the live site">
+        <a className="feat wide" href={a.href} target="_blank" rel="noopener">
           <div className="art art-sys">
             <svg viewBox={sysArt.viewBox} aria-hidden="true" dangerouslySetInnerHTML={{ __html: sysArt.svg }} />
           </div>
@@ -109,7 +109,7 @@ export function Fresh() {
             <span className="go">Open live ↗</span>
           </div>
         </a>
-        <a className="feat" href={b.href} target="_blank" rel="noopener" aria-label="Dream Home: a 3D home-planning sandbox. Open the live site">
+        <a className="feat" href={b.href} target="_blank" rel="noopener">
           <div className="art art-home">
             <svg viewBox={homeArt.viewBox} aria-hidden="true" dangerouslySetInnerHTML={{ __html: homeArt.svg }} />
           </div>
@@ -120,8 +120,8 @@ export function Fresh() {
             <span className="go">Open live ↗</span>
           </div>
         </a>
-        <a className="feat" href={c.href} target="_blank" rel="noopener" aria-label="Subhangi Keshri, interior designer portfolio. Open the live site">
-          <div className="art art-flute">
+        <a className="feat" href={c.href} target="_blank" rel="noopener">
+          <div className="art art-flute" aria-hidden="true">
             <span className="flute-t">A home in<br />fluted espresso</span>
           </div>
           <div className="fbody">

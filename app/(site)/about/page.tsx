@@ -19,8 +19,8 @@ import styles from "./about.module.css";
 
 export const metadata: Metadata = pageMetadata(
   "/about",
-  "About Aman Keshri (Aman Kumar)",
-  "Aman Keshri (Aman Kumar) is a freelance full-stack developer in Bengaluru working across React, TypeScript, Rust, PostgreSQL and AWS. Experience, education, certifications and how he works.",
+  "About me — Aman Keshri (Aman Kumar)",
+  "I’m Aman Keshri (Aman Kumar), a freelance full-stack developer in Bengaluru working across React, TypeScript, Rust, PostgreSQL and AWS. My experience, education, certifications and how I work.",
 );
 
 type Vars = CSSProperties & Record<`--${string}`, string>;

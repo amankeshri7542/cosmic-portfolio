@@ -18,8 +18,9 @@ export function PaletteHalo({ children }: { children: ReactNode }) {
 
   return (
     <div className="halo-wrap">
-      <button type="button" className="halo" onClick={shift} aria-label={`Shift the colours of the page (${pal + 1} of 4)`}>
+      <button type="button" className="halo" onClick={shift}>
         {children}
+        <span className="sr">: Shift the colours of the page ({pal + 1} of 4)</span>
       </button>
       <p className="hint scrawl">
         <svg className="arrow" viewBox="0 0 70 44" width="70" height="44" aria-hidden="true">

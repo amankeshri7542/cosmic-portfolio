@@ -45,8 +45,8 @@ const nextConfig: NextConfig = {
   cacheComponents: true,
   partialPrefetching: true,
   poweredByHeader: false,
-  // ~14 KB of CSS in total: inlining it removes five render-blocking requests on slow networks.
-  experimental: { inlineCss: true },
+  // CSS is not inlined: at ~67 KB it was sent three times per page (a <style> tag plus twice in the RSC
+  // payload), which outweighed the saved request. As files it is cached across pages.
   env: { BUILD_SHA: gitSha(), BUILD_TIME: new Date().toISOString() },
   images: {
     formats: ["image/avif", "image/webp"],

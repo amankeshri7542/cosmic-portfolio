@@ -18,6 +18,9 @@
   .reach { display: grid; gap: 0.9rem; align-content: start; }
   .kick { margin: 0; font: 700 12px var(--font-mono); letter-spacing: 0.06em; color: var(--c1); }
   .email {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
     font: 900 clamp(16px, 4.6vw, 30px) / 1.1 var(--font-display);
     letter-spacing: -0.04em;
     text-decoration: none;
@@ -26,7 +29,7 @@
   }
   .email:hover { color: var(--c1); text-decoration: none; }
   .links { display: flex; flex-wrap: wrap; gap: 0.4rem 1.4rem; }
-  .links a { display: inline-block; padding: 10px 0; color: var(--ink-2); font: 700 13px var(--font-mono); text-decoration: none; }
+  .links a { display: inline-flex; align-items: center; min-height: 44px; color: var(--ink-2); font: 700 13px var(--font-mono); text-decoration: none; }
   .links a:hover { color: var(--c2); }
   .colophon { display: grid; gap: 0.75rem; align-content: start; max-width: 46ch; }
   .build { color: var(--ink-3); }
@@ -40,5 +43,9 @@
     text-underline-offset: 4px;
   }
   .switches :global(.motion-t):hover { color: var(--paper); }
+  /* the easter egg lives here on tablets and phones (the header keeps it on wider screens); its terminal opens upward */
+  .egg { display: none; }
+  .egg :global(.term) { top: auto; bottom: calc(100% + 12px); left: 0; right: auto; }
+  @media (max-width: 860px) { .egg { display: block; } }
   @media (max-width: 760px) { .grid { grid-template-columns: 1fr; } }
 }
