@@ -1,20 +1,30 @@
 @layer reset, tokens, base, layout, components, utilities;
 @layer components {
   .page { padding-block: 0 6rem; display: grid; gap: 4rem; }
-  .list { display: grid; margin-top: 1rem; border-top: 1px solid var(--line-strong); }
-  .item { display: grid; gap: 0.6rem; padding: 2rem 0; border-bottom: 1px dashed var(--line-strong); max-width: 56rem; transition: transform 0.4s var(--ease-pop); }
-  .item:hover { transform: translateX(8px); }
-  .item:nth-child(4n + 1) h3 a:hover { color: var(--c1); }
-  .item:nth-child(4n + 2) h3 a:hover { color: var(--c2); }
-  .item:nth-child(4n + 3) h3 a:hover { color: var(--c3); }
-  .item:nth-child(4n) h3 a:hover { color: var(--c4); }
-  @media (hover: none), (prefers-reduced-motion: reduce) { .item:hover { transform: none; } }
-  .item h3 { font-size: var(--step-3); font-weight: 900; letter-spacing: -0.04em; }
-  .item h3 a { text-decoration: none; }
-  .item h3 a:hover { text-decoration: underline; text-decoration-thickness: 1px; }
-  .excerpt { color: var(--ink-2); max-width: 60ch; }
-  .studies { display: grid; gap: 0.6rem; max-width: 56rem; }
+  /* articles are notepaper cards, the same as the Writing section on the home page */
+  .list { margin-top: 1.5rem; grid-template-columns: repeat(auto-fill, minmax(min(320px, 100%), 1fr)); gap: 28px 22px; align-items: start; }
+  .item { display: grid; }
+  .item :global(.post) { height: 100%; }
+  .item :global(.post-t) { margin: 0; }
+  .studies { display: grid; gap: 0.8rem; max-width: 56rem; }
   .note { color: var(--ink-3); }
-  .small { display: grid; }
-  .small li { display: flex; justify-content: space-between; gap: 1rem; padding: 0.8rem 0; border-bottom: 1px solid var(--line); }
+  .small { display: flex; flex-wrap: wrap; gap: 10px; }
+  .small a {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 44px;
+    padding: 0 18px;
+    border: 2px solid var(--line-strong);
+    border-radius: 999px;
+    font: 700 13px var(--font-mono);
+    text-decoration: none;
+    transition: border-color 0.2s, color 0.2s, transform 0.3s var(--ease-pop);
+  }
+  .small li:nth-child(4n + 1) a:hover { border-color: var(--c1); color: var(--c1); }
+  .small li:nth-child(4n + 2) a:hover { border-color: var(--c2); color: var(--c2); }
+  .small li:nth-child(4n + 3) a:hover { border-color: var(--c3); color: var(--c3); }
+  .small li:nth-child(4n) a:hover { border-color: var(--c4); color: var(--c4); }
+  .small a:hover { transform: rotate(-2deg); text-decoration: none; }
+  @media (hover: none), (prefers-reduced-motion: reduce) { .small a:hover { transform: none; } }
 }

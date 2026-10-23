@@ -2,6 +2,7 @@ import Link from "next/link";
 import { profile } from "@/content/profile";
 import { Drip } from "./acid/Text";
 import { MotionToggle } from "./acid/MotionToggle";
+import { ChaosSwitch } from "./acid/ChaosSwitch";
 import { Inspect } from "./Inspect";
 import styles from "./SiteFooter.module.css";
 
@@ -34,6 +35,7 @@ export function SiteFooter() {
           <div className={styles.switches}>
             <MotionToggle />
             <Inspect sha={sha} />
+            <div className={styles.egg}><ChaosSwitch /></div>
           </div>
         </div>
       </div>

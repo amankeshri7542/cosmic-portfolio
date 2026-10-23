@@ -76,8 +76,8 @@
   .more p { margin: 0; }
   .diagram { display: grid; gap: 6px; text-decoration: none; font-size: 12px; color: var(--pc); }
   .diagram img { width: 100%; height: auto; border-radius: 12px; border: 2px solid #0A0A0F; background: var(--paper); }
-  .perma { font: 400 12px var(--font-mono); color: var(--ink-3); }
-  .go { margin-top: auto; padding-top: 6px; font: 700 13px var(--font-mono); color: var(--pc); text-decoration: none; }
+  .perma { display: inline-flex; align-items: center; min-height: 44px; font: 400 12px var(--font-mono); color: var(--ink-3); }
+  .go { display: inline-flex; align-items: center; min-height: 44px; margin-top: auto; padding-top: 6px; font: 700 13px var(--font-mono); color: var(--pc); text-decoration: none; }
   .go:hover { text-decoration: underline; color: var(--pc); }
   .nodemo { margin-top: auto; padding-top: 6px; font: 400 12px var(--font-mono); color: var(--ink-3); }
   .empty { margin: 0; color: var(--ink-2); }

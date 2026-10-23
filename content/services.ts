@@ -101,18 +101,6 @@ export const toolLogos: Record<string, string> = {
   Linux: "/stack/linux.svg",
 };
 
-/** Project groups for the "Shipped & live" filter, by print id (content/work.ts). */
-export const printGroups: Record<string, ("AI" | "Cloud" | "Web")[]> = {
-  "shiv-cement": ["AI", "Web"],
-  alexa: ["AI", "Cloud"],
-  medscan: ["AI"],
-  mythos: ["AI"],
-  foxpop: ["Web"],
-  "url-shortener": ["Web"],
-  "prompt-enhancer": ["AI", "Web"],
-  notifications: ["Cloud"],
-};
-
 /** Short case-study headlines for the home deck; the details come from content/work.ts plates. */
 export const caseHeads: Record<string, { short: string; thesis: string }> = {
   "hardware-erp": { short: "ERP", thesis: "Everything goes through. Or *nothing* does." },

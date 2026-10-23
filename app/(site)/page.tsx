@@ -2,7 +2,7 @@ import type { CSSProperties } from "react";
 import type { Metadata } from "next";
 import { Ambient } from "@/components/acid/Ambient";
 import { Drip, Melt } from "@/components/acid/Text";
-import { FilterTabs } from "@/components/acid/FilterTabs";
+import Link from "next/link";
 import { Drips, Hero, Marquees } from "@/components/home/Hero";
 import { About, Blueprint, ContactCard, Experience, Faq, Fresh, Head, Process, Services, Writing } from "@/components/home/Sections";
 import { StackExplorer } from "@/components/home/StackExplorer";
@@ -11,7 +11,6 @@ import { BriefBuilder } from "@/components/home/BriefBuilder";
 import { fanout, p2p } from "@/components/home/art";
 import { plates, prints } from "@/content/work";
 import { stack } from "@/content/profile";
-import { printGroups } from "@/content/services";
 import { JsonLd, pageMetadata } from "@/lib/seo";
 import { SITE_URL } from "@/content/profile";
 import Image from "next/image";
@@ -29,6 +28,8 @@ export const metadata: Metadata = {
 
 const toolCount = Object.values(stack).reduce((n, items) => n + items.length, 0);
 type Vars = CSSProperties & Record<`--${string}`, string>;
+// Four projects that cover AI, cloud and web; the rest live on /work, which keeps the home page shorter.
+const homePicks = ["shiv-cement", "alexa", "foxpop", "notifications"].map((id) => prints.find((p) => p.id === id)!);
 
 export default function Home() {
   return (
@@ -58,16 +59,15 @@ export default function Home() {
         <Fresh />
 
         <section className="sec block" data-sec="more" aria-labelledby="more-h">
-          <Head n="07" kicker="MORE PROJECTS ✺ EIGHT MORE" title="Shipped & *live*" id="more-h" />
-          <FilterTabs labels={["All", "AI", "Cloud", "Web"]} label="Filter projects" className="grid-proj">
-            {prints.map((p, i) => (
+          <Head n="07" kicker={`MORE PROJECTS ✺ ${homePicks.length} OF ${prints.length}`} title="Shipped & *live*" id="more-h" />
+          <div className="grid-proj">
+            {homePicks.map((p, i) => (
               <a
                 key={p.id}
                 className={i === 0 ? "proj lead" : "proj"}
                 href={p.href ?? `/work#${p.id}`}
                 {...(p.href ? { target: "_blank", rel: "noopener" } : {})}
-                data-grp={printGroups[p.id]?.join(" ")}
-                style={{ "--pc": `var(--c${(i % 4) + 1})`, "--pr": `${[-3, 2, -1.5, 3, -2, 1.5, -3, 2][i % 8]}deg` } as Vars}
+                style={{ "--pc": `var(--c${(i % 4) + 1})`, "--pr": `${[-3, 2, -1.5, 3][i]}deg` } as Vars}
               >
                 <span className="ph">
                   <Image src={p.image.src} alt={p.image.alt} width={p.image.width} height={p.image.height} sizes="(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 420px" />
@@ -82,7 +82,12 @@ export default function Home() {
                 </span>
               </a>
             ))}
-          </FilterTabs>
+            <Link className="proj all" href="/work#archive">
+              <span className="all-n disp" aria-hidden="true">+{prints.length - homePicks.length}</span>
+              <span className="disp all-t">See all {prints.length} projects</span>
+              <span className="go">On the work page →</span>
+            </Link>
+          </div>
         </section>
 
         <section className="sec block" data-sec="brief" id="brief" aria-labelledby="brief-h">

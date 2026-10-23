@@ -1,10 +1,12 @@
-import { Fragment, type CSSProperties, type ElementType } from "react";
+import { Fragment, type CSSProperties, type ElementType, type ReactElement } from "react";
 
 // Split text for the lab effects, rendered on the server with no client JavaScript.
 // - <Wobble>: headings; every letter wobbles, about one in five also melts. `*word*` marks the accent word.
-// - <Drip>: small caps, labels and numbers; letters drop in, ooze, and some melt with a colour split.
-// - <Melt>: paragraphs; each word oozes a little and about one in three melts harder.
-// Letters are aria-hidden next to a visually hidden copy, so screen readers and search engines read whole words.
+// - <Drip>: small caps and labels; words drop in and about a third melt with a colour split. Short tokens
+//   such as numbers ("14", "3rd") still split by letter.
+// - <Melt>: paragraphs stay still and readable; only a few meaningful words (tool names, numbers, `*marked*`
+//   words) melt. Splitting every letter and word cost thousands of nodes per page and made prose hard to read.
+// Split letters are aria-hidden next to a visually hidden copy, so screen readers and search engines read whole words.
 // Randomness is seeded from the text itself, so server and client always agree.
 
 function seeded(text: string) {
@@ -69,26 +71,38 @@ export function Wobble({ text, as: Tag = "h2", className, id, melt = 0.2, label,
 
 type DripProps = { text: string; as?: ElementType; className?: string; style?: CSSProperties; id?: string };
 
-/** Small text and numbers: letters drop in, ooze and sometimes melt. */
+/** Small text and numbers: words drop in and some melt. A short single token splits by letter. */
 export function Drip({ text, as: Tag = "span", className, style, id }: DripProps) {
   const rnd = seeded(text);
-  let li = 0;
+  if (text.length <= 6 && !text.includes(" ")) {
+    return (
+      <Tag className={className} style={style} id={id}>
+        <span className="sr">{text}</span>
+        <span aria-hidden="true" className="word">
+          {Array.from(text).map((c, k) => {
+            const m = rnd() < 0.3;
+            const v: Vars = { "--dd": s(0.08 + k * 0.03), "--dl": s(rnd() * 7), "--du": s(4.5 + rnd() * 3.5) };
+            return <span key={k} className={m ? "dr mlt" : "dr"} style={v}>{c}</span>;
+          })}
+        </span>
+      </Tag>
+    );
+  }
+  const words = text.split(" ");
+  // one wrapper, so the spaces between words survive inside flex containers such as pills and kickers
   return (
     <Tag className={className} style={style} id={id}>
-      <span className="sr">{text}</span>
-      <span aria-hidden="true">
-        {text.split(" ").map((w, i, all) => (
-          <Fragment key={i}>
-            <span className="word">
-              {Array.from(w).map((c, k) => {
-                const m = rnd() < 0.3;
-                const style: Vars = { "--dd": s(0.08 + li++ * 0.022), "--dl": s(rnd() * 7), "--du": s(4.5 + rnd() * 3.5) };
-                return <span key={k} className={m ? "dr mlt" : "dr"} style={style}>{c}</span>;
-              })}
-            </span>
-            {i < all.length - 1 ? " " : null}
-          </Fragment>
-        ))}
+      <span>
+        {words.map((w, i) => {
+          const m = rnd() < 0.3;
+          const v: Vars = { "--dd": s(0.08 + i * 0.06), "--dl": s(rnd() * 7), "--du": s(4.5 + rnd() * 3.5) };
+          return (
+            <Fragment key={i}>
+              <span className={m ? "dr mlt" : "dr"} style={v}>{w}</span>
+              {i < words.length - 1 ? " " : null}
+            </Fragment>
+          );
+        })}
       </span>
     </Tag>
   );
@@ -96,23 +110,36 @@ export function Drip({ text, as: Tag = "span", className, style, id }: DripProps
 
 type MeltProps = { text: string; as?: ElementType; className?: string; style?: CSSProperties; id?: string };
 
-/** Paragraphs: every word oozes, about a third melt harder with a colour split. Words stay whole for readers. */
+// A word worth melting: a tool or proper name mid-sentence (PostgreSQL, AWS, Vartalaap) or anything with a digit.
+const keyword = (w: string, prev: string | undefined) => {
+  const bare = w.replace(/^[(“"']+|[)”"'.,;:!?…]+$/g, "");
+  if (bare.length < 2 || /^I[’']/.test(bare)) return false;
+  if (/\d/.test(bare)) return true;
+  return /^[A-Z]/.test(bare) && prev !== undefined && !/[.!?:]$/.test(prev);
+};
+
+/** Paragraphs: the copy stays still; a few keywords (or `*marked*` words) melt with a colour split. */
 export function Melt({ text, as: Tag = "p", className, style, id }: MeltProps) {
   const rnd = seeded(text);
   const words = text.split(" ");
-  return (
-    <Tag className={className} style={style} id={id}>
-      {words.map((w, i) => {
-        const hard = rnd() < 0.3;
-        const dl = rnd() * 8;
-        const du = 5.5 + rnd() * 3;
-        return (
-          <Fragment key={i}>
-            {hard ? <span className="mw mm" style={{ "--dl": s(dl), "--du": s(du) } as Vars}>{w}</span> : <span className="mw">{w}</span>}
-            {i < words.length - 1 ? " " : null}
-          </Fragment>
-        );
-      })}
-    </Tag>
-  );
+  const marked = text.includes("*");
+  const picks = new Set<number>();
+  if (marked) words.forEach((w, i) => w.includes("*") && picks.add(i));
+  else {
+    const pool = words.map((w, i) => (keyword(w, words[i - 1]) ? i : -1)).filter((i) => i >= 0);
+    const want = Math.min(pool.length, Math.floor(words.length / 9));
+    while (picks.size < want) picks.add(pool[Math.floor(rnd() * pool.length)]);
+  }
+  const out: (string | ReactElement)[] = [];
+  let run: string[] = [];
+  words.forEach((raw, i) => {
+    const w = marked ? raw.replace(/\*/g, "") : raw;
+    if (!picks.has(i)) { run.push(w); return; }
+    if (run.length) out.push(run.join(" ") + " ");
+    run = [];
+    out.push(<span key={i} className="mw mm" style={{ "--dl": s(rnd() * 8), "--du": s(5.5 + rnd() * 3) } as Vars}>{w}</span>);
+    if (i < words.length - 1) out.push(" ");
+  });
+  if (run.length) out.push(run.join(" "));
+  return <Tag className={className ? `mlp ${className}` : "mlp"} style={style} id={id}>{out}</Tag>;
 }

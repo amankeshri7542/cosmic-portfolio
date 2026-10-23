@@ -6,6 +6,9 @@ import { JsonLd, pageMetadata, personId } from "@/lib/seo";
 import { SITE_URL } from "@/content/profile";
 import { Ambient } from "@/components/acid/Ambient";
 import { PageHead } from "@/components/acid/PageHead";
+import { Drip, Melt } from "@/components/acid/Text";
+import { Drips } from "@/components/home/Hero";
+import { ContactCard } from "@/components/home/Sections";
 import styles from "./blogs.module.css";
 
 export const metadata: Metadata = pageMetadata(
@@ -27,17 +30,20 @@ export default async function BlogIndex() {
         title="Notes from the *workbench.*"
         lede="Databases, transactions, serverless systems and the decisions behind software that keeps working. Written to be useful a year from now."
       >
-        <p className="label"><a href="/blogs/rss.xml">Subscribe with RSS</a></p>
+        <p className="row"><a className="cta cta-ghost cta-sm" href="/blogs/rss.xml">Subscribe with RSS</a></p>
       </PageHead>
 
       <section aria-labelledby="articles-title">
         <h2 id="articles-title" className="label label--caps">Articles</h2>
-        <ol role="list" className={styles.list}>
+        <ol role="list" className={`grid-3 ${styles.list}`}>
           {articles.map((p) => (
             <li key={p.slug} className={styles.item}>
-              <p className="label">{formatDate(p.dateISO)} · {p.readingMinutes} min read{p.tags?.length ? ` · ${p.tags.join(", ")}` : ""}</p>
-              <h3><Link href={`/blogs/${p.slug}`}>{p.title}</Link></h3>
-              <p className={styles.excerpt}>{p.excerpt}</p>
+              <Link className="post" href={`/blogs/${p.slug}`}>
+                <Drip className="mono post-d" text={`${formatDate(p.dateISO).toUpperCase()} · ${p.readingMinutes} MIN READ`} />
+                <h3 className="disp post-t">{p.title}</h3>
+                {p.excerpt && <Melt as="span" className="post-b" text={p.excerpt} />}
+                {p.tags?.length ? <span className="mono post-d">{p.tags.join(" · ")}</span> : null}
+              </Link>
             </li>
           ))}
         </ol>
@@ -50,8 +56,7 @@ export default async function BlogIndex() {
           <ul role="list" className={styles.small}>
             {studies.map((p) => (
               <li key={p.slug}>
-                <Link href={`/blogs/${p.slug}`}>{p.title}</Link>
-                <span className="label">{p.readingMinutes} min</span>
+                <Link href={`/blogs/${p.slug}`}>{p.title} <span className="label">{p.readingMinutes} min</span></Link>
               </li>
             ))}
           </ul>
@@ -74,6 +79,8 @@ export default async function BlogIndex() {
           })),
         }}
       />
+      <ContactCard />
+      <Drips lime />
     </div>
     </div>
   );

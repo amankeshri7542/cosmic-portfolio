@@ -61,8 +61,7 @@
 
   .mw { display: inline-block; transform-origin: 50% 12%; }
   .mw.mm { animation: meltw var(--du, 6s) calc(var(--dl, 0s) * -1) cubic-bezier(0.5, 0, 0.3, 1) infinite; text-shadow: -0.055em 0 0 color-mix(in srgb, var(--c2) 75%, transparent), 0.055em 0 0 color-mix(in srgb, var(--c3) 75%, transparent); }
-  .mw.mm:nth-child(4n) { color: color-mix(in srgb, currentColor 55%, var(--c1)); }
-  .mw.mm:nth-child(4n + 1) { color: color-mix(in srgb, currentColor 60%, var(--c2)); }
+  .mw.mm { color: color-mix(in srgb, currentColor 55%, var(--c1)); }
 
   /* Off screen, nothing animates. Letters drop their animations entirely (a paused animation would still keep
      every letter on its own GPU layer); they drop back in when the section returns. */
@@ -167,6 +166,7 @@
   .h2.sm { font-size: clamp(28px, 4vw, 52px); }
   .row-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px 20px; }
   .go { display: inline-flex; align-items: center; gap: 6px; font: 700 12px var(--font-mono); color: var(--sc, var(--c1)); }
+  a.go { min-height: 44px; }
 
   /* ───────── cards ───────── */
   .pr { position: relative; display: flex; flex-direction: column; gap: 12px; padding: 6px 0 6px 24px; border-left: 3px solid var(--pc, var(--c1)); transition: transform 0.45s var(--ease-pop); }
@@ -355,12 +355,12 @@
   .tl.bad { color: #FF8A70; }
   .tl.ok { color: #9DFF8A; }
   .tl.say { color: var(--c1); font-weight: 700; }
-  html.chaos .sec.vis :is(.dr, .wob, .mw) { animation: fallout 1s cubic-bezier(0.55, 0, 0.9, 0.45) var(--fd, 0s) forwards !important; }
-  html.rebuild :is(.dr, .wob, .mw) { animation: rebuild 0.8s cubic-bezier(0.2, 1.5, 0.4, 1) var(--fd, 0s) both !important; }
-  html:is(.chaos, .rebuild) :is(.dr, .wob, .mw):nth-child(odd) { --fd: 0.12s; --fr: -50deg; }
-  html:is(.chaos, .rebuild) :is(.dr, .wob, .mw):nth-child(3n) { --fd: 0.26s; --fr: 85deg; }
-  html:is(.chaos, .rebuild) :is(.dr, .wob, .mw):nth-child(5n) { --fd: 0.04s; --fr: -120deg; }
-  html.chaos .egg :is(.dr, .wob, .mw) { animation: none !important; }
+  html.chaos .sec.vis :is(.dr, .wob, .mlp) { animation: fallout 1s cubic-bezier(0.55, 0, 0.9, 0.45) var(--fd, 0s) forwards !important; }
+  html.rebuild :is(.dr, .wob, .mlp) { animation: rebuild 0.8s cubic-bezier(0.2, 1.5, 0.4, 1) var(--fd, 0s) both !important; }
+  html:is(.chaos, .rebuild) :is(.dr, .wob, .mlp):nth-child(odd) { --fd: 0.12s; --fr: -50deg; }
+  html:is(.chaos, .rebuild) :is(.dr, .wob, .mlp):nth-child(3n) { --fd: 0.26s; --fr: 85deg; }
+  html:is(.chaos, .rebuild) :is(.dr, .wob, .mlp):nth-child(5n) { --fd: 0.04s; --fr: -120deg; }
+  html.chaos .egg :is(.dr, .wob, .mlp) { animation: none !important; }
 
   /* ───────── stillness ───────── */
   html[data-motion="off"] :is(.dr, .wob, .mw, .orb, .spk, .tb, .tb img, .drip, .drop, .roller span, .portrait, .badge, .badge svg, .track, .orbit, .orbit i, .sd *, .art *, .nope) { animation: none !important; }
@@ -418,9 +418,10 @@
   .grid-cats { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 18px; }
   .grid-fresh { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(440px, 100%), 1fr)); gap: 26px; }
   .grid-proj { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(340px, 100%), 1fr)); gap: 22px; }
+  .proj.all { justify-content: center; gap: 10px; min-height: 220px; padding: 28px; border: 3px dashed var(--c1); background: color-mix(in srgb, var(--c1) 8%, #0A0A0F); }
+  .all-n { font-size: clamp(56px, 7vw, 96px); font-weight: 900; line-height: 0.9; color: transparent; -webkit-text-stroke: 2px var(--c1); }
+  .all-t { font-size: 22px; font-weight: 800; }
   /* A filtered grid has no lead card: every card the same size, no holes. */
-  .grid-proj:not([data-filter="All"]) > .proj.lead { grid-column: auto; }
-  .grid-proj:not([data-filter="All"]) > .proj.lead img { aspect-ratio: 16 / 9; }
   .grid-brief { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(380px, 100%), 1fr)); gap: 28px; }
   .grid-needs { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr)); gap: 10px; }
   .grid-steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(230px, 100%), 1fr)); gap: 16px; padding: 0; margin: 0; }
@@ -491,9 +492,6 @@
   .proj-s { font-size: 12px; color: var(--ink-3); }
   .proj-b .go { margin-top: auto; }
   .proj .ph img { width: 100%; height: auto; }
-  [data-filter="AI"] > .proj:not([data-grp~="AI"]),
-  [data-filter="Cloud"] > .proj:not([data-grp~="Cloud"]),
-  [data-filter="Web"] > .proj:not([data-grp~="Web"]) { display: none; }
 
   /* brief */
   .rc-k { font-size: 12px; font-weight: 700; }

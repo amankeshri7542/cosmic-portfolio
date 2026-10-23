@@ -5,8 +5,10 @@
     grid-template-columns: 1fr 1fr;
     gap: 1.25rem 1.5rem;
     padding: clamp(1.25rem, 3vw, 2.25rem);
-    border: 1px solid var(--line-strong);
-    background: color-mix(in oklab, var(--sheet) 70%, transparent);
+    border: 2px solid rgba(245, 242, 234, 0.16);
+    border-radius: 28px;
+    background: #14141B;
+    box-shadow: 12px 12px 0 var(--c3);
     max-width: 60rem;
     transition: background-color 900ms var(--ease-out);
   }
@@ -18,8 +20,8 @@
     min-height: 48px;
     padding: 0.65rem 0.8rem;
     background: color-mix(in oklab, var(--deep) 55%, transparent);
-    border: 1px solid var(--line-strong);
-    border-radius: var(--radius);
+    border: 2px solid var(--line-strong);
+    border-radius: 14px;
     font-size: 1.05rem;
     line-height: 1.5;
   }

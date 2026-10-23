@@ -29,8 +29,9 @@ export function SiteHeader() {
   return (
     <header className={`sec in vis ${styles.header}`} data-sec="head">
       <div className={styles.bar}>
-        <Link href="/" className={styles.mark} aria-label="Aman Keshri, home">
+        <Link href="/" className={styles.mark}>
           AK<span aria-hidden="true">✺</span>
+          <span className="sr"> · Aman Keshri, home</span>
         </Link>
         <Suspense
           fallback={
@@ -42,7 +43,7 @@ export function SiteHeader() {
           <NavLinks items={primaryNav} className={styles.nav} />
         </Suspense>
         <div className={styles.tools}>
-          <ChaosSwitch />
+          <div className={styles.egg}><ChaosSwitch /></div>
           <Finder destinations={destinations} primary={primaryNav} />
           <Link href="/contact" className={`cta cta-main ${styles.hire}`}>Hire me</Link>
         </div>
