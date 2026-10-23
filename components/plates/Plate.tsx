@@ -13,7 +13,7 @@ export function Plate({ plate, instrument, ink, tryIt }: { plate: PlateData; ins
     <article id={plate.id} className={`sec ${styles.plate}`} data-sec="work" aria-labelledby={`${plate.id}-name`} style={{ "--pc": `var(--c${ink})` } as Vars}>
       <div className={styles.head}>
         <span className={styles.no} aria-hidden="true">{String(["I", "II", "III"].indexOf(plate.plate) + 1).padStart(2, "0")}</span>
-        <Drip as="p" className={`kicker ${styles.kick}`} text={`CASE Nº ${plate.plate} ✺ ${plate.system.toUpperCase()}`} />
+        <Drip as="p" className={`kicker rb ${styles.kick}`} text={`CASE Nº ${plate.plate} ✺ ${plate.system.toUpperCase()}`} />
         <Wobble id={`${plate.id}-name`} className={`h2 ${styles.thesis}`} text={thesis} label={`${plate.name}: ${thesis.replace(/\*/g, "")}`} />
         <div className={styles.meta}>
           <span className={`stamp ${styles.name}`}>{plate.name}</span>
@@ -38,7 +38,7 @@ export function Plate({ plate, instrument, ink, tryIt }: { plate: PlateData; ins
           <Drip as="p" className="hint" text={tryIt} />
         </div>
         <div className={styles.frame}>{instrument}</div>
-        <aside className={styles.spec} aria-label={`${plate.name} at a glance`}>
+        <aside className={`jelly ${styles.spec}`} aria-label={`${plate.name} at a glance`}>
           <Drip as="p" className={`mono ${styles.specK}`} text="SPEC SHEET" />
           <dl>
             {[["System", plate.system], ["Role", plate.role], ["Period", plate.period], ["Status", plate.status]].map(([k, v]) => (
@@ -51,7 +51,7 @@ export function Plate({ plate, instrument, ink, tryIt }: { plate: PlateData; ins
 
       <ol className={styles.notes} role="list">
         {plate.notes.map((n, i) => (
-          <li key={n.heading} className={styles.note}>
+          <li key={n.heading} className={`jelly ${styles.note}`}>
             <span className={styles.nn} aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
             <Drip as="h3" className={`disp ${styles.nh}`} text={n.heading} />
             <Melt className={styles.nb} text={n.body} />
