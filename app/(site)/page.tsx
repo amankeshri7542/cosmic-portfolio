@@ -38,15 +38,16 @@ export default function Home() {
       <Marquees />
       <div className="wrap">
         <About />
+        <Experience />
         <Services />
 
         <section className="sec block" data-sec="stack" id="stack" aria-labelledby="stack-h">
-          <Head n="03" kicker={`TECH STACK ✺ ${toolCount} TOOLS IN 6 LAYERS`} title="Tools I *ship* with" id="stack-h" flip hint="Pick a layer to light it up. Tap any tool to see where I used it." />
+          <Head n="04" kicker={`TECH STACK ✺ ${toolCount} TOOLS IN 6 LAYERS`} title="Tools I *ship* with" id="stack-h" flip hint="Pick a layer to light it up. Tap any tool to see where I used it." />
           <StackExplorer />
         </section>
 
         <section className="sec block" data-sec="work" id="work" aria-labelledby="work-h">
-          <Head n="04" kicker="CASE STUDIES ✺ THREE, IN DEPTH" title={["Systems that", "hold *up*"]} id="work-h" size="xl" />
+          <Head n="05" kicker="CASE STUDIES ✺ THREE, IN DEPTH" title={["Systems that", "hold *up*"]} id="work-h" size="xl" />
           <CaseDeck />
           <div className="pair">
             <Blueprint fig={p2p} caption="// money only moves through gates" tag="PROCURE-TO-PAY · SIMPLIFIED" label="Simplified purchase-order states: draft, submitted, approved, PO released. Only an approver can approve, and rejected requests go back to draft." />
@@ -57,7 +58,7 @@ export default function Home() {
         <Fresh />
 
         <section className="sec block" data-sec="more" aria-labelledby="more-h">
-          <Head n="06" kicker="MORE PROJECTS ✺ EIGHT MORE" title="Shipped & *live*" id="more-h" />
+          <Head n="07" kicker="MORE PROJECTS ✺ EIGHT MORE" title="Shipped & *live*" id="more-h" />
           <FilterTabs labels={["All", "AI", "Cloud", "Web"]} label="Filter projects" className="grid-proj">
             {prints.map((p, i) => (
               <a
@@ -85,11 +86,10 @@ export default function Home() {
         </section>
 
         <section className="sec block" data-sec="brief" id="brief" aria-labelledby="brief-h">
-          <Head n="07" kicker="START A PROJECT ✺ BRIEF BUILDER" title={["Pick, mix,", "*send.*"]} id="brief-h" hint="Pick what you need. I’ll show how I’d build it and where I’ve done it before." />
+          <Head n="08" kicker="START A PROJECT ✺ BRIEF BUILDER" title={["Pick, mix,", "*send.*"]} id="brief-h" hint="Pick what you need. I’ll show how I’d build it and where I’ve done it before." />
           <BriefBuilder />
         </section>
 
-        <Experience />
         <Process />
         <Faq />
         <Writing />

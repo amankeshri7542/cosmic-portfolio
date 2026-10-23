@@ -45,7 +45,7 @@ export function ContactSheet({ prints, headingId = "sheet-title" }: { prints: Pr
           const n = prints.indexOf(p) + 1;
           const ink = `var(--c${((n - 1) % 4) + 1})`;
           return (
-            <li key={p.id} id={p.id} className={styles.frame} style={{ "--pc": ink, "--pr": `${[-3, 2, -1.5, 3][n % 4]}deg` } as CSSProperties}>
+            <li key={p.id} id={p.id} className={`jelly ${styles.frame}`} style={{ "--pc": ink, "--pr": `${[-3, 2, -1.5, 3][n % 4]}deg` } as CSSProperties}>
               <div className={styles.thumb}>
                 <Image src={p.image.src} alt={p.image.alt} width={p.image.width} height={p.image.height} sizes="(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 400px" />
                 <span className={styles.no} aria-hidden="true">Nº {String(n).padStart(2, "0")}</span>

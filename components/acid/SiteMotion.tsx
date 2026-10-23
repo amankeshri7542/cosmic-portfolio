@@ -4,9 +4,10 @@ import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 
 // The lab's director. Everything here is optional: without it the page is complete and still.
+// - draws the scroll-progress ink line (its motion is pure CSS, driven by the scroll timeline)
 // - marks [data-sec] blocks "in" (seen once: letters drop in) and "vis" (on screen: animations run)
 // - on a mouse, moves the cursor ring and nudges the hero blobs and portrait, one rAF write per frame
-// - tilts service cards toward the pointer
+// - tilts service cards toward the pointer, and swells the cursor ring over anything pressable
 // - says hello in the DevTools console
 
 const quiet = () =>
@@ -47,26 +48,6 @@ export function SiteMotion() {
     };
   }, [path]);
 
-  // While the page scrolls, the looping letter animations pause (see "smooth scrolling" in styles/acid.css).
-  useEffect(() => {
-    const root = document.documentElement;
-    let timer = 0;
-    const onScroll = () => {
-      if (!timer) root.classList.add("scrolling");
-      else clearTimeout(timer);
-      timer = window.setTimeout(() => {
-        timer = 0;
-        root.classList.remove("scrolling");
-      }, 180);
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      clearTimeout(timer);
-      root.classList.remove("scrolling");
-    };
-  }, []);
-
   useEffect(() => {
     if (!matchMedia("(hover: hover) and (pointer: fine)").matches) return;
     const ring = document.querySelector<HTMLElement>(".cur.ring");
@@ -103,10 +84,13 @@ export function SiteMotion() {
         el.style.setProperty("--tgy", `${Math.round(py * 100)}%`);
       }
     };
+    let hot = false;
     const onMove = (e: PointerEvent) => {
       if (e.pointerType !== "mouse") return;
       x = e.clientX;
       y = e.clientY;
+      const press = !!(e.target as Element | null)?.closest?.("a, button, summary, label, input, select, textarea");
+      if (press !== hot && ring) ring.classList.toggle("hot", (hot = press));
       const card = !quiet() && (e.target as Element | null)?.closest?.<HTMLElement>(".svc");
       if (card) {
         const r = card.getBoundingClientRect();
@@ -144,6 +128,7 @@ export function SiteMotion() {
 
   return (
     <>
+      <span className="ink" aria-hidden="true"><b /><i /></span>
       <span className="cur ring" aria-hidden="true" />
       <span className="cur dot" aria-hidden="true" />
     </>

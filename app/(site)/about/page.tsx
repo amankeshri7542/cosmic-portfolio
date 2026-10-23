@@ -75,6 +75,29 @@ export default function AboutPage() {
           </div>
         </div>
 
+        <section aria-labelledby="exp-title" className="sec block" id="experience" data-sec="experience">
+          <Head n="01" kicker="EXPERIENCE ✺ SINCE FEB 2025" title="Where I’ve *built*" id="exp-title" />
+          <ol className={styles.timeline} role="list">
+            {experience.map((r, i) => (
+              <li key={r.org} className={`jelly ${styles.role}`} style={{ "--pc": `var(--c${(i % 3) + 1})` } as Vars}>
+                <span className={styles.dot} aria-hidden="true" />
+                <Drip as="p" className={`mono ${styles.when}`} text={`${r.period.toUpperCase()} · ${r.place.toUpperCase()}`} />
+                <Wobble as="h3" className={`disp ${styles.org}`} text={r.org} melt={0.12} />
+                <p className={styles.title}>{r.title}</p>
+                <ul role="list" className={styles.points}>
+                  {r.points.map((pt) => <li key={pt}><Melt as="span" className="pt" text={pt} /></li>)}
+                </ul>
+              </li>
+            ))}
+            <li className={`jelly ${styles.role}`} style={{ "--pc": "var(--c4)" } as Vars}>
+              <span className={styles.dot} aria-hidden="true" />
+              <Drip as="p" className={`mono ${styles.when}`} text={education.period} />
+              <Wobble as="h3" className={`disp ${styles.org}`} text={education.degree} melt={0.12} />
+              <p className={styles.title}>{education.school}</p>
+            </li>
+          </ol>
+        </section>
+
         <div className={`stats ${styles.facts}`}>
           {facts.map((s, i) => (
             <div className="stat" key={s.label}>
@@ -85,7 +108,7 @@ export default function AboutPage() {
         </div>
 
         <section aria-labelledby="how-title" className="sec block" data-sec="services">
-          <Head n="01" kicker="HOW I WORK ✺ THREE HABITS" title="How I *work*" id="how-title" />
+          <Head n="02" kicker="HOW I WORK ✺ THREE HABITS" title="How I *work*" id="how-title" flip />
           <ol className={styles.habits} role="list">
             {principles.map((p, i) => (
               <li key={p.title} className="svc" style={{ background: `var(--c${i + 1})` }}>
@@ -95,29 +118,6 @@ export default function AboutPage() {
                 <Melt className="svc-b" text={p.body} />
               </li>
             ))}
-          </ol>
-        </section>
-
-        <section aria-labelledby="exp-title" className="sec block" id="experience" data-sec="experience">
-          <Head n="02" kicker="EXPERIENCE ✺ SINCE FEB 2025" title="Where I’ve *built*" id="exp-title" flip />
-          <ol className={styles.timeline} role="list">
-            {experience.map((r, i) => (
-              <li key={r.org} className={styles.role} style={{ "--pc": `var(--c${(i % 3) + 1})` } as Vars}>
-                <span className={styles.dot} aria-hidden="true" />
-                <Drip as="p" className={`mono ${styles.when}`} text={`${r.period.toUpperCase()} · ${r.place.toUpperCase()}`} />
-                <Wobble as="h3" className={`disp ${styles.org}`} text={r.org} melt={0.12} />
-                <p className={styles.title}>{r.title}</p>
-                <ul role="list" className={styles.points}>
-                  {r.points.map((pt) => <li key={pt}><Melt as="span" className="pt" text={pt} /></li>)}
-                </ul>
-              </li>
-            ))}
-            <li className={styles.role} style={{ "--pc": "var(--c4)" } as Vars}>
-              <span className={styles.dot} aria-hidden="true" />
-              <Drip as="p" className={`mono ${styles.when}`} text={education.period} />
-              <Wobble as="h3" className={`disp ${styles.org}`} text={education.degree} melt={0.12} />
-              <p className={styles.title}>{education.school}</p>
-            </li>
           </ol>
         </section>
 
@@ -137,7 +137,7 @@ export default function AboutPage() {
           <Head n="04" kicker="TOOLBOX ✺ SIX LAYERS" title="Tools I *reach* for" id="tools-title" flip />
           <div className={styles.tools}>
             {Object.entries(stack).map(([layer, items], i) => (
-              <div key={layer} className={styles.layer} style={{ "--pc": `var(--c${(i % 4) + 1})` } as Vars}>
+              <div key={layer} className={`jelly ${styles.layer}`} style={{ "--pc": `var(--c${(i % 4) + 1})` } as Vars}>
                 <Drip as="h3" className={`disp ${styles.layerT}`} text={layer} />
                 <ul role="list" className="chips">
                   {items.map((t) => {

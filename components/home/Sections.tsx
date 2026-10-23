@@ -70,7 +70,7 @@ export function Services() {
   return (
     <section className="sec block" data-sec="services" id="services" aria-labelledby="svc-h">
       <div className="row-head">
-        <Head n="02" kicker="SERVICES ✺ WHAT YOU CAN HIRE ME FOR" title={["One engineer,", "*every* layer"]} id="svc-h" />
+        <Head n="03" kicker="SERVICES ✺ WHAT YOU CAN HIRE ME FOR" title={["One engineer,", "*every* layer"]} id="svc-h" />
         <Drip as="p" className="hint hover-only" text="Move over a card. It tilts toward you." />
       </div>
       <div className="grid-4">
@@ -93,7 +93,7 @@ export function Fresh() {
   return (
     <section className="sec block" data-sec="fresh" aria-labelledby="fresh-h">
       <div className="row-head">
-        <Head n="05" kicker="FRESH BUILDS ✺ LIVE LINKS" title={["Fresh off", "the *build*"]} id="fresh-h" />
+        <Head n="06" kicker="FRESH BUILDS ✺ LIVE LINKS" title={["Fresh off", "the *build*"]} id="fresh-h" />
         <Drip as="p" className="hint hover-only" text="Hover: a server fails, the windows light up, the light moves." />
       </div>
       <div className="grid-fresh">
@@ -139,7 +139,7 @@ export function Fresh() {
 export function Experience() {
   return (
     <section className="sec block" data-sec="experience" id="experience" aria-labelledby="exp-h">
-      <Head n="08" kicker="EXPERIENCE ✺ SINCE FEB 2025" title="Where I’ve *built*" id="exp-h" flip />
+      <Head n="02" kicker="EXPERIENCE ✺ SINCE FEB 2025" title="Where I’ve *built*" id="exp-h" flip />
       <div>
         {experience.map((j, i) => (
           <details key={j.org} open={i === 0}>

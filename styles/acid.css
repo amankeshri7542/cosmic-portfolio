@@ -544,14 +544,68 @@
   :is(.svc, .case, .receipt, .used) .mw.mm { color: inherit; }
 }
 
-/* ───────── smooth scrolling ─────────
-   Every melting letter is its own little animation. While the page is being scrolled they hold still
-   (SiteMotion sets html.scrolling), so the browser only has to move the page; they pick up again the moment you stop.
-   Letters still drop in while you scroll: only the looping animations pause. */
+/* ───────── small details ─────────
+   Everything here keeps moving while you scroll: it animates only transform, translate, scale, rotate and filter,
+   which the browser runs off the main thread. The scroll-linked pieces use CSS scroll timelines (no JavaScript);
+   browsers without them simply show the finished state. */
 @layer components {
-  html.scrolling .sec.in .wob { animation-play-state: running, paused; }
-  html.scrolling .sec.in .wob.mlt { animation-play-state: running, paused, paused; }
-  html.scrolling .sec.in .dr.mlt { animation-play-state: running, paused; }
-  html.scrolling .mw.mm,
-  html.scrolling :is(.orb, .tb, .tb svg, .spk, .portrait, .orbit, .orbit i, .badge, .badge svg, .roller span, .sd *, .art *, .drip, .drop) { animation-play-state: paused; }
+  ::selection { background: var(--c2); color: #0A0A0F; text-shadow: none; }
+  html { scrollbar-color: var(--c2) #0A0A0F; }
+
+  /* scroll progress: an ink line under the header, a drop riding its tip */
+  .ink { position: fixed; left: 0; right: 0; top: var(--header-h); z-index: 49; height: 4px; pointer-events: none; display: none; }
+  @supports (animation-timeline: scroll()) {
+    .ink { display: block; }
+    .ink b { position: absolute; inset: 0; background: linear-gradient(90deg, var(--c1), var(--c2) 35%, var(--c3) 70%, var(--c4)); transform-origin: 0 50%; animation: inkgrow linear both; animation-timeline: scroll(root); }
+    .ink i { position: absolute; left: -7px; top: 0; width: 14px; height: 18px; border-radius: 50% 50% 50% 50% / 38% 38% 62% 62%; background: var(--c4); box-shadow: 0 0 14px var(--c4); animation: inkride linear both; animation-timeline: scroll(root); }
+    .ink i::after { content: ""; position: absolute; inset: 0; border-radius: inherit; background: inherit; transform-origin: 50% 0; animation: inkdrip 1.8s ease-in-out infinite; }
+  }
+
+  /* cards land like jelly as they scroll into view, colours still settling */
+  @supports (animation-timeline: view()) {
+    :is(.svc, .stat, .cred, .post, .step, .feat, .proj, .bp, .pr, .cat, .jelly) { animation: jelly linear both; animation-timeline: view(); animation-range: entry 0% entry 85%; }
+  }
+
+  /* kicker pills get a slowly turning rainbow rim */
+  :is(.hd .kicker, .rb) { position: relative; isolation: isolate; overflow: hidden; border-color: transparent !important; }
+  :is(.hd .kicker, .rb)::before { content: ""; position: absolute; left: 50%; top: 50%; z-index: -2; width: 140%; aspect-ratio: 1; translate: -50% -50%; background: conic-gradient(var(--c1), var(--c2), var(--c3), var(--c4), var(--c1)); animation: spin 5s linear infinite; }
+  :is(.hd .kicker, .rb)::after { content: ""; position: absolute; inset: 2px; z-index: -1; border-radius: inherit; background: #0A0A0F; }
+
+  /* accent words and big numbers drift through the palette */
+  .word.em, .num, .stat-n, .hd[data-n]::before { animation: hue 10s linear infinite; }
+  .stat-n { animation-duration: 7s; }
+  .hd[data-n]::before { animation-duration: 14s; }
+
+  /* buttons and cards leave a colour echo on hover */
+  .cta-main:hover { box-shadow: 6px 6px 0 var(--c1), 12px 12px 0 var(--c3); }
+  .cta-ghost:hover { box-shadow: 5px 5px 0 var(--c2); }
+  .feat:hover { box-shadow: 10px 10px 0 var(--c2), 20px 20px 0 color-mix(in srgb, var(--c3) 70%, transparent); }
+  .svc:hover { box-shadow: 10px 10px 0 var(--paper), 18px 18px 0 color-mix(in srgb, var(--c2) 75%, transparent); }
+
+  /* text links wobble their underline */
+  :is(main p, main li, footer) a:not(.cta):hover, .go:hover { text-decoration: underline wavy var(--c2) 2px; text-underline-offset: 5px; }
+
+  /* the cursor ring swells and fills over anything you can press */
+  .cur.ring { transition: translate 0.28s cubic-bezier(0.2, 0.7, 0.2, 1), scale 0.3s var(--ease-pop), background-color 0.3s, border-color 0.3s; }
+  .cur.ring.hot { scale: 1.6; border-color: var(--c1); background: color-mix(in srgb, var(--c1) 30%, transparent); }
+
+  .sec:not(.vis) :is(.word.em, .num, .stat-n), .sec:not(.vis) :is(.hd .kicker, .rb)::before, .sec:not(.vis) .hd[data-n]::before { animation-play-state: paused; }
+
+  html[data-motion="off"] :is(.word.em, .num, .stat-n, .svc, .stat, .cred, .post, .step, .feat, .proj, .bp, .pr, .cat, .jelly, .ink i::after),
+  html[data-motion="off"] :is(.hd .kicker, .rb)::before, html[data-motion="off"] .hd[data-n]::before { animation: none !important; }
+  @media (prefers-reduced-motion: reduce) {
+    :is(.word.em, .num, .stat-n, .svc, .stat, .cred, .post, .step, .feat, .proj, .bp, .pr, .cat, .jelly, .ink i::after),
+    :is(.hd .kicker, .rb)::before, .hd[data-n]::before { animation: none !important; }
+  }
+
+  @keyframes inkgrow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+  @keyframes inkride { from { translate: 0 0; } to { translate: calc(100vw - 14px) 0; } }
+  @keyframes inkdrip { 0%, 100% { transform: scaleY(1); } 50% { transform: scaleY(1.5); } }
+  @keyframes jelly {
+    from { translate: 0 70px; scale: 0.88 0.94; filter: hue-rotate(150deg); }
+    55% { translate: 0 -8px; scale: 1.03 0.98; filter: hue-rotate(50deg); }
+    80% { scale: 0.99 1.02; }
+    to { translate: 0 0; scale: 1 1; filter: none; }
+  }
+  @keyframes hue { to { filter: hue-rotate(360deg); } }
 }
