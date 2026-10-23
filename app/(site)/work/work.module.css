@@ -1,10 +1,25 @@
 @layer reset, tokens, base, layout, components, utilities;
 @layer components {
-  .jump { display: flex; flex-wrap: wrap; gap: 10px; font: 700 13px var(--font-mono); margin-top: 0.5rem; }
-  .jump a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border: 2px solid var(--line-strong); border-radius: 999px; color: var(--paper); text-decoration: none; }
-  .jump a:nth-child(1):hover { border-color: var(--c1); color: var(--c1); }
-  .jump a:nth-child(2):hover { border-color: var(--c2); color: var(--c2); }
-  .jump a:nth-child(3):hover { border-color: var(--c3); color: var(--c3); }
-  .jump a:nth-child(4):hover { border-color: var(--c4); color: var(--c4); }
-  .archive { display: grid; gap: 1rem; padding-block: 4rem 6rem; border-top: 1px solid var(--line); scroll-margin-top: var(--header-h); }
+  .jump { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 6px; }
+  .jump a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 48px;
+    padding: 0 18px 0 8px;
+    border: 2px solid var(--sc);
+    border-radius: 999px;
+    background: #0A0A0F;
+    color: var(--paper);
+    font: 700 13px var(--font-mono);
+    text-decoration: none;
+    transition: transform 0.35s var(--ease-pop), background 0.25s, color 0.25s;
+  }
+  .jump a:nth-child(odd) { rotate: -1.5deg; }
+  .jump a:nth-child(even) { rotate: 1.5deg; }
+  .jump a span { display: inline-grid; place-items: center; min-width: 32px; height: 32px; padding: 0 6px; border-radius: 999px; background: var(--sc); color: #0A0A0F; font: 900 12px var(--font-display); }
+  .jump a:hover { background: var(--sc); color: #0A0A0F; transform: translateY(-3px) rotate(-2deg); text-decoration: none; }
+  .jump a:hover span { background: #0A0A0F; color: var(--sc); }
+  @media (hover: none), (prefers-reduced-motion: reduce) { .jump a:hover { transform: none; } }
+  .archive { scroll-margin-top: var(--header-h); }
 }

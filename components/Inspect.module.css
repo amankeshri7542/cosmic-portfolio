@@ -2,20 +2,19 @@
 @layer components {
   .toggle { font-family: var(--font-mono); font-size: 12px; color: var(--ink-3); text-decoration: underline; text-underline-offset: 0.2em; min-height: 32px; justify-self: start; }
   .toggle:hover { color: var(--ink); }
+  /* In the page flow, under the switches: it never floats over the footer text. */
   .panel {
-    position: fixed;
-    left: 1rem;
-    bottom: 1rem;
-    z-index: 70;
-    width: min(22rem, calc(100% - 2rem));
+    flex: 1 0 100%;
+    max-width: 26rem;
+    margin-top: 0.5rem;
     padding: 0.9rem 1rem;
-    border: 1px solid var(--line-strong);
-    background: color-mix(in oklab, var(--deep) 94%, transparent);
-    backdrop-filter: blur(8px);
-    box-shadow: 0 16px 40px rgb(0 0 0 / 0.4);
+    border: 2px solid var(--c1);
+    border-radius: 14px;
+    background: #0A0A0F;
+    box-shadow: 6px 6px 0 var(--c2);
   }
   .panel dl { display: grid; gap: 0.25rem; margin-top: 0.5rem; font-family: var(--font-mono); font-size: 12px; font-variation-settings: "wdth" 84; }
-  .panel dl div { display: grid; grid-template-columns: 8.5rem 1fr; }
+  .panel dl div { display: grid; grid-template-columns: 8.5rem 1fr; gap: 0.5rem; }
   .panel dt { color: var(--ink-3); }
   .panel dd { color: var(--ink); font-variant-numeric: tabular-nums; }
 }

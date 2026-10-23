@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 import styles from "./Inspect.module.css";
 
 type Stats = { fps: number; frame: number; lcp?: number; cls: number; bytes: number; js: number; requests: number; nodes: number; gpu?: string };
@@ -11,6 +12,12 @@ export function Inspect({ sha }: { sha: string }) {
   const [stats, setStats] = useState<Stats | null>(null);
   const lcp = useRef<number | undefined>(undefined);
   const cls = useRef(0);
+  const path = usePathname();
+
+  // Layout shift is counted per page: moving to another page starts the count again.
+  useEffect(() => {
+    cls.current = 0;
+  }, [path]);
 
   useEffect(() => {
     try {
@@ -52,8 +59,8 @@ export function Inspect({ sha }: { sha: string }) {
           {!stats ? <p className="label">Measuring…</p> : (
             <dl>
               <div><dt>frame rate</dt><dd>{stats.fps} fps · worst {stats.frame} ms</dd></div>
-              <div><dt>largest paint</dt><dd>{stats.lcp ? `${Math.round(stats.lcp)} ms` : "—"}</dd></div>
-              <div><dt>layout shift</dt><dd>{stats.cls.toFixed(3)}</dd></div>
+              <div><dt>largest paint</dt><dd>{stats.lcp ? `${Math.round(stats.lcp)} ms (first page load)` : "—"}</dd></div>
+              <div><dt>layout shift</dt><dd>{stats.cls.toFixed(3)} on this page</dd></div>
               <div><dt>transferred</dt><dd>{kb(stats.bytes)} · {stats.requests} requests</dd></div>
               <div><dt>javascript</dt><dd>{kb(stats.js)} (compressed)</dd></div>
               <div><dt>dom nodes</dt><dd>{stats.nodes.toLocaleString("en-IN")}</dd></div>

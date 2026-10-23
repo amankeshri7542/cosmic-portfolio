@@ -1,49 +1,66 @@
 @layer reset, tokens, base, layout, components, utilities;
 @layer components {
-  .page { padding-block: 0 6rem; display: grid; gap: clamp(3.5rem, 7vw, 6rem); }
-  .head { display: grid; gap: 3rem; }
-  .head[data-has-portrait] { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); align-items: end; }
-  .more { color: var(--ink-2); font-size: var(--step-0); max-width: 60ch; }
-  .head[data-has-portrait] { align-items: center; }
-  .portrait { display: grid; justify-items: center; }
+  /* top-aligned: a centred portrait would move whenever the text column changes height while fonts load */
+  .head { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); align-items: start; gap: 24px 48px; }
+  .more { margin: 0; max-width: 62ch; font-size: 17px; line-height: 1.6; color: var(--ink-2); }
+  .portrait { display: grid; justify-items: center; padding-top: calc(var(--header-h) + 64px); }
+  .facts { margin-top: 8px; }
 
-  .section { display: grid; gap: 1.6rem; padding-top: 2rem; border-top: 1px solid var(--line); }
-  .principles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2rem; }
-  .principles h3 { font-size: var(--step-2); margin-bottom: 0.6rem; }
-  .principles p { color: var(--ink-2); }
+  /* how I work: three tilting colour cards */
+  .habits { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); gap: 28px; padding: 0; margin: 0; }
+  .habits > li:nth-child(1) { rotate: -1.2deg; }
+  .habits > li:nth-child(2) { rotate: 1deg; }
+  @media (min-width: 900px) { .habits > li:nth-child(2) { margin-top: 30px; } .habits > li:nth-child(3) { margin-top: -10px; } }
+  .hn { font: 400 58px/0.9 var(--font-accent); color: #0A0A0F; opacity: 0.85; }
 
-  .timeline { display: grid; gap: 0; border-left: 1px solid var(--line-strong); margin-left: 0.4rem; }
-  .timeline > li { position: relative; display: grid; gap: 0.5rem; padding: 0 0 2.2rem 1.6rem; max-width: 52rem; }
-  .timeline > li::before { content: ""; position: absolute; left: -5px; top: 0.4rem; width: 9px; height: 9px; border-radius: 50%; background: var(--paper); }
-  .timeline h3 { font-size: var(--step-2); line-height: 1.2; }
-  .at { font-family: var(--font-text); font-size: 0.7em; color: var(--ink-2); }
-  .timeline ul { display: grid; gap: 0.35rem; color: var(--ink-2); padding-left: 1rem; list-style: "— "; }
+  /* experience: a dashed colour line with a glowing stop per role */
+  .timeline { position: relative; display: grid; gap: 22px; padding: 0 0 0 38px; margin: 0; }
+  .timeline::before { content: ""; position: absolute; left: 11px; top: 10px; bottom: 10px; border-left: 3px dashed color-mix(in srgb, var(--c3) 60%, transparent); }
+  .role {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 26px clamp(20px, 3vw, 32px) 28px;
+    border-radius: 24px;
+    border: 2px solid color-mix(in srgb, var(--pc) 50%, transparent);
+    background: color-mix(in srgb, var(--pc) 6%, #0A0A0F);
+    box-shadow: 8px 8px 0 color-mix(in srgb, var(--pc) 45%, transparent);
+    transition: transform 0.45s var(--ease-pop), box-shadow 0.3s;
+  }
+  .role:hover { transform: translateX(6px); box-shadow: 10px 10px 0 var(--pc); }
+  .dot { position: absolute; left: -37px; top: 30px; width: 22px; height: 22px; border-radius: 50%; background: var(--pc); box-shadow: 0 0 0 5px #0A0A0F, 0 0 26px var(--pc); }
+  .when { margin: 0; font-size: 12px; color: var(--pc); }
+  .org { margin: 0; font-size: clamp(26px, 3.4vw, 44px); font-weight: 900; line-height: 1; letter-spacing: -0.04em; text-transform: uppercase; }
+  .title { margin: 0; font-size: 17px; font-weight: 700; color: var(--paper); }
+  .points { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 10px 32px; padding: 6px 0 0; margin: 0; }
+  .points :global(.pt)::before { color: var(--pc); }
 
-  .split { grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
-  .split > div { display: grid; gap: 1.2rem; }
-  .creds { display: grid; }
-  .creds li { display: flex; justify-content: space-between; gap: 1rem; padding: 0.75rem 0; border-bottom: 1px solid var(--line); }
-  .stack { display: grid; gap: 0.75rem; }
-  .stack div { display: grid; grid-template-columns: 7rem 1fr; gap: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--line); }
-  .stack dd { color: var(--ink-2); }
+  /* tools: one card per layer, logo chips */
+  .tools { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 18px; }
+  .layer { display: flex; flex-direction: column; gap: 14px; padding: 24px; border-radius: 24px; border: 2px solid color-mix(in srgb, var(--pc) 45%, transparent); background: rgba(245, 242, 234, 0.03); }
+  .layerT { margin: 0; font-size: 21px; font-weight: 800; color: var(--pc); }
+  .layer :global(.chip) { cursor: default; min-height: 40px; font-size: 14px; }
+  .layer :global(.chip svg) { width: 20px; height: 20px; color: #0A0A0F; }
+  .layer :global(.chip):nth-child(3n + 1):hover { background: var(--pc); }
 
-  .faq { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0; border-top: 1px solid var(--line-strong); }
-  .faq > div { display: grid; gap: 0.5rem; padding: 1.4rem 1.4rem 1.4rem 0; border-bottom: 1px solid var(--line); }
-  .faq > div:nth-child(2n) { padding-left: 1.4rem; border-left: 1px solid var(--line); }
-  .faq h3 { font-size: var(--step-1); line-height: 1.25; }
-  .faq dd { margin: 0; color: var(--ink-2); line-height: 1.65; }
-  @media (max-width: 860px) { .faq { grid-template-columns: 1fr; } .faq > div:nth-child(2n) { padding-left: 0; border-left: 0; } }
-
-  .quiet { grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: clamp(2rem, 6vw, 5rem); }
-  .quiet > div { display: grid; gap: 1rem; max-width: 38rem; }
-  .ram { font-family: var(--font-display); font-size: var(--step-3); line-height: 1.15; }
-  .ram span { color: var(--c4); font-family: var(--font-anek-deva), serif; }
-  .quiet p:last-child { color: var(--ink-2); }
+  /* underneath */
+  .quiet { flex-direction: row; flex-wrap: wrap; align-items: center; gap: 32px clamp(32px, 6vw, 80px); }
+  .sprig { position: relative; flex: 0 0 auto; display: grid; place-items: center; width: min(220px, 56vw); }
+  .sprig svg { position: relative; z-index: 1; }
+  .glow { position: absolute; inset: -10% -30%; border-radius: 50%; background: radial-gradient(closest-side, color-mix(in srgb, var(--c4) 45%, transparent), color-mix(in srgb, var(--c2) 18%, transparent) 60%, transparent); }
+  .quietText { flex: 1 1 420px; display: flex; flex-direction: column; gap: 16px; }
+  .quietText :global(.kicker) { color: var(--c4); }
+  .ram { margin: 0; font: 900 clamp(28px, 4vw, 52px) / 1.08 var(--font-display); letter-spacing: -0.035em; }
+  .ram span { color: var(--c4); font-family: var(--font-anek-deva), serif; font-weight: 600; }
 
   @media (max-width: 860px) {
-    .head[data-has-portrait], .principles, .split, .quiet { grid-template-columns: 1fr; }
+    .head { grid-template-columns: 1fr; }
     .portrait { order: -1; padding-top: calc(var(--header-h) + 40px); }
     .head :global(.page-head) { padding-top: 8px; }
-    .stack div { grid-template-columns: 1fr; gap: 0.2rem; }
+    .timeline { padding-left: 30px; }
+    .timeline::before { left: 7px; }
+    .dot { left: -31px; width: 18px; height: 18px; }
   }
+  @media (hover: none), (prefers-reduced-motion: reduce) { .role:hover { transform: none; } }
 }

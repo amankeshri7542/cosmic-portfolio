@@ -10,7 +10,7 @@
     transition: background-color 0.3s, border-color 0.3s;
   }
   :global(html[data-scrolled]) .header {
-    background: rgb(10 10 15 / 0.94);
+    background: #0A0A0F;
     border-bottom-color: var(--line);
   }
   .bar {
