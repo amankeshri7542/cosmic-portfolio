@@ -143,7 +143,7 @@ export const fresh = {
 };
 
 export const homeFaq = [
-  { q: "Who are you, exactly?", a: "Aman Kumar Keshri, a full-stack software engineer in Bengaluru, India. I build products end to end: React and Next.js interfaces, Node.js and Rust (Axum) APIs, PostgreSQL and DynamoDB data models, and AWS infrastructure, with applied AI such as retrieval-augmented assistants where it helps." },
+  { q: "Who are you, exactly?", a: "I’m Aman Kumar Keshri, a full-stack software engineer in Bengaluru, India. I build products end to end: React and Next.js interfaces, Node.js and Rust (Axum) APIs, PostgreSQL and DynamoDB data models, and AWS infrastructure, with applied AI such as retrieval-augmented assistants where it helps." },
   { q: "Can I hire you for a freelance project?", a: "Yes. Customer websites, admin dashboards, mobile apps, billing and workflow systems, real-time features, AI assistants and AWS setups. Email amankeshri7479@gmail.com or use the brief builder above." },
   { q: "What have you built?", a: "A Hardware Store ERP that records every sale in one PostgreSQL transaction, a procure-to-pay platform with Rust and PostgreSQL, Vartalaap (serverless real-time chat on AWS), and a Hindi, English and Hinglish RAG assistant for Shiv Cement Store, plus the live builds above." },
   { q: "What’s your stack?", a: "React, Next.js, TypeScript and React Native in front; Node.js, Express and Rust (Axum) behind; PostgreSQL, MongoDB, Redis and DynamoDB for data; AWS, Docker, GitHub Actions, Nginx and Linux to run it; OpenAI, RAG and Gemini Vision for applied AI." },

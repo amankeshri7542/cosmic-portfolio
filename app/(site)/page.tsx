@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   ...pageMetadata(
     "/",
     title,
-    "Aman Keshri (Aman Kumar) is a freelance full-stack developer in Bengaluru. Web apps, APIs, AWS cloud and AI assistants, built end to end with React, Next.js, Node.js, Rust and PostgreSQL.",
+    "I’m Aman Keshri (Aman Kumar), a freelance full-stack developer in Bengaluru. I build web apps, APIs, AWS cloud and AI assistants end to end with React, Next.js, Node.js, Rust and PostgreSQL.",
   ),
   title: { absolute: title },
 };

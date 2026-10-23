@@ -32,6 +32,6 @@ export function leavingPage(dest: URL) {
 <style>body{margin:0;min-height:100vh;display:grid;place-items:center;background:#090c12;color:#eef1f6;font:16px/1.6 system-ui,sans-serif}
 main{max-width:34rem;padding:2rem}h1{font-size:1.6rem;margin:0 0 .75rem}code{display:block;word-break:break-all;padding:.75rem;border:1px solid #2a3343;border-radius:8px;background:#0e131b;color:#ffb547;margin:1rem 0}
 a{color:#eef1f6}.go{display:inline-block;margin-right:1rem;padding:.6rem 1rem;border:1px solid #ff9f1c;border-radius:8px;text-decoration:none}p{color:#a9b3c3}</style></head>
-<body><main><h1>This short link leaves amankeshri.com</h1><p>It points to <strong>${host}</strong>, a site Aman doesn't run. Only continue if you trust it.</p>
+<body><main><h1>This short link leaves amankeshri.com</h1><p>It points to <strong>${host}</strong>, a site I don't run. Only continue if you trust it.</p>
 <code>${href}</code><p><a class="go" href="${href}" rel="noopener noreferrer nofollow">Continue to ${host}</a><a href="https://www.amankeshri.com/">Back to amankeshri.com</a></p></main></body></html>`;
 }

@@ -16,8 +16,8 @@ import styles from "./work.module.css";
 
 export const metadata: Metadata = pageMetadata(
   "/work",
-  "Work — case studies and projects by Aman Keshri",
-  "Case studies from Aman Keshri (Aman Kumar), freelance full-stack developer: a retail ERP built on PostgreSQL transactions, a guarded procure-to-pay workflow, serverless real-time messaging on AWS, and applied-AI products.",
+  "My work — case studies and projects",
+  "I’m Aman Keshri (Aman Kumar), a freelance full-stack developer. My case studies: a retail ERP built on PostgreSQL transactions, a guarded procure-to-pay workflow, serverless real-time messaging on AWS, and applied-AI products.",
 );
 
 const cases = {

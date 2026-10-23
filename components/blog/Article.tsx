@@ -48,7 +48,7 @@ export function Article({ post, rendered, banner, extra }: { post: PostBody; ren
       </div>
       {extra}
       <footer className={styles.foot}>
-        <p className="label">Written by Aman Kumar, full-stack engineer in Bengaluru.</p>
+        <p className="label">Written by me, Aman Kumar, a full-stack engineer in Bengaluru.</p>
         <p><Link href="/blogs">← All writing</Link> · <Link href="/contact">Reply by email</Link></p>
       </footer>
     </article>

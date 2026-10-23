@@ -11,7 +11,7 @@ import styles from "./blogs.module.css";
 export const metadata: Metadata = pageMetadata(
   "/blogs",
   "Blog — notes on software, data and the cloud",
-  "Articles by Aman Kumar on databases, transactions, serverless systems on AWS and the decisions behind working software.",
+  "I’m Aman Kumar, and I write about databases, transactions, serverless systems on AWS and the decisions behind working software.",
 );
 
 export default async function BlogIndex() {
